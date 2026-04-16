@@ -256,6 +256,105 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
   .h-xl{font-size:3rem}.hero-actions{flex-direction:column}
   .c-slide{flex:0 0 90%}
 }
+/* ─── INTERFACE VIEWER ─── */
+.sc-nav{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:20px}
+.sc-tab{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r);cursor:pointer;transition:all .18s;color:var(--t2);font-family:var(--font-b);font-size:.82rem}
+.sc-tab:hover{border-color:var(--border-a);color:var(--t1)}
+.sc-tab.active{background:var(--amb-dim);border-color:var(--border-a);color:var(--amber)}
+.sc-tab-num{font-family:var(--font-m);font-size:.65rem;color:var(--t3);flex-shrink:0}
+.sc-tab.active .sc-tab-num{color:var(--amber)}
+.sc-tab-label{white-space:nowrap}
+.sc-viewer{display:grid;grid-template-columns:1fr 340px;gap:24px;align-items:start}
+.sc-img-wrap{position:relative;border-radius:var(--r2);overflow:hidden;background:var(--panel)}
+.sc-zoom-hint{position:absolute;bottom:10px;right:12px;font-family:var(--font-m);font-size:.65rem;color:rgba(255,255,255,.5);background:rgba(0,0,0,.5);padding:3px 8px;border-radius:3px;pointer-events:none}
+.sc-info{display:flex;flex-direction:column;gap:12px}
+.sc-info-title{font-weight:700;font-size:1.05rem;color:var(--t1);margin-bottom:4px}
+.sc-info-desc{font-size:.87rem;color:var(--t2);line-height:1.65;margin-bottom:8px}
+.sc-feat{display:flex;gap:10px;padding:10px 12px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r);align-items:flex-start}
+.sc-feat-icon{font-size:1rem;flex-shrink:0;margin-top:1px}
+.sc-feat-text{font-size:.82rem;color:var(--t2);line-height:1.5}
+.sc-feat-text strong{color:var(--t1);display:block;margin-bottom:1px;font-size:.83rem}
+.sc-arrows{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:20px}
+@media(max-width:900px){
+  .sc-viewer{grid-template-columns:1fr}
+  .sc-info{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .sc-info-title,.sc-info-desc{grid-column:1/-1}
+}
+@media(max-width:540px){
+  .sc-nav{gap:3px}
+  .sc-tab{padding:6px 10px}
+  .sc-tab-label{font-size:.75rem}
+  .sc-info{grid-template-columns:1fr}
+}
+/* ─── RESPONSIVE COMPLET ─── */
+/* 820px : déjà géré — grids → 1col, subnav scroll */
+
+/* Tablet portrait / grand téléphone */
+@media(max-width:680px){
+  .wrap{padding:0 16px}
+  .sec{padding:52px 0}.sec-s{padding:32px 0}
+  #hero{padding:56px 0 40px}
+  .nav-tab{padding:7px 10px;font-size:.78rem}
+  .nav-ver{display:none}
+  .hero-title{margin-bottom:14px}
+  .hero-sub{margin-bottom:22px;font-size:.9rem}
+  .hero-actions .btn{padding:12px 18px;font-size:.88rem}
+  .metrics-inner{grid-template-columns:repeat(3,1fr);display:grid;gap:1px;background:var(--border)}
+  .metric{background:var(--ink);padding:16px 12px;text-align:center}
+  .metric-sep{display:none}
+  .metric-val{font-size:1.6rem}
+  .feat-item{gap:12px}
+  .feat-num{font-size:1.6rem;min-width:36px}
+  .dl-card{flex-direction:column;align-items:flex-start;gap:10px}
+  .dl-card .btn{width:100%;justify-content:center}
+  .dl-size{margin:0}
+  .ver-banner{padding:20px 18px;gap:18px}
+  .ver-num{font-size:3rem}
+  .tl-step{gap:12px}
+  .tl-num{width:34px;height:34px;font-size:.85rem;flex-shrink:0}
+  .tl-content{padding-bottom:24px}
+  .hw-table{font-size:.82rem}
+  .hw-table th,.hw-table td{padding:8px 10px}
+  .acc-head{padding:14px 16px}
+  .acc-body-inner{padding:0 14px 16px}
+  .panel{padding:20px}
+  .cl-item{padding:8px 0}
+  .host-step{gap:10px;padding:12px 0}
+}
+
+/* Téléphone standard */
+@media(max-width:480px){
+  .nav-logo-fallback,.nav-logo img{width:22px;height:22px}
+  .nav-wordmark{font-size:1rem}
+  .nav-tab{padding:6px 8px;font-size:.72rem}
+  .hero-actions{flex-direction:column;gap:8px}
+  .hero-actions .btn{width:100%;justify-content:center}
+  .c-slide{flex:0 0 92%}
+  .badge{font-size:.6rem;padding:2px 7px}
+  .btn{font-size:.85rem}
+  .btn-lg{padding:12px 20px}
+  .ver-banner{flex-direction:column;align-items:flex-start}
+  .ver-num{font-size:2.8rem}
+  .grid2>*,.grid3>*,.grid4>*{min-width:0}
+  .cb-body{font-size:.75rem}
+  .cb-body code{font-size:.75rem}
+  .prereq-card{padding:14px}
+  .chk-item{padding:10px 12px}
+  .sec-label{margin-bottom:12px}
+  h1.h-display{line-height:.92}
+  .install-subnav button{padding:10px 12px;font-size:.78rem}
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+
+/* Très petit téléphone */
+@media(max-width:360px){
+  .nav-tab:nth-child(1)::before{content:'🏠'}
+  .nav-tab:nth-child(2)::before{content:'⚙️'}
+  .nav-tab:nth-child(3)::before{content:'📦'}
+  .nav-tab[data-i18n]{font-size:0}
+  .nav-tab::before{font-size:1rem}
+  .wrap{padding:0 12px}
+}
 /* ─── LIGHTBOX ─── */
 #lb{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.92);align-items:center;justify-content:center}
 #lb.open{display:flex}
@@ -499,46 +598,61 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 
   <div class="div"></div>
 
-  <!-- SCREENSHOTS -->
+  <!-- INTERFACE EN DÉTAIL -->
   <section class="sec" id="screenshots" style="background:var(--surface)">
     <div class="wrap">
       <div class="sec-label"><span data-i18n="sc_label">Captures d'écran</span></div>
-      <h2 class="h-display h-lg" style="margin-bottom:32px" data-i18n="sc_title">L'interface<br>en détail</h2>
-      <div class="carousel-wrap">
-        <div class="carousel-track" id="ct">
-          <div class="c-slide" onclick="openLb('ss_main_full.png')">
-            <img src="ss_main_full.png" alt="" onerror="this.parentElement.style.minHeight='180px';this.style.display='none'">
-            <div class="c-caption" data-i18n="sc1">Interface principale — vue complète</div>
-          </div>
-          <div class="c-slide" onclick="openLb('ss_graph.png')">
-            <img src="ss_graph.png" alt="" onerror="this.parentElement.style.minHeight='180px';this.style.display='none'">
-            <div class="c-caption" data-i18n="sc2">Graphique Effort / Course temps réel</div>
-          </div>
-          <div class="c-slide" onclick="openLb('ss_left_panel.png')">
-            <img src="ss_left_panel.png" alt="" onerror="this.parentElement.style.minHeight='180px';this.style.display='none'">
-            <div class="c-caption" data-i18n="sc3">Panneau de contrôle — acquisition</div>
-          </div>
-          <div class="c-slide" onclick="openLb('screenshot_full_welcome.png')">
-            <img src="screenshot_full_welcome.png" alt="" onerror="this.parentElement.style.minHeight='180px';this.style.display='none'">
-            <div class="c-caption" data-i18n="sc4">Écran de bienvenue — guide démarrage</div>
-          </div>
-          <div class="c-slide" onclick="openLb('ss_parametres_win.png')">
-            <img src="ss_parametres_win.png" alt="" onerror="this.parentElement.style.minHeight='180px';this.style.display='none'">
-            <div class="c-caption" data-i18n="sc5">Fenêtre paramètres</div>
-          </div>
-          <div class="c-slide" onclick="openLb('ss_analyse_points.png')">
-            <img src="ss_analyse_points.png" alt="" onerror="this.parentElement.style.minHeight='180px';this.style.display='none'">
-            <div class="c-caption" data-i18n="sc6">Analyse et interpolation de points</div>
-          </div>
-          <div class="c-slide" onclick="openLb('ss_mode_dropdown.png')">
-            <img src="ss_mode_dropdown.png" alt="" onerror="this.parentElement.style.minHeight='180px';this.style.display='none'">
-            <div class="c-caption" data-i18n="sc7">Sélection du mode de mesure</div>
-          </div>
+      <h2 class="h-display h-lg" style="margin-bottom:10px" data-i18n="sc_title">L'interface<br>en détail</h2>
+      <p style="margin-bottom:32px;max-width:560px" data-i18n="sc_sub">Cliquer sur une vue pour l'agrandir. Chaque écran correspond à une étape clé du workflow d'acquisition.</p>
+
+      <!-- Sélecteur de vues -->
+      <div class="sc-nav" id="sc-nav">
+        <button class="sc-tab active" onclick="showView(0,this)">
+          <span class="sc-tab-num">01</span>
+          <span class="sc-tab-label" data-i18n="sc1">Vue principale</span>
+        </button>
+        <button class="sc-tab" onclick="showView(1,this)">
+          <span class="sc-tab-num">02</span>
+          <span class="sc-tab-label" data-i18n="sc2">Graphique temps réel</span>
+        </button>
+        <button class="sc-tab" onclick="showView(2,this)">
+          <span class="sc-tab-num">03</span>
+          <span class="sc-tab-label" data-i18n="sc3">Panneau de contrôle</span>
+        </button>
+        <button class="sc-tab" onclick="showView(3,this)">
+          <span class="sc-tab-num">04</span>
+          <span class="sc-tab-label" data-i18n="sc4">Guide démarrage</span>
+        </button>
+        <button class="sc-tab" onclick="showView(4,this)">
+          <span class="sc-tab-num">05</span>
+          <span class="sc-tab-label" data-i18n="sc5">Paramètres</span>
+        </button>
+        <button class="sc-tab" onclick="showView(5,this)">
+          <span class="sc-tab-num">06</span>
+          <span class="sc-tab-label" data-i18n="sc6">Analyse</span>
+        </button>
+        <button class="sc-tab" onclick="showView(6,this)">
+          <span class="sc-tab-num">07</span>
+          <span class="sc-tab-label" data-i18n="sc7">Mode mesure</span>
+        </button>
+      </div>
+
+      <!-- Zone d'affichage principale -->
+      <div class="sc-viewer">
+        <div class="sc-img-wrap" id="sc-img-wrap">
+          <img id="sc-main-img" src="ss_main_full.png" alt="labCE interface" onclick="openLb(this.src)" style="cursor:zoom-in;width:100%;border-radius:var(--r2);display:block;border:1px solid var(--border)" onerror="this.style.minHeight='280px';this.style.background='var(--panel)'">
+          <div class="sc-zoom-hint">🔍 Cliquer pour agrandir</div>
         </div>
-        <div class="carousel-btns">
-          <button class="c-btn" onclick="scrollCar(-1)">←</button>
-          <button class="c-btn" onclick="scrollCar(1)">→</button>
+        <div class="sc-info" id="sc-info">
+          <!-- Contenu injecté par JS -->
         </div>
+      </div>
+
+      <!-- Nav mobile (flèches) -->
+      <div class="sc-arrows">
+        <button class="c-btn" onclick="stepView(-1)">←</button>
+        <span id="sc-counter" style="font-family:var(--font-m);font-size:.75rem;color:var(--t2)">1 / 7</span>
+        <button class="c-btn" onclick="stepView(1)">→</button>
       </div>
     </div>
   </section>
@@ -1076,6 +1190,7 @@ const T = {
     hw_r1a:'Cellule de charge', hw_r2a:'Plage mesure', hw_r3a:'Encodeur linéaire', hw_r4a:'Décodage', hw_r6a:'Pas encodeur', hw_r8a:'Fréquence défaut',
     hw_note_h:'Vérification dans NI MAX', hw_note_p:'Le nom du device (ex. <code>Dev1</code>) doit correspondre à ce qui est affiché dans NI Measurement &amp; Automation Explorer.',
     sc_label:'Captures d\'écran', sc_title:'L\'interface<br>en détail',
+    sc_sub:'Cliquer sur une vue pour l\'agrandir. Chaque écran correspond à une étape clé du workflow.',
     sc1:'Interface principale — vue complète', sc2:'Graphique Effort / Course temps réel', sc3:'Panneau de contrôle — acquisition', sc4:'Écran de bienvenue — guide démarrage', sc5:'Fenêtre paramètres', sc6:'Analyse et interpolation de points', sc7:'Sélection du mode de mesure',
     dl_label:'Téléchargement', dl_title:'Choisir<br>votre package', dl_sub:'Deux versions selon que NI-DAQmx est déjà installé ou non sur le poste.',
     dl1_desc:'Inclut NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat', dl2_desc:'NI-DAQmx déjà installé requis — labCE + INSTALLER.bat uniquement', dl3_desc:'Code source complet + requirements.txt + build scripts',
@@ -1155,6 +1270,7 @@ const T = {
     hw_r1a:'Load cell', hw_r2a:'Measurement range', hw_r3a:'Linear encoder', hw_r4a:'Decoding', hw_r6a:'Encoder pitch', hw_r8a:'Default frequency',
     hw_note_h:'Check in NI MAX', hw_note_p:'The device name (e.g. <code>Dev1</code>) must match what is shown in NI Measurement &amp; Automation Explorer.',
     sc_label:'Screenshots', sc_title:'The interface<br>in detail',
+    sc_sub:'Click any view to zoom in. Each screen shows a key step in the acquisition workflow.',
     sc1:'Main interface — full view', sc2:'Force / Displacement real-time graph', sc3:'Control panel — acquisition', sc4:'Welcome screen — startup guide', sc5:'Settings window', sc6:'Analysis and point interpolation', sc7:'Measurement mode selection',
     dl_label:'Download', dl_title:'Choose<br>your package', dl_sub:'Two versions depending on whether NI-DAQmx is already installed.',
     dl1_desc:'Includes NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat', dl2_desc:'NI-DAQmx already required — labCE + INSTALLER.bat only', dl3_desc:'Full source code + requirements.txt + build scripts',
@@ -1241,6 +1357,8 @@ function applyLang(){
   updateChkCounter();
   // Re-render changelog + badges avec la nouvelle langue
   if(lastVersionData) applyVersionData(lastVersionData);
+  // Re-render interface viewer avec nouvelle langue
+  showView(scCurrentIdx, null);
 }
 
 /* ─── TABS ─── */
@@ -1335,6 +1453,116 @@ function scrollCar(dir){
   el.addEventListener('mouseup',()=>down=false);
   el.addEventListener('mousemove',e=>{if(!down)return;e.preventDefault();el.scrollLeft=sl-(e.pageX-el.offsetLeft-sx)});
 })();
+
+/* ─── INTERFACE VIEWER ─── */
+const SC_VIEWS = [
+  {
+    img:'ss_main_full.png',
+    title:{fr:'Interface principale',en:'Main interface'},
+    desc:{fr:'Vue d\'ensemble de l\'application : panneau de contrôle à gauche, graphique temps réel au centre, barre d\'état en bas.',en:'Full application view: control panel on the left, real-time chart in the center, status bar at the bottom.'},
+    feats:[
+      {icon:'📊',fr:{h:'Graphique Matplotlib',p:'Courbes effort/course en temps réel avec zoom, pan et curseur d\'inspection.'},en:{h:'Matplotlib chart',p:'Effort/displacement curves in real time with zoom, pan and inspection cursor.'}},
+      {icon:'🎛️',fr:{h:'Panneau de contrôle',p:'Démarrer/arrêter l\'acquisition, zéro automatique, sélection du mode.'},en:{h:'Control panel',p:'Start/stop acquisition, auto-zero, mode selection.'}},
+      {icon:'📁',fr:{h:'Gestion des essais',p:'Nommer, sauvegarder et recharger les courbes de chaque essai.'},en:{h:'Test management',p:'Name, save and reload curves for each test.'}}
+    ]
+  },
+  {
+    img:'ss_graph.png',
+    title:{fr:'Graphique Effort / Course',en:'Force / Displacement chart'},
+    desc:{fr:'Courbes superposées de plusieurs essais, inspection au curseur avec valeurs instantanées, zoom infini.',en:'Overlaid curves from multiple tests, cursor inspection with live values, unlimited zoom.'},
+    feats:[
+      {icon:'🔍',fr:{h:'Curseur d\'inspection',p:'Cliquer sur le graphe pour lire les valeurs exactes à n\'importe quel instant.'},en:{h:'Inspection cursor',p:'Click on the chart to read exact values at any point in time.'}},
+      {icon:'📈',fr:{h:'Multi-courbes',p:'Superposer jusqu\'à N essais pour comparer les comportements.'},en:{h:'Multi-curve',p:'Overlay multiple tests to compare behaviors.'}},
+      {icon:'⚡',fr:{h:'50 Hz minimum',p:'Fréquence d\'acquisition configurable pour capturer les dynamiques rapides.'},en:{h:'50 Hz minimum',p:'Configurable acquisition frequency to capture fast dynamics.'}}
+    ]
+  },
+  {
+    img:'ss_left_panel.png',
+    title:{fr:'Panneau de contrôle',en:'Control panel'},
+    desc:{fr:'Toutes les commandes d\'acquisition : démarrage, arrêt, zéro, sensibilités, nom de l\'essai, export.',en:'All acquisition controls: start, stop, zero, sensitivities, test name, export.'},
+    feats:[
+      {icon:'🔄',fr:{h:'Correction de zéro',p:'Un clic pour compenser le bruit mécanique et l\'offset des capteurs.'},en:{h:'Zero correction',p:'One click to compensate for mechanical noise and sensor offset.'}},
+      {icon:'⚙️',fr:{h:'Sensibilités capteurs',p:'Ajuster Kistler (pC/N) et ASM (mm/pulse) directement depuis l\'interface.'},en:{h:'Sensor sensitivities',p:'Adjust Kistler (pC/N) and ASM (mm/pulse) directly from the interface.'}},
+      {icon:'💾',fr:{h:'Export immédiat',p:'Sauvegarder en CSV ou Excel en un clic depuis le panneau.'},en:{h:'Instant export',p:'Save to CSV or Excel in one click from the panel.'}}
+    ]
+  },
+  {
+    img:'screenshot_full_welcome.png',
+    title:{fr:'Écran de bienvenue',en:'Welcome screen'},
+    desc:{fr:'Guide de démarrage interactif avec mise en évidence séquentielle des boutons. Idéal pour les nouveaux utilisateurs.',en:'Interactive startup guide with sequential button highlighting. Ideal for new users.'},
+    feats:[
+      {icon:'👆',fr:{h:'Guide pas-à-pas',p:'Chaque bouton s\'allume dans l\'ordre pour guider l\'utilisateur.'},en:{h:'Step-by-step guide',p:'Each button lights up in order to guide the user.'}},
+      {icon:'💡',fr:{h:'Tooltips partout',p:'Survoler n\'importe quel contrôle affiche une aide contextuelle.'},en:{h:'Tooltips everywhere',p:'Hovering over any control shows contextual help.'}},
+      {icon:'🚀',fr:{h:'Démarrage rapide',p:'De l\'ouverture à la première acquisition en moins de 2 minutes.'},en:{h:'Quick start',p:'From opening to first acquisition in under 2 minutes.'}}
+    ]
+  },
+  {
+    img:'ss_parametres_win.png',
+    title:{fr:'Fenêtre paramètres',en:'Settings window'},
+    desc:{fr:'Configuration avancée : device NI, fréquence d\'acquisition, canaux, sensibilités, options d\'affichage.',en:'Advanced configuration: NI device, acquisition frequency, channels, sensitivities, display options.'},
+    feats:[
+      {icon:'🖥️',fr:{h:'Device NI configurable',p:'Saisir le nom du device tel qu\'affiché dans NI MAX (ex. Dev1).'},en:{h:'Configurable NI device',p:'Enter the device name as shown in NI MAX (e.g. Dev1).'}},
+      {icon:'📡',fr:{h:'Canaux librement assignables',p:'ai0, ctr0 et pins PFI configurables selon le câblage du banc.'},en:{h:'Freely assignable channels',p:'ai0, ctr0 and PFI pins configurable according to bench wiring.'}},
+      {icon:'🔁',fr:{h:'Multi-PC via config.ini',p:'Un fichier par machine pour s\'adapter à chaque poste du parc.'},en:{h:'Multi-PC via config.ini',p:'One file per machine to adapt to each workstation.'}}
+    ]
+  },
+  {
+    img:'ss_analyse_points.png',
+    title:{fr:'Analyse et interpolation',en:'Analysis and interpolation'},
+    desc:{fr:'Sélection de points de référence sur le graphe, calcul automatique des statistiques, interpolation entre points.',en:'Reference point selection on the chart, automatic statistics, interpolation between points.'},
+    feats:[
+      {icon:'📐',fr:{h:'Interpolation linéaire',p:'Calculer une valeur intermédiaire entre deux points mesurés.'},en:{h:'Linear interpolation',p:'Calculate an intermediate value between two measured points.'}},
+      {icon:'📊',fr:{h:'Statistiques auto',p:'Min, Max, Moyenne, Écart-type calculés par courbe dans l\'export Excel.'},en:{h:'Auto statistics',p:'Min, Max, Mean, Std Dev computed per curve in the Excel export.'}},
+      {icon:'🎯',fr:{h:'Points de référence',p:'Marquer des positions clés sur la courbe pour comparaison entre essais.'},en:{h:'Reference points',p:'Mark key positions on the curve for comparison between tests.'}}
+    ]
+  },
+  {
+    img:'ss_mode_dropdown.png',
+    title:{fr:'Sélection du mode',en:'Mode selection'},
+    desc:{fr:'Choisir entre mode Effort seul, Course seule, ou acquisition hybride Effort+Course simultanée.',en:'Choose between Force only, Displacement only, or simultaneous Force+Displacement hybrid acquisition.'},
+    feats:[
+      {icon:'⚡',fr:{h:'Mode hybride',p:'Acquisition analogique (ai0) + encodeur (ctr0) en parfaite synchronisation.'},en:{h:'Hybrid mode',p:'Analog (ai0) + encoder (ctr0) acquisition in perfect sync.'}},
+      {icon:'🔬',fr:{h:'Mode mono-canal',p:'Effort seul ou Course seule pour les bancs sans encodeur ou sans cellule.'},en:{h:'Single-channel mode',p:'Force only or displacement only for benches without encoder or load cell.'}},
+      {icon:'🔄',fr:{h:'Changement à chaud',p:'Passer d\'un mode à l\'autre sans redémarrer l\'application.'},en:{h:'Hot switch',p:'Switch between modes without restarting the application.'}}
+    ]
+  }
+];
+
+let scCurrentIdx = 0;
+
+function showView(idx, btn){
+  scCurrentIdx = idx;
+  // Active tab
+  document.querySelectorAll('.sc-tab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  else {
+    const tabs = document.querySelectorAll('.sc-tab');
+    if(tabs[idx]) tabs[idx].classList.add('active');
+  }
+  // Image
+  const v = SC_VIEWS[idx];
+  const img = document.getElementById('sc-main-img');
+  if(img){ img.src=v.img; img.alt=v.title[lang]||v.title.fr; }
+  // Info panel
+  const info = document.getElementById('sc-info');
+  if(info){
+    const t=v.title[lang]||v.title.fr;
+    const d=v.desc[lang]||v.desc.fr;
+    const featsHtml=v.feats.map(f=>{
+      const fLang=f[lang]||f.fr;
+      return`<div class="sc-feat"><span class="sc-feat-icon">${f.icon}</span><div class="sc-feat-text"><strong>${fLang.h}</strong>${fLang.p}</div></div>`;
+    }).join('');
+    info.innerHTML=`<div><div class="sc-info-title">${t}</div><p class="sc-info-desc">${d}</p></div>${featsHtml}`;
+  }
+  // Counter
+  const ctr=document.getElementById('sc-counter');
+  if(ctr) ctr.textContent=`${idx+1} / ${SC_VIEWS.length}`;
+}
+
+function stepView(dir){
+  const next=(scCurrentIdx+dir+SC_VIEWS.length)%SC_VIEWS.length;
+  showView(next,null);
+}
 
 /* ─── LIGHTBOX ─── */
 function openLb(src){
@@ -1485,8 +1713,15 @@ document.addEventListener('DOMContentLoaded',()=>{
   initChk();
   initSteps();
   checkGHConfig();
-  document.getElementById('qr-url').value=window.location.href;
+  // URL GitHub Pages si GH configuré, sinon URL courante
+  const ghPagesUrl = GH.owner
+    ? `https://${GH.owner.toLowerCase()}.github.io/${GH.repo}/`
+    : window.location.href;
+  document.getElementById('qr-url').value = ghPagesUrl;
+  // Générer le QR automatiquement
+  genQR();
   fetchVersion();
+  showView(0, null); // initialiser l'interface viewer
   // Print date attr
   document.getElementById('page-install')?.setAttribute('data-date',new Date().toLocaleDateString('fr-FR'));
 });
