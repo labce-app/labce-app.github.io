@@ -1,0 +1,61 @@
+name: 🚀 Release — Mise à jour version.json
+
+# Déclenché automatiquement à chaque nouvelle Release GitHub publiée
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write   # nécessaire pour committer version.json
+
+jobs:
+  update-version:
+    name: Générer version.json et déployer
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Récupérer le code source
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      # 2. Lire la taille du fichier exe dans la release
+      - name: Lire les assets de la release
+        id: assets
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: assets } = await github.rest.repos.listReleaseAssets({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              release_id: context.payload.release.id,
+            });
+            const exe = assets.find(a => a.name === 'labCE_app.exe');
+            core.setOutput('exe_size', exe ? String(exe.size) : '0');
+
+      # 3. Générer version.json depuis les informations de release
+      - name: Générer version.json
+        env:
+          GH_VERSION: ${{ github.event.release.tag_name }}
+          GH_DATE:    ${{ github.event.release.published_at }}
+          GH_BODY:    ${{ github.event.release.body }}
+          GH_REPO:    ${{ github.repository }}
+          GH_SIZE:    ${{ steps.assets.outputs.exe_size }}
+        run: python3 .github/scripts/gen_version.py
+
+      # 4. Committer et pousser version.json sur main
+      - name: Commit version.json
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add version.json
+          git diff --staged --quiet || git commit -m "chore: version.json → ${{ github.event.release.tag_name }} [skip ci]"
+          git push
+
+      # 5. Log de confirmation
+      - name: Résumé
+        run: |
+          echo "✅ version.json mis à jour pour ${{ github.event.release.tag_name }}"
+          echo "   Le site reflète automatiquement la nouvelle version."
+          cat version.json

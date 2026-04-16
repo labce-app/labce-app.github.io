@@ -1,0 +1,41 @@
+# ─── Gros fichiers — utiliser GitHub Releases à la place ───
+*.zip
+*.iso
+*.nipkg
+*.exe
+
+# ─── Python ───
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# ─── Logs labCE ───
+*.log
+crash.log
+ni_error.log
+labce.log
+
+# ─── PyInstaller ───
+*.spec
+
+# ─── IDE ───
+.vscode/
+.idea/
+*.suo
+*.user
+
+# ─── OS ───
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Temp ───
+*.tmp
+*.bak
+~$*

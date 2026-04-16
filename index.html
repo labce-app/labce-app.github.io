@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>labCE v5.3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#07090f;--surface:#0d1219;--panel:#111b26;--panel-h:#162130;
+  --border:rgba(255,255,255,.07);--border-a:rgba(245,197,24,.28);
+  --amber:#f5c518;--amb-dim:rgba(245,197,24,.08);--amb-mid:rgba(245,197,24,.15);
+  --blue:#3d7fff;--blue-dim:rgba(61,127,255,.09);
+  --green:#16c784;--grn-dim:rgba(22,199,132,.09);
+  --red:#f04248;--red-dim:rgba(240,66,72,.09);
+  --t1:#d4e0ee;--t2:#546a82;--t3:#253345;
+  --r:3px;--r2:6px;
+  --font-h:'Barlow Condensed','Arial Narrow',sans-serif;
+  --font-b:'IBM Plex Sans','Segoe UI',sans-serif;
+  --font-m:'IBM Plex Mono','Consolas',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);background:var(--ink);color:var(--t1);min-height:100vh;overflow-x:hidden;
+  background-image:linear-gradient(rgba(245,197,24,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(245,197,24,.018) 1px,transparent 1px);
+  background-size:48px 48px}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--surface)}
+::-webkit-scrollbar-thumb{background:var(--t3);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--amber)}
+a{color:var(--amber);text-decoration:none}
+/* ─── TYPE ─── */
+.h-display{font-family:var(--font-h);font-weight:900;line-height:.95;letter-spacing:-.01em;text-transform:uppercase}
+.h-xl{font-size:clamp(3.5rem,8vw,7rem)}
+.h-lg{font-size:clamp(2rem,4vw,3.2rem)}
+.h-md{font-size:clamp(1.4rem,2.5vw,2rem)}
+.label{font-family:var(--font-m);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t2)}
+p{line-height:1.7;color:var(--t2);font-size:.95rem}
+code{font-family:var(--font-m);font-size:.84em;color:var(--amber);background:var(--amb-dim);padding:.1em .4em;border-radius:var(--r);border:1px solid rgba(245,197,24,.15)}
+/* ─── LAYOUT ─── */
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.grid2>*,.grid3>*,.grid4>*{min-width:0}
+.flex{display:flex;align-items:center}
+.gap-s{gap:10px}.gap-m{gap:20px}.gap-l{gap:32px}
+.mt-s{margin-top:12px}.mt-m{margin-top:24px}.mt-l{margin-top:48px}
+.sec{padding:80px 0}.sec-s{padding:48px 0}
+/* ─── SECTION HEADER ─── */
+.sec-label{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.sec-label::before{content:'';flex:0 0 28px;height:1px;background:var(--amber)}
+.sec-label span{font-family:var(--font-m);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amber)}
+/* ─── BUTTONS ─── */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:var(--r);font-family:var(--font-b);font-size:.9rem;font-weight:600;cursor:pointer;border:none;transition:all .18s;text-decoration:none;letter-spacing:.01em}
+.btn-amber{background:var(--amber);color:#07090f}
+.btn-amber:hover{background:#e8b800;transform:translateY(-1px);box-shadow:0 4px 20px rgba(245,197,24,.3);text-decoration:none;color:#07090f}
+.btn-ghost{background:transparent;color:var(--t1);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--border-a);color:var(--amber);background:var(--amb-dim);transform:translateY(-1px);text-decoration:none}
+.btn-outline-green{background:transparent;color:var(--green);border:1px solid rgba(22,199,132,.3)}
+.btn-outline-green:hover{background:var(--grn-dim);transform:translateY(-1px);text-decoration:none;color:var(--green)}
+.btn-lg{padding:14px 28px;font-size:1rem}
+/* ─── BADGE ─── */
+.badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-m);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:2px;border:1px solid}
+.b-amber{color:var(--amber);background:var(--amb-dim);border-color:rgba(245,197,24,.25)}
+.b-blue{color:var(--blue);background:var(--blue-dim);border-color:rgba(61,127,255,.25)}
+.b-green{color:var(--green);background:var(--grn-dim);border-color:rgba(22,199,132,.25)}
+.b-grey{color:var(--t2);background:rgba(255,255,255,.04);border-color:var(--border)}
+/* ─── PANEL ─── */
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--r2);padding:28px;transition:border-color .2s}
+.panel:hover{border-color:var(--border-a)}
+.panel-sharp{border-radius:var(--r)}
+/* ─── DIVIDER ─── */
+.div{height:1px;background:var(--border);margin:0}
+/* ─── NAV ─── */
+#nav{position:fixed;top:0;left:0;right:0;z-index:200;height:58px;background:rgba(7,9,15,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+#nav .wrap{height:100%;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo img{height:28px;width:auto;filter:brightness(1)}
+.nav-logo-fallback{width:30px;height:30px;background:var(--amber);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-family:var(--font-h);font-weight:900;font-size:1rem;color:#07090f}
+.nav-wordmark{font-family:var(--font-h);font-weight:800;font-size:1.15rem;letter-spacing:.03em;color:var(--t1)}
+.nav-ver{font-family:var(--font-m);font-size:.65rem;color:var(--amber);border:1px solid rgba(245,197,24,.3);padding:2px 7px;border-radius:2px}
+.nav-right{display:flex;align-items:center;gap:8px}
+.nav-tabs{display:flex;gap:2px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:var(--r);padding:3px}
+.nav-tab{padding:7px 18px;border-radius:2px;font-family:var(--font-b);font-size:.85rem;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--t2);transition:all .18s}
+.nav-tab:hover{color:var(--t1)}
+.nav-tab.active{background:var(--amber);color:#07090f;font-weight:600}
+.lang-btn{font-family:var(--font-m);font-size:.72rem;padding:6px 12px;background:transparent;border:1px solid var(--border);color:var(--t2);border-radius:var(--r);cursor:pointer;transition:all .18s;letter-spacing:.06em}
+.lang-btn:hover{border-color:var(--border-a);color:var(--amber)}
+/* ─── MAIN ─── */
+#main{padding-top:58px}
+.tab-pane{display:none}.tab-pane.active{display:block}
+/* ─── HERO ─── */
+#hero{padding:80px 0 64px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.hero-badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.hero-title{margin-bottom:20px}
+.hero-title em{color:var(--amber);font-style:normal}
+.hero-sub{font-size:1rem;line-height:1.75;color:var(--t2);max-width:480px;margin-bottom:32px}
+.hero-sub strong{color:var(--t1);font-weight:600}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+/* screenshot bezel */
+.bezel{position:relative;border:1px solid var(--border-a);border-radius:var(--r2);overflow:hidden;background:var(--surface)}
+.bezel::before,.bezel::after{content:'';position:absolute;width:14px;height:14px;z-index:2}
+.bezel::before{top:-1px;left:-1px;border-top:2px solid var(--amber);border-left:2px solid var(--amber)}
+.bezel::after{bottom:-1px;right:-1px;border-bottom:2px solid var(--amber);border-right:2px solid var(--amber)}
+.bezel-tl,.bezel-br{position:absolute;width:14px;height:14px;z-index:2}
+.bezel-tl{top:-1px;right:-1px;border-top:2px solid var(--amber);border-right:2px solid var(--amber)}
+.bezel-br{bottom:-1px;left:-1px;border-bottom:2px solid var(--amber);border-left:2px solid var(--amber)}
+.bezel img{width:100%;display:block;border-radius:var(--r)}
+.bezel-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(7,9,15,.85));padding:16px 12px 10px;font-family:var(--font-m);font-size:.68rem;letter-spacing:.08em;color:var(--t2)}
+/* ─── METRICS STRIP ─── */
+.metrics-strip{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:20px 0}
+.metrics-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.metric{text-align:center;padding:0 20px}
+.metric-val{font-family:var(--font-h);font-weight:800;font-size:2.2rem;color:var(--amber);line-height:1}
+.metric-label{font-family:var(--font-m);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t2);margin-top:5px}
+.metric-sep{width:1px;height:40px;background:var(--border);flex-shrink:0}
+/* ─── FEATURES ─── */
+.feat-list{display:flex;flex-direction:column;gap:0}
+.feat-item{display:grid;grid-template-columns:56px 1fr;gap:20px;padding:22px 0;border-bottom:1px solid var(--border);align-items:start}
+.feat-item:last-child{border-bottom:none}
+.feat-num{font-family:var(--font-h);font-weight:900;font-size:2.2rem;color:var(--t3);line-height:1;padding-top:2px;transition:color .2s}
+.feat-item:hover .feat-num{color:var(--amber)}
+.feat-head{font-family:var(--font-b);font-weight:600;font-size:1rem;color:var(--t1);margin-bottom:6px}
+.feat-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+/* ─── CAROUSEL ─── */
+.carousel-wrap{position:relative}
+.carousel-track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:12px;cursor:grab}
+.carousel-track:active{cursor:grabbing}
+.carousel-track::-webkit-scrollbar{height:3px}
+.carousel-track::-webkit-scrollbar-track{background:var(--surface)}
+.carousel-track::-webkit-scrollbar-thumb{background:var(--amber);border-radius:2px}
+.c-slide{flex:0 0 calc(60% - 7px);scroll-snap-align:start;border-radius:var(--r2);overflow:hidden;border:1px solid var(--border);position:relative;background:var(--surface);transition:border-color .2s}
+.c-slide:hover{border-color:var(--border-a)}
+.c-slide img{width:100%;display:block;pointer-events:none}
+.c-caption{padding:10px 14px;font-family:var(--font-m);font-size:.7rem;letter-spacing:.06em;color:var(--t2);background:var(--surface)}
+.carousel-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+.c-btn{width:36px;height:36px;border-radius:var(--r);background:var(--panel);border:1px solid var(--border);color:var(--t2);cursor:pointer;font-size:1rem;transition:all .18s;display:flex;align-items:center;justify-content:center}
+.c-btn:hover{border-color:var(--border-a);color:var(--amber);background:var(--amb-dim)}
+/* ─── HARDWARE ─── */
+.hw-table{width:100%;border-collapse:collapse}
+.hw-table th{text-align:left;padding:10px 14px;font-family:var(--font-m);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);border-bottom:1px solid var(--border)}
+.hw-table td{padding:12px 14px;font-size:.88rem;border-bottom:1px solid rgba(255,255,255,.035);vertical-align:middle}
+.hw-table tr:last-child td{border-bottom:none}
+.hw-table td:first-child{color:var(--t2);font-family:var(--font-m);font-size:.8rem}
+.hw-table td:nth-child(2){color:var(--t1);font-weight:500}
+.hw-table td:nth-child(3){color:var(--amber);font-family:var(--font-m);font-size:.8rem}
+/* ─── DOWNLOAD SECTION ─── */
+.dl-card{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r);transition:border-color .2s;gap:20px}
+.dl-card:hover{border-color:var(--border-a)}
+.dl-info{flex:1}
+.dl-name{font-weight:600;font-size:.95rem;color:var(--t1);margin-bottom:3px}
+.dl-desc{font-size:.82rem;color:var(--t2)}
+.dl-size{font-family:var(--font-m);font-size:.72rem;color:var(--t2);border:1px solid var(--border);padding:3px 8px;border-radius:var(--r);white-space:nowrap}
+/* ─── QR SECTION ─── */
+.qr-panel{background:var(--panel);border:1px solid var(--border-a);border-radius:var(--r2);padding:32px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center}
+.qr-box{width:200px;height:200px;background:white;border-radius:var(--r2);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.qr-box img{width:100%;height:100%;object-fit:contain}
+.qr-placeholder{width:160px;height:160px;border:2px dashed var(--t3);border-radius:var(--r);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;text-align:center;padding:16px}
+.qr-input-row{display:flex;gap:8px;margin-top:12px}
+.qr-input{flex:1;background:var(--surface);border:1px solid var(--border);color:var(--t1);padding:9px 14px;border-radius:var(--r);font-family:var(--font-m);font-size:.82rem;outline:none;transition:border-color .18s}
+.qr-input:focus{border-color:var(--border-a)}
+/* ─── INSTALL PAGE ─── */
+#page-install{padding:64px 0}
+.install-subnav{display:flex;gap:2px;margin-bottom:36px;border-bottom:1px solid var(--border)}
+.inst-tab{padding:10px 20px;font-family:var(--font-b);font-size:.88rem;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--t2);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .18s}
+.inst-tab:hover{color:var(--t1)}
+.inst-tab.active{color:var(--amber);border-bottom-color:var(--amber);font-weight:600}
+.inst-pane{display:none}.inst-pane.active{display:block}
+/* ─── CHECKLIST ─── */
+.checklist{display:flex;flex-direction:column;gap:6px;margin:16px 0}
+.chk-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--panel);border:1px solid var(--border);border-radius:var(--r);cursor:pointer;transition:all .18s;user-select:none}
+.chk-item:hover{border-color:var(--border-a);background:var(--panel-h)}
+.chk-item.checked{border-color:rgba(22,199,132,.3);background:rgba(22,199,132,.04)}
+.chk-box{width:18px;height:18px;border:1.5px solid var(--t3);border-radius:2px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .18s;font-size:.75rem}
+.chk-item.checked .chk-box{background:var(--green);border-color:var(--green);color:#07090f}
+.chk-text{font-size:.9rem;color:var(--t2);transition:color .18s}
+.chk-item.checked .chk-text{color:var(--t1)}
+.chk-counter{font-family:var(--font-m);font-size:.78rem;color:var(--t2);padding:8px 16px;background:var(--amb-dim);border:1px solid rgba(245,197,24,.15);border-radius:var(--r);display:flex;align-items:center;justify-content:space-between}
+.chk-counter span{color:var(--amber);font-weight:500}
+.launch-btn{margin-top:16px;width:100%}
+.launch-btn:disabled{opacity:.35;pointer-events:none;cursor:not-allowed}
+/* ─── TIMELINE ─── */
+.tl{position:relative;padding-left:48px}
+.tl::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--amber) 0%,var(--border) 100%)}
+.tl-step{position:relative;margin-bottom:32px}
+.tl-step:last-child{margin-bottom:0}
+.tl-num{position:absolute;left:-48px;top:0;width:32px;height:32px;border:1px solid var(--border);background:var(--surface);border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:var(--font-m);font-size:.78rem;color:var(--t2);cursor:pointer;transition:all .2s;z-index:1;box-shadow:0 0 0 4px var(--ink)}
+.tl-num:hover{border-color:var(--amber);color:var(--amber)}
+.tl-num.done{background:var(--green);border-color:var(--green);color:#07090f;font-weight:700}
+.tl-num.active-step{background:var(--amber);border-color:var(--amber);color:#07090f;font-weight:700}
+.tl-content{padding-top:4px}
+.tl-title{font-weight:600;font-size:.98rem;color:var(--t1);margin-bottom:8px}
+/* ─── CODE BLOCK ─── */
+.cb-wrap{margin:12px 0;border-radius:var(--r2);overflow:hidden;border:1px solid var(--border)}
+.cb-header{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;background:#0d1017;border-bottom:1px solid var(--border)}
+.cb-dots{display:flex;gap:5px}
+.cb-dot{width:10px;height:10px;border-radius:50%}
+.cb-title{font-family:var(--font-m);font-size:.7rem;color:var(--t2);letter-spacing:.06em}
+.cb-copy{font-family:var(--font-m);font-size:.68rem;padding:3px 9px;background:transparent;border:1px solid var(--border);color:var(--t2);border-radius:var(--r);cursor:pointer;transition:all .15s}
+.cb-copy:hover{border-color:var(--amber);color:var(--amber)}
+.cb-body{background:#070a10;padding:16px 20px;overflow-x:auto}
+.cb-body code{background:none;border:none;padding:0;font-family:var(--font-m);font-size:.82rem;line-height:1.85;color:var(--t1);display:block;white-space:pre}
+.sy-cmd{color:#79c0ff}.sy-str{color:#a5d6ff}.sy-cmt{color:#4a6070}
+.sy-ok{color:#3fb950}.sy-warn{color:var(--amber)}.sy-err{color:#f04248}
+.sy-key{color:var(--amber)}.sy-val{color:#a5d6ff}.sy-sec{color:#d2a8ff}
+/* ─── ALERTS ─── */
+.alert{display:flex;gap:12px;padding:14px 18px;border-radius:var(--r);border-left:3px solid;font-size:.88rem;margin:12px 0}
+.alert-body h4{font-size:.88rem;font-weight:600;margin-bottom:3px}
+.alert-body p{font-size:.84rem}
+.a-ok{background:var(--grn-dim);border-color:var(--green);color:#6ee7b7}
+.a-ok h4{color:#a7f3d0}
+.a-warn{background:var(--amb-dim);border-color:var(--amber);color:#fcd34d}
+.a-warn h4{color:#fde68a}
+.a-err{background:var(--red-dim);border-color:var(--red);color:#fca5a5}
+.a-err h4{color:#fecaca}
+.a-info{background:var(--blue-dim);border-color:var(--blue);color:#93c5fd}
+.a-info h4{color:#bfdbfe}
+/* ─── ACCORDION ─── */
+.acc-item{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);margin-bottom:6px;overflow:hidden}
+.acc-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;cursor:pointer;transition:background .15s}
+.acc-head:hover{background:var(--panel-h)}
+.acc-head-l{display:flex;align-items:center;gap:10px;font-size:.92rem;font-weight:600;color:var(--t1)}
+.acc-icon{font-size:1rem}
+.acc-chev{color:var(--t3);transition:transform .25s;font-size:.8rem}
+.acc-item.open .acc-chev{transform:rotate(180deg);color:var(--amber)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .2s}
+.acc-body-inner{padding:0 18px 18px}
+.acc-item.open .acc-body{max-height:800px}
+/* ─── METHOD TOGGLE ─── */
+.method-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+.method-card{padding:20px;border:1px solid var(--border);border-radius:var(--r2);cursor:pointer;transition:all .18s;text-align:center}
+.method-card:hover{border-color:var(--border-a);background:var(--amb-dim)}
+.method-card.sel{border-color:var(--amber);background:var(--amb-dim)}
+.method-card .mi{font-size:2rem;margin-bottom:10px}
+.method-card h3{font-size:.95rem;margin-bottom:4px}
+.method-card p{font-size:.82rem}
+/* ─── FOOTER ─── */
+footer{background:var(--surface);border-top:1px solid var(--border);padding:28px 0;text-align:center}
+footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:var(--t3)}
+/* ─── RESPONSIVE ─── */
+@media(max-width:820px){
+  .hero-grid,.grid2,.grid3,.grid4{grid-template-columns:1fr}
+  .method-row{grid-template-columns:1fr}
+  .qr-panel{grid-template-columns:1fr}
+  .qr-box{width:100%;height:auto}
+  .metrics-inner{gap:12px}.metric{flex:1 1 40%}
+  .metric-sep{display:none}
+  .c-slide{flex:0 0 85%}
+  .install-subnav{overflow-x:auto}
+  .nav-right .lang-btn{display:none}
+}
+@media(max-width:480px){
+  .h-xl{font-size:3rem}.hero-actions{flex-direction:column}
+  .c-slide{flex:0 0 90%}
+}
+/* ─── LIGHTBOX ─── */
+#lb{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.92);align-items:center;justify-content:center}
+#lb.open{display:flex}
+#lb img{max-width:90vw;max-height:90vh;border-radius:var(--r2);border:1px solid var(--border-a)}
+#lb-close{position:absolute;top:18px;right:22px;width:36px;height:36px;border-radius:var(--r);background:var(--panel);border:1px solid var(--border);color:var(--t1);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .15s}
+#lb-close:hover{background:var(--red);border-color:var(--red)}
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .5s ease both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
+/* Scan line on bezel image */
+.bezel::after{pointer-events:none}
+
+/* ─── UPDATE TAB ─── */
+.ver-banner{background:var(--amb-dim);border:1px solid var(--border-a);border-radius:var(--r2);padding:28px 32px;display:flex;align-items:center;gap:32px;flex-wrap:wrap;margin-bottom:32px}
+.ver-num{font-family:var(--font-h);font-weight:900;font-size:4rem;color:var(--amber);line-height:1;flex-shrink:0}
+.ver-meta{flex:1}
+.ver-meta h3{font-size:1.1rem;font-weight:600;margin-bottom:4px}
+.ver-meta p{font-size:.88rem}
+.cl-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
+.cl-item:last-child{border-bottom:none}
+.cl-badge{font-family:var(--font-m);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;border:1px solid;white-space:nowrap;margin-top:2px;flex-shrink:0}
+.cl-new{color:var(--green);background:var(--grn-dim);border-color:rgba(22,199,132,.25)}
+.cl-fix{color:var(--blue);background:var(--blue-dim);border-color:rgba(61,127,255,.25)}
+.cl-imp{color:var(--amber);background:var(--amb-dim);border-color:rgba(245,197,24,.25)}
+.cl-text{font-size:.9rem;color:var(--t1);line-height:1.5;min-width:0;word-break:break-word}
+.host-step{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+.host-step:last-child{border-bottom:none}
+.host-num{font-family:var(--font-h);font-weight:900;font-size:1.6rem;color:var(--t3);flex-shrink:0;min-width:32px;line-height:1;margin-top:2px}
+
+/* ─── PRINT ─── */
+@media print{
+  #nav,footer,.hero-actions,.carousel-btns,.c-btn,.qr-panel .btn,.dl-card .btn,
+  .cb-copy,.lang-btn,#screenshots,.sec-s:last-child,
+  .install-subnav,.nav-right,#tab-pres,#tab-update{display:none!important}
+  body{background:#fff!important;color:#111!important;font-size:10.5pt;background-image:none!important}
+  #main{padding-top:0!important}
+  #tab-install{display:block!important}
+  .tab-pane{display:block!important}
+  .inst-pane{display:block!important}
+  #page-install{padding:12pt 0}
+  :root{--ink:#fff;--surface:#fff;--panel:#f4f4f4;--panel-h:#eee;--t1:#111;--t2:#444;--t3:#888;--border:rgba(0,0,0,.15);--border-a:rgba(0,0,0,.25);--amber:#b08800;--amb-dim:rgba(176,136,0,.06);--grn-dim:rgba(0,120,60,.06);--blue-dim:rgba(0,80,200,.06);--red-dim:rgba(180,0,0,.06)}
+  .h-display{-webkit-text-fill-color:#111!important;background:none!important;color:#111!important}
+  .ver-num,.metric-val,.feat-num{color:#b08800!important}
+  .tl::before{background:#b08800}
+  .tl-num{background:#f4f4f4;border-color:#b08800;color:#b08800;box-shadow:none}
+  .tl-num.done{background:#006030;border-color:#006030;color:#fff}
+  .cb-wrap{border-color:rgba(0,0,0,.2)}
+  .cb-header{background:#eee;border-color:rgba(0,0,0,.15)}
+  .cb-body{background:#f8f8f8}
+  .cb-body code{color:#222;white-space:pre-wrap}
+  .sy-cmd{color:#004080}.sy-str{color:#005000}.sy-cmt{color:#777}
+  .sy-ok{color:#005000}.sy-warn{color:#7a5800}.sy-err{color:#a00000}
+  .sy-key{color:#7a5800}.sy-val{color:#005000}.sy-sec{color:#500080}
+  .acc-body{max-height:none!important;overflow:visible!important}
+  .acc-body-inner{padding:8pt 18pt 14pt!important}
+  .acc-item.open .acc-body,.acc-item .acc-body{max-height:none!important}
+  .alert{border-radius:0;break-inside:avoid}
+  h2,h3,.tl-title{page-break-after:avoid}
+  .tl-step{break-inside:avoid;page-break-inside:avoid}
+  .sec-label::before{background:#b08800}
+  .sec-label span{color:#b08800}
+  .chk-box{border-color:#555}
+  .chk-item.checked .chk-box{background:#005000;color:#fff}
+  .nav-tab,.badge,.b-amber,.b-blue,.b-green,.b-grey{border-color:rgba(0,0,0,.3)!important}
+  @page{margin:18mm 15mm}
+  /* Print header */
+  #page-install::before{content:'labCE v5.3 — Guide d\'installation — Imprimé le ' attr(data-date);display:block;font-family:monospace;font-size:8pt;color:#888;border-bottom:1px solid #ccc;padding-bottom:6pt;margin-bottom:16pt}
+}
+</style>
+</head>
+<body>
+
+<!-- LIGHTBOX -->
+<div id="lb"><button id="lb-close" onclick="closeLb()">✕</button><img id="lb-img" src="" alt=""></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="wrap">
+    <a class="nav-logo" href="#" onclick="return false">
+      <img src="Logo_LabCE.png" alt="labCE" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="nav-logo-fallback" style="display:none">λ</div>
+      <span class="nav-wordmark">labCE</span>
+      <span class="nav-ver">v5.3</span>
+    </a>
+    <div class="nav-right">
+      <button class="lang-btn" onclick="toggleLang()" id="lang-toggle">EN</button>
+      <div class="nav-tabs">
+        <button class="nav-tab active" onclick="switchTab('pres')" data-i18n="nav_pres">🏠 Présentation</button>
+        <button class="nav-tab" onclick="switchTab('install')" data-i18n="nav_inst">⚙️ Installation</button>
+        <button class="nav-tab" onclick="switchTab('update')" data-i18n="nav_update">📦 Mises à jour</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div id="main">
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB — PRÉSENTATION                          -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="tab-pres" class="tab-pane active">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-badges fade-up">
+            <span class="badge b-amber">● v5.3 stable</span>
+            <span class="badge b-blue">NI-DAQmx</span>
+            <span class="badge b-grey">Windows x64</span>
+          </div>
+          <h1 class="h-display h-xl hero-title fade-up d1" data-i18n="hero_title">Acquisition<br>de données<br><em>pour bancs</em><br><em>d'essai</em></h1>
+          <p class="hero-sub fade-up d2" data-i18n="hero_sub"><strong>labCE</strong> est un logiciel professionnel d'acquisition, visualisation et analyse de données mécaniques en temps réel — effort, course, capteurs NI-DAQmx, encodeurs linéaires.</p>
+          <div class="hero-actions fade-up d3">
+            <button class="btn btn-amber btn-lg" onclick="switchTab('install')" data-i18n="hero_cta1">⚡ Installer maintenant</button>
+            <button class="btn btn-ghost btn-lg" onclick="document.getElementById('screenshots').scrollIntoView({behavior:'smooth'})" data-i18n="hero_cta2">🖼 Voir le logiciel</button>
+          </div>
+        </div>
+        <div class="fade-up d2">
+          <div class="bezel" style="cursor:zoom-in" onclick="openLb('ss_main_full.png')">
+            <div class="bezel-tl"></div><div class="bezel-br"></div>
+            <img src="ss_main_full.png" alt="labCE interface" onerror="this.parentElement.style.minHeight='340px';this.style.display='none'">
+            <div class="bezel-label" data-i18n="hero_img_label">// Interface principale — cliquer pour agrandir</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METRICS -->
+  <div class="metrics-strip">
+    <div class="wrap">
+      <div class="metrics-inner">
+        <div class="metric"><div class="metric-val">50</div><div class="metric-label" data-i18n="m1">Hz échant. min</div></div>
+        <div class="metric-sep"></div>
+        <div class="metric"><div class="metric-val">2</div><div class="metric-label" data-i18n="m2">Canaux simultanés</div></div>
+        <div class="metric-sep"></div>
+        <div class="metric"><div class="metric-val">1M</div><div class="metric-label" data-i18n="m3">Points en mémoire</div></div>
+        <div class="metric-sep"></div>
+        <div class="metric"><div class="metric-val">X4</div><div class="metric-label" data-i18n="m4">Décodage encodeur</div></div>
+        <div class="metric-sep"></div>
+        <div class="metric"><div class="metric-val">Excel</div><div class="metric-label" data-i18n="m5">Export intégré</div></div>
+        <div class="metric-sep"></div>
+        <div class="metric"><div class="metric-val">1 clic</div><div class="metric-label" data-i18n="m6">Installation auto</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="div"></div>
+
+  <!-- FONCTIONNALITÉS -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="grid2" style="gap:56px;align-items:start">
+        <div>
+          <div class="sec-label"><span data-i18n="feat_label">Fonctionnalités</span></div>
+          <h2 class="h-display h-lg" style="margin-bottom:32px" data-i18n="feat_title">Ce que labCE<br>fait pour vous</h2>
+          <div class="feat-list">
+            <div class="feat-item">
+              <span class="feat-num">01</span>
+              <div>
+                <div class="feat-head" data-i18n="f1h">Acquisition NI-DAQmx temps réel</div>
+                <p data-i18n="f1p">Interface hybride analogique (cellule de charge Kistler ai0) + compteur linéaire (encodeur ASM ctr0) avec décodage X4. Fréquence configurable, correction de zéro automatique.</p>
+                <div class="feat-tags"><span class="badge b-blue">ai0 — Effort</span><span class="badge b-grey">ctr0 — Course</span></div>
+              </div>
+            </div>
+            <div class="feat-item">
+              <span class="feat-num">02</span>
+              <div>
+                <div class="feat-head" data-i18n="f2h">Visualisation graphique interactive</div>
+                <p data-i18n="f2p">Courbes Matplotlib temps réel avec curseur d'inspection, zoom/pan/reset, superposition multi-courbes pour comparer plusieurs essais en direct.</p>
+                <div class="feat-tags"><span class="badge b-green">Matplotlib</span><span class="badge b-grey">Multi-courbes</span></div>
+              </div>
+            </div>
+            <div class="feat-item">
+              <span class="feat-num">03</span>
+              <div>
+                <div class="feat-head" data-i18n="f3h">Export Excel + statistiques</div>
+                <p data-i18n="f3p">Export multi-onglets avec graphiques intégrés, Min/Max/Moyenne/Écart-type par courbe, interpolation de points de référence, comparaison automatique entre essais.</p>
+                <div class="feat-tags"><span class="badge b-amber">openpyxl</span><span class="badge b-grey">CSV continu</span></div>
+              </div>
+            </div>
+            <div class="feat-item">
+              <span class="feat-num">04</span>
+              <div>
+                <div class="feat-head" data-i18n="f4h">Guide interactif intégré</div>
+                <p data-i18n="f4p">Écran de bienvenue, mise en évidence séquentielle des boutons pour nouveaux utilisateurs, tooltips sur tous les contrôles. Aucune formation préalable requise.</p>
+                <div class="feat-tags"><span class="badge b-grey">Guide pas-à-pas</span><span class="badge b-grey">Tooltips</span></div>
+              </div>
+            </div>
+            <div class="feat-item">
+              <span class="feat-num">05</span>
+              <div>
+                <div class="feat-head" data-i18n="f5h">Mode simulation sans hardware</div>
+                <p data-i18n="f5p">Démarrage automatique en simulation si aucune carte NI n'est détectée. Import Excel/CSV, analyse et export complets disponibles sans matériel.</p>
+                <div class="feat-tags"><span class="badge b-amber">Sans NI requis</span><span class="badge b-grey">Import CSV/XLSX</span></div>
+              </div>
+            </div>
+            <div class="feat-item">
+              <span class="feat-num">06</span>
+              <div>
+                <div class="feat-head" data-i18n="f6h">Multi-PC via config.ini</div>
+                <p data-i18n="f6p">Déploiement sur plusieurs postes avec configuration par machine : nom du device, canaux, sensibilités, fréquence. Un seul exécutable pour tout le parc.</p>
+                <div class="feat-tags"><span class="badge b-grey">config.ini</span><span class="badge b-green">Multi-poste</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="position:sticky;top:80px">
+          <div class="sec-label"><span data-i18n="hw_label">Matériel testé</span></div>
+          <h2 class="h-display h-md" style="margin-bottom:20px" data-i18n="hw_title">Équipements<br>compatibles</h2>
+          <div style="margin-bottom:20px">
+            <table class="hw-table" style="border:1px solid var(--border);border-radius:var(--r2);overflow:hidden">
+              <thead><tr><th data-i18n="hw_th1">Paramètre</th><th data-i18n="hw_th2">Valeur</th><th data-i18n="hw_th3">Canal</th></tr></thead>
+              <tbody>
+                <tr><td data-i18n="hw_r1a">Cellule de charge</td><td>Kistler 9217A</td><td>ai0</td></tr>
+                <tr><td data-i18n="hw_r2a">Plage mesure</td><td>±10 V RSE</td><td>—</td></tr>
+                <tr><td data-i18n="hw_r3a">Encodeur linéaire</td><td>ASM PMIS3-20</td><td>ctr0</td></tr>
+                <tr><td data-i18n="hw_r4a">Décodage</td><td>X4 quadrature</td><td>—</td></tr>
+                <tr><td>PFI pins</td><td>PFI8 / PFI9 / PFI10</td><td>A/B/Z</td></tr>
+                <tr><td data-i18n="hw_r6a">Pas encodeur</td><td>1.0 mm/pulse</td><td>—</td></tr>
+                <tr><td>Driver NI</td><td>DAQmx 25.8.1</td><td>—</td></tr>
+                <tr><td data-i18n="hw_r8a">Fréquence défaut</td><td>50 Hz</td><td>—</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="alert a-info">
+            <div>
+              <div class="alert-body">
+                <h4 data-i18n="hw_note_h">Vérification dans NI MAX</h4>
+                <p data-i18n="hw_note_p">Le nom du device (ex. <code>Dev1</code>) doit correspondre à ce qui est affiché dans NI Measurement &amp; Automation Explorer.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- SCREENSHOTS -->
+  <section class="sec" id="screenshots" style="background:var(--surface)">
+    <div class="wrap">
+      <div class="sec-label"><span data-i18n="sc_label">Captures d'écran</span></div>
+      <h2 class="h-display h-lg" style="margin-bottom:32px" data-i18n="sc_title">L'interface<br>en détail</h2>
+      <div class="carousel-wrap">
+        <div class="carousel-track" id="ct">
+          <div class="c-slide" onclick="openLb('ss_main_full.png')">
+            <img src="ss_main_full.png" alt="" onerror="this.parentElement.style.minHeight='180px';this.style.display='none'">
+            <div class="c-caption" data-i18n="sc1">Interface principale — vue complète</div>
+          </div>
+          <div class="c-slide" onclick="openLb('ss_graph.png')">
+            <img src="ss_graph.png" alt="" onerror="this.parentElement.style.minHeight='180px';this.style.display='none'">
+            <div class="c-caption" data-i18n="sc2">Graphique Effort / Course temps réel</div>
+          </div>
+          <div class="c-slide" onclick="openLb('ss_left_panel.png')">
+            <img src="ss_left_panel.png" alt="" onerror="this.parentElement.style.minHeight='180px';this.style.display='none'">
+            <div class="c-caption" data-i18n="sc3">Panneau de contrôle — acquisition</div>
+          </div>
+          <div class="c-slide" onclick="openLb('screenshot_full_welcome.png')">
+            <img src="screenshot_full_welcome.png" alt="" onerror="this.parentElement.style.minHeight='180px';this.style.display='none'">
+            <div class="c-caption" data-i18n="sc4">Écran de bienvenue — guide démarrage</div>
+          </div>
+          <div class="c-slide" onclick="openLb('ss_parametres_win.png')">
+            <img src="ss_parametres_win.png" alt="" onerror="this.parentElement.style.minHeight='180px';this.style.display='none'">
+            <div class="c-caption" data-i18n="sc5">Fenêtre paramètres</div>
+          </div>
+          <div class="c-slide" onclick="openLb('ss_analyse_points.png')">
+            <img src="ss_analyse_points.png" alt="" onerror="this.parentElement.style.minHeight='180px';this.style.display='none'">
+            <div class="c-caption" data-i18n="sc6">Analyse et interpolation de points</div>
+          </div>
+          <div class="c-slide" onclick="openLb('ss_mode_dropdown.png')">
+            <img src="ss_mode_dropdown.png" alt="" onerror="this.parentElement.style.minHeight='180px';this.style.display='none'">
+            <div class="c-caption" data-i18n="sc7">Sélection du mode de mesure</div>
+          </div>
+        </div>
+        <div class="carousel-btns">
+          <button class="c-btn" onclick="scrollCar(-1)">←</button>
+          <button class="c-btn" onclick="scrollCar(1)">→</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="div"></div>
+
+  <!-- TÉLÉCHARGEMENT -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="grid2" style="gap:48px;align-items:start">
+        <div>
+          <div class="sec-label"><span data-i18n="dl_label">Téléchargement</span></div>
+          <h2 class="h-display h-lg" style="margin-bottom:8px" data-i18n="dl_title">Choisir<br>votre package</h2>
+          <p style="margin-bottom:28px" data-i18n="dl_sub">Deux versions selon que NI-DAQmx est déjà installé ou non sur le poste.</p>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div class="dl-card">
+              <div class="dl-info">
+                <div class="dl-name">📦 Package complet <span class="badge b-amber" style="margin-left:6px">Recommandé</span></div>
+                <div class="dl-desc" data-i18n="dl1_desc">Inclut NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat</div>
+              </div>
+              <span class="dl-size">≈ 3,3 GB</span>
+              <a class="btn btn-amber" href="labCE_v5.3_Package.zip" download data-i18n="dl_btn">↓ Télécharger</a>
+            </div>
+            <div class="dl-card">
+              <div class="dl-info">
+                <div class="dl-name">📦 Package léger</div>
+                <div class="dl-desc" data-i18n="dl2_desc">NI-DAQmx déjà installé requis — labCE + INSTALLER.bat uniquement</div>
+              </div>
+              <span class="dl-size">≈ 82 MB</span>
+              <a class="btn btn-ghost" href="labCE_v5.3_FINAL.zip" download data-i18n="dl_btn">↓ Télécharger</a>
+            </div>
+            <div class="dl-card">
+              <div class="dl-info">
+                <div class="dl-name">🐍 Sources Python</div>
+                <div class="dl-desc" data-i18n="dl3_desc">Code source complet + requirements.txt + build scripts</div>
+              </div>
+              <span class="dl-size">≈ 126 KB</span>
+              <a class="btn btn-ghost" href="labCE_v5.3_sources.zip" download data-i18n="dl_btn">↓ Télécharger</a>
+            </div>
+          </div>
+        </div>
+        <!-- QR CODE -->
+        <div>
+          <div class="sec-label"><span data-i18n="qr_label">Accès rapide — QR Code</span></div>
+          <h2 class="h-display h-md" style="margin-bottom:8px" data-i18n="qr_title">Placez ce QR<br>près du banc</h2>
+          <p style="margin-bottom:20px" data-i18n="qr_sub">Les techniciens scannent le QR code pour accéder directement à cette page depuis leur téléphone et télécharger le logiciel.</p>
+          <div class="qr-panel">
+            <div>
+              <div class="label" style="margin-bottom:8px" data-i18n="qr_url_label">URL de cette page</div>
+              <div class="qr-input-row">
+                <input class="qr-input" id="qr-url" type="text" placeholder="http://192.168.1.x:7842">
+                <button class="btn btn-amber" onclick="genQR()" data-i18n="qr_gen">Générer</button>
+              </div>
+              <p style="margin-top:10px;font-size:.8rem" data-i18n="qr_hint">Entrez l'adresse IP du PC qui héberge cette page sur le réseau local, puis cliquez Générer.</p>
+            </div>
+            <div class="qr-box" id="qr-box">
+              <div class="qr-placeholder">
+                <div style="font-size:2rem">⬛</div>
+                <p style="font-size:.72rem;color:var(--t2)" data-i18n="qr_placeholder">QR code apparaîtra ici</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /tab-pres -->
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB — INSTALLATION                          -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="tab-install" class="tab-pane">
+<div id="page-install">
+<div class="wrap">
+  <div style="margin-bottom:36px">
+    <div class="sec-label"><span data-i18n="inst_eyebrow">Guide d'installation</span></div>
+    <h1 class="h-display h-lg" style="margin-bottom:10px" data-i18n="inst_title">Installer labCE v5.3</h1>
+    <p data-i18n="inst_sub">Suivez ce guide pas à pas pour installer labCE sur Windows, avec ou sans le driver NI-DAQmx.</p>
+  </div>
+  <div class="install-subnav">
+    <button class="inst-tab active" onclick="switchInst('auto')" data-i18n="it_auto">⚡ Automatique</button>
+    <button class="inst-tab" onclick="switchInst('manual')" data-i18n="it_manual">🔧 Manuelle</button>
+    <button class="inst-tab" onclick="switchInst('update')" data-i18n="it_update">🔄 Mise à jour</button>
+    <button class="inst-tab" onclick="switchInst('fix')" data-i18n="it_fix">🐛 Dépannage</button>
+  </div>
+
+  <!-- ── AUTO ── -->
+  <div id="inst-auto" class="inst-pane active">
+    <div class="alert a-ok"><div class="alert-body"><h4 data-i18n="ia_rec">Méthode recommandée — 1 double-clic</h4><p data-i18n="ia_rec_p">INSTALLER.bat installe NI-DAQmx, copie labCE et crée le raccourci bureau automatiquement. Prévoir 10 à 30 min.</p></div></div>
+
+    <h3 style="margin:28px 0 12px;font-size:1rem" data-i18n="ia_chk_h">✅ Vérifier avant de lancer</h3>
+    <div class="checklist" id="chklist">
+      <div class="chk-item" onclick="toggleChk(this,0)"><div class="chk-box" id="cb0"></div><span class="chk-text" data-i18n="chk0">Package ZIP complètement extrait (pas lancé depuis l'archive)</span></div>
+      <div class="chk-item" onclick="toggleChk(this,1)"><div class="chk-box" id="cb1"></div><span class="chk-text" data-i18n="chk1">Dossier <code>NI-DAQmx/</code> présent à côté de INSTALLER.bat</span></div>
+      <div class="chk-item" onclick="toggleChk(this,2)"><div class="chk-box" id="cb2"></div><span class="chk-text" data-i18n="chk2">Fichier <code>labCE_app.exe</code> présent dans le dossier</span></div>
+      <div class="chk-item" onclick="toggleChk(this,3)"><div class="chk-box" id="cb3"></div><span class="chk-text" data-i18n="chk3">Droits administrateur disponibles sur ce PC</span></div>
+      <div class="chk-item" onclick="toggleChk(this,4)"><div class="chk-box" id="cb4"></div><span class="chk-text" data-i18n="chk4">Au moins 5 GB d'espace disque libre</span></div>
+      <div class="chk-item" onclick="toggleChk(this,5)"><div class="chk-box" id="cb5"></div><span class="chk-text" data-i18n="chk5">Windows 10 ou 11 (64 bits)</span></div>
+    </div>
+    <div class="chk-counter"><span id="chk-text" data-i18n="chk_count">0 / 6 prérequis validés</span><span id="chk-pct" style="color:var(--t3)">0%</span></div>
+    <button class="btn btn-amber btn-lg launch-btn" id="launch-btn" disabled onclick="switchInst('auto');document.getElementById('step-section').scrollIntoView({behavior:'smooth'})" data-i18n="chk_launch">🚀 Tout est prêt — lancer INSTALLER.bat</button>
+
+    <div id="step-section">
+    <h3 style="margin:36px 0 20px;font-size:1rem" data-i18n="ia_steps_h">📋 Étapes détaillées</h3>
+    <div class="tl">
+      <div class="tl-step">
+        <div class="tl-num" id="ts0" onclick="doneStep(0)" title="Cliquer pour marquer complété">1</div>
+        <div class="tl-content">
+          <div class="tl-title" data-i18n="ts0">Extraire le package ZIP complet</div>
+          <p data-i18n="ts0p">Clic-droit sur <code>labCE_v5.3_Package.zip</code> → "Extraire tout" dans un dossier sans accent ni espace (ex. <code>C:\labCE</code>).</p>
+          <div class="alert a-warn" style="margin-top:10px"><div class="alert-body"><h4 data-i18n="ts0w">Ne pas lancer depuis le ZIP</h4><p data-i18n="ts0wp">Windows bloque les exécutables lancés directement depuis une archive. Extraire d'abord.</p></div></div>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-num" id="ts1" onclick="doneStep(1)" title="Cliquer pour marquer complété">2</div>
+        <div class="tl-content">
+          <div class="tl-title" data-i18n="ts1">Vérifier la structure du dossier</div>
+          <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">Structure attendue</span></div><div class="cb-body"><code><span class="sy-ok">labCE_v5.3_Package/</span>
+├── <span class="sy-cmd">labCE_app.exe</span>       <span class="sy-cmt">← application</span>
+├── <span class="sy-cmd">INSTALLER.bat</span>       <span class="sy-cmt">← à double-cliquer</span>
+├── <span class="sy-cmd">UPDATE.bat</span>
+├── <span class="sy-cmd">config.ini</span>
+├── <span class="sy-cmd">Logo_LabCE.ico</span>
+└── <span class="sy-warn">NI-DAQmx/</span>           <span class="sy-cmt">← driver NI offline</span>
+    ├── <span class="sy-str">ni-daqmx_25.8.1_offline.iso</span>  <span class="sy-cmt">(3.2 GB)</span>
+    └── <span class="sy-str">*.nipkg</span></code></div></div>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-num" id="ts2" onclick="doneStep(2)" title="Cliquer pour marquer complété">3</div>
+        <div class="tl-content">
+          <div class="tl-title" data-i18n="ts2">Double-cliquer sur INSTALLER.bat</div>
+          <p style="margin-bottom:10px" data-i18n="ts2p">Si une fenêtre UAC apparaît → cliquer <strong>Oui</strong>. Si rien ne se passe → clic-droit → "Exécuter en tant qu'administrateur".</p>
+          <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">Console — sortie attendue</span></div><div class="cb-body"><code><span class="sy-cmt">========================================================</span>
+<span class="sy-warn">  labCE v5.3  -  Installation automatique</span>
+<span class="sy-cmt">========================================================</span>
+
+<span class="sy-warn">[1/4] Recherche de NI Package Manager...</span>
+   <span class="sy-ok">[OK] nipkg.exe trouvé</span>
+
+<span class="sy-warn">[2/4] Vérification NI-DAQmx...</span>
+   Montage de l'image disque...
+   <span class="sy-warn">Installation NI-DAQmx... (5 à 20 min)</span>
+   <span class="sy-ok">[OK] NI-DAQmx installé avec succès.</span>
+
+<span class="sy-warn">[3/4] Installation de labCE...</span>
+   <span class="sy-ok">[OK] Installé dans : %LOCALAPPDATA%\labCE</span>
+
+<span class="sy-warn">[4/4] Création du raccourci bureau...</span>
+   <span class="sy-ok">[OK] Raccourci : Bureau\labCE v5.3.lnk</span>
+
+<span class="sy-ok">========================================================</span>
+<span class="sy-ok">  Installation terminée !</span>
+<span class="sy-ok">========================================================</span></code></div></div>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-num" id="ts3" onclick="doneStep(3)" title="Cliquer pour marquer complété">4</div>
+        <div class="tl-content">
+          <div class="tl-title" data-i18n="ts3">Redémarrer si demandé (code 3010)</div>
+          <p data-i18n="ts3p">Si la console affiche <code>[INFO] Un redémarrage sera nécessaire</code>, redémarrez Windows normalement avant de lancer labCE. Ce n'est pas une erreur.</p>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-num" id="ts4" onclick="doneStep(4)" title="Cliquer pour marquer complété">5</div>
+        <div class="tl-content">
+          <div class="tl-title" data-i18n="ts4">Configurer config.ini (optionnel)</div>
+          <p style="margin-bottom:10px" data-i18n="ts4p">Le fichier est copié dans <code>%LOCALAPPDATA%\labCE\</code>. Adaptez le nom du device NI à votre poste.</p>
+          <div class="cb-wrap">
+            <div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">config.ini</span><button class="cb-copy" onclick="copyTxt('[NI]\ndevice = Dev1\nhas_ni = true\n\n[Channels]\neffort_ai = ai0\ncourse_ai = ctr0\n\n[Acquisition]\nfrequency_hz = 50\n\n[Sensors]\nsensitivity_effort_nv = 1.0\nsensitivity_course_mmv = 1.0')">Copier</button></div>
+            <div class="cb-body"><code><span class="sy-sec">[NI]</span>
+<span class="sy-key">device</span> = <span class="sy-val">Dev1</span>       <span class="sy-cmt">; nom tel qu'affiché dans NI MAX</span>
+<span class="sy-key">has_ni</span> = <span class="sy-val">true</span>      <span class="sy-cmt">; false = mode simulation</span>
+
+<span class="sy-sec">[Channels]</span>
+<span class="sy-key">effort_ai</span> = <span class="sy-val">ai0</span>
+<span class="sy-key">course_ai</span> = <span class="sy-val">ctr0</span>
+
+<span class="sy-sec">[Acquisition]</span>
+<span class="sy-key">frequency_hz</span> = <span class="sy-val">50</span>
+
+<span class="sy-sec">[Sensors]</span>
+<span class="sy-key">sensitivity_effort_nv</span> = <span class="sy-val">1.0</span>
+<span class="sy-key">sensitivity_course_mmv</span> = <span class="sy-val">1.0</span></code></div>
+          </div>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-num done" id="ts5">✓</div>
+        <div class="tl-content">
+          <div class="tl-title" data-i18n="ts5">Lancer labCE depuis le raccourci bureau</div>
+          <div class="alert a-ok" style="margin-top:8px"><div class="alert-body"><h4 data-i18n="ts5h">Sans matériel NI ?</h4><p data-i18n="ts5p">labCE démarre automatiquement en mode simulation. Vous pouvez importer des fichiers CSV/Excel et utiliser toutes les fonctions d'analyse.</p></div></div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- ── MANUAL ── -->
+  <div id="inst-manual" class="inst-pane">
+    <div class="alert a-info"><div class="alert-body"><h4 data-i18n="im_h">Installation manuelle</h4><p data-i18n="im_p">Choisissez cette méthode si INSTALLER.bat échoue, ou si vous préférez utiliser les sources Python.</p></div></div>
+    <div class="method-row" style="margin-top:20px">
+      <div class="method-card sel" onclick="selMethod('exe',this)"><div class="mi">⚙️</div><h3 data-i18n="mm_exe">Exécutable .exe</h3><p data-i18n="mm_exe_p">Sans Python — recommandé</p></div>
+      <div class="method-card" onclick="selMethod('py',this)"><div class="mi">🐍</div><h3 data-i18n="mm_py">Sources Python</h3><p data-i18n="mm_py_p">Pour développeurs</p></div>
+    </div>
+    <div id="m-exe">
+      <div class="tl">
+        <div class="tl-step"><div class="tl-num" onclick="doneStep('m0')" id="m0">1</div><div class="tl-content">
+          <div class="tl-title" data-i18n="me1">Installer NI-DAQmx (si absent)</div>
+          <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">PowerShell (admin)</span><button class="cb-copy" onclick="copyTxt('Mount-DiskImage -ImagePath \"NI-DAQmx\\ni-daqmx_25.8.1_offline.iso\"\n# puis lancer Install.exe depuis le lecteur monté')">Copier</button></div><div class="cb-body"><code><span class="sy-cmt"># Monter l'ISO et lancer l'installateur</span>
+<span class="sy-cmd">Mount-DiskImage</span> <span class="sy-str">-ImagePath "NI-DAQmx\ni-daqmx_25.8.1_offline.iso"</span>
+<span class="sy-cmt"># Aller dans le lecteur monté (ex. D:\)</span>
+<span class="sy-cmd">D:\Install.exe</span> <span class="sy-str">--passive --accept-eulas</span></code></div></div>
+        </div></div>
+        <div class="tl-step"><div class="tl-num" onclick="doneStep('m1')" id="m1">2</div><div class="tl-content">
+          <div class="tl-title" data-i18n="me2">Créer le dossier et copier les fichiers</div>
+          <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">CMD</span><button class="cb-copy" onclick="copyTxt('mkdir \"%LOCALAPPDATA%\\labCE\"\ncopy /y labCE_app.exe \"%LOCALAPPDATA%\\labCE\\\"\ncopy /y config.ini \"%LOCALAPPDATA%\\labCE\\\"\ncopy /y Logo_LabCE.ico \"%LOCALAPPDATA%\\labCE\\\"')">Copier</button></div><div class="cb-body"><code><span class="sy-cmd">mkdir</span> <span class="sy-str">"%LOCALAPPDATA%\labCE"</span>
+<span class="sy-cmd">copy</span> /y <span class="sy-str">labCE_app.exe  "%LOCALAPPDATA%\labCE\"</span>
+<span class="sy-cmd">copy</span> /y <span class="sy-str">config.ini     "%LOCALAPPDATA%\labCE\"</span>
+<span class="sy-cmd">copy</span> /y <span class="sy-str">Logo_LabCE.ico "%LOCALAPPDATA%\labCE\"</span></code></div></div>
+        </div></div>
+        <div class="tl-step"><div class="tl-num done" id="m2">✓</div><div class="tl-content">
+          <div class="tl-title" data-i18n="me3">Lancer labCE_app.exe</div>
+          <p data-i18n="me3p">Double-cliquez sur <code>%LOCALAPPDATA%\labCE\labCE_app.exe</code>. Si Windows SmartScreen bloque → clic-droit sur l'exe → Propriétés → cocher "Débloquer".</p>
+        </div></div>
+      </div>
+    </div>
+    <div id="m-py" style="display:none">
+      <div class="tl">
+        <div class="tl-step"><div class="tl-num" onclick="doneStep('p0')" id="p0">1</div><div class="tl-content">
+          <div class="tl-title" data-i18n="mp1">Installer Python 3.10+</div>
+          <p data-i18n="mp1p">Depuis <strong>python.org</strong>. Cocher impérativement <strong>"Add Python to PATH"</strong>. Vérifier :</p>
+          <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">CMD</span></div><div class="cb-body"><code><span class="sy-cmd">python</span> --version
+<span class="sy-ok">Python 3.11.x</span></code></div></div>
+        </div></div>
+        <div class="tl-step"><div class="tl-num" onclick="doneStep('p1')" id="p1">2</div><div class="tl-content">
+          <div class="tl-title" data-i18n="mp2">Créer l'environnement virtuel</div>
+          <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">CMD</span><button class="cb-copy" onclick="copyTxt('python -m venv .venv\n.venv\\Scripts\\activate')">Copier</button></div><div class="cb-body"><code><span class="sy-cmd">python</span> -m venv .venv
+<span class="sy-cmd">.venv\Scripts\activate</span></code></div></div>
+        </div></div>
+        <div class="tl-step"><div class="tl-num" onclick="doneStep('p2')" id="p2">3</div><div class="tl-content">
+          <div class="tl-title" data-i18n="mp3">Installer les dépendances</div>
+          <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">CMD (env activé)</span><button class="cb-copy" onclick="copyTxt('pip install -r requirements.txt')">Copier</button></div><div class="cb-body"><code><span class="sy-cmd">pip install</span> -r requirements.txt
+<span class="sy-cmt"># matplotlib, numpy, openpyxl, pillow, scipy, nidaqmx</span></code></div></div>
+        </div></div>
+        <div class="tl-step"><div class="tl-num done" id="p3">✓</div><div class="tl-content">
+          <div class="tl-title" data-i18n="mp4">Lancer l'application</div>
+          <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">CMD</span><button class="cb-copy" onclick="copyTxt('python labCE_app.py')">Copier</button></div><div class="cb-body"><code><span class="sy-cmd">python</span> labCE_app.py</code></div></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── UPDATE ── -->
+  <div id="inst-update" class="inst-pane">
+    <div class="alert a-info"><div class="alert-body"><h4 data-i18n="iu_h">Mise à jour via UPDATE.bat</h4><p data-i18n="iu_p">Seul l'exécutable est remplacé. NI-DAQmx et config.ini ne sont pas touchés.</p></div></div>
+    <div class="tl" style="margin-top:24px">
+      <div class="tl-step"><div class="tl-num" onclick="doneStep('u0')" id="u0">1</div><div class="tl-content">
+        <div class="tl-title" data-i18n="uu1">Récupérer le nouveau labCE_app.exe</div>
+        <p data-i18n="uu1p">Cliquer sur le bouton <strong>↓ Télécharger labCE_app.exe</strong> dans l'onglet <em>Mises à jour</em> de ce site.</p>
+      </div></div>
+      <div class="tl-step"><div class="tl-num" onclick="doneStep('u1')" id="u1">2</div><div class="tl-content">
+        <div class="tl-title" data-i18n="uu2">Placer exe + UPDATE.bat côte à côte</div>
+        <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">Structure requise</span></div><div class="cb-body"><code><span class="sy-ok">Dossier_maj/</span>
+├── <span class="sy-cmd">labCE_app.exe</span>   <span class="sy-cmt">← nouvelle version</span>
+└── <span class="sy-warn">UPDATE.bat</span>      <span class="sy-cmt">← à double-cliquer</span></code></div></div>
+      </div></div>
+      <div class="tl-step"><div class="tl-num" onclick="doneStep('u2')" id="u2">3</div><div class="tl-content">
+        <div class="tl-title" data-i18n="uu3">Double-cliquer UPDATE.bat</div>
+        <p data-i18n="uu3p">Le script ferme automatiquement labCE si ouvert, puis remplace l'exe. Résultat attendu :</p>
+        <div class="cb-wrap"><div class="cb-body"><code><span class="sy-ok">[OK] labCE mis a jour avec succes.</span>
+Lancez l'application depuis le raccourci sur le bureau.</code></div></div>
+        <div class="alert a-err"><div class="alert-body"><h4 data-i18n="uu3_err">[ERREUR] La copie a échoué</h4><p data-i18n="uu3_err_p">labCE est encore ouvert → Gestionnaire des tâches → fin de tâche <code>labCE_app.exe</code> → relancer UPDATE.bat.</p></div></div>
+      </div></div>
+      <div class="tl-step"><div class="tl-num done" id="u3">✓</div><div class="tl-content">
+        <div class="tl-title" data-i18n="uu4">Vérifier la version dans la barre de titre</div>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- ── DÉPANNAGE ── -->
+  <div id="inst-fix" class="inst-pane">
+    <h3 style="margin-bottom:16px;font-size:1rem" data-i18n="fix_h">Problèmes fréquents</h3>
+
+    <div class="acc-item open">
+      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span class="acc-icon">❌</span><span data-i18n="fx1">[ERREUR] labCE_app.exe introuvable</span></div><span class="acc-chev">▼</span></div>
+      <div class="acc-body"><div class="acc-body-inner"><p data-i18n="fx1p"><code>INSTALLER.bat</code> ou <code>UPDATE.bat</code> doit être dans le <strong>même dossier</strong> que <code>labCE_app.exe</code>. Ne pas l'exécuter depuis un raccourci ou un autre emplacement.</p></div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span class="acc-icon">⚠️</span><span data-i18n="fx2">NI-DAQmx non disponible / device non détecté</span></div><span class="acc-chev">▼</span></div>
+      <div class="acc-body"><div class="acc-body-inner"><p data-i18n="fx2_ok">Normal sans matériel NI — labCE fonctionne en simulation. Si vous avez du matériel :</p><ul style="list-style:disc;padding-left:20px;color:var(--t2);margin-top:8px;display:flex;flex-direction:column;gap:6px"><li data-i18n="fx2_1">Vérifier que NI-DAQmx est installé (Panneau de configuration → Programmes)</li><li data-i18n="fx2_2">Ouvrir NI MAX — le device doit être visible</li><li data-i18n="fx2_3">Vérifier le champ <code>device = Dev1</code> dans <code>config.ini</code></li><li data-i18n="fx2_4">Cliquer "🔄 Rafraîchir" dans labCE</li><li data-i18n="fx2_5">Redémarrer si NI-DAQmx vient d'être installé</li></ul></div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span class="acc-icon">🔒</span><span data-i18n="fx3">Windows SmartScreen / Antivirus bloque l'exe</span></div><span class="acc-chev">▼</span></div>
+      <div class="acc-body"><div class="acc-body-inner"><ol style="list-style:decimal;padding-left:20px;color:var(--t2);display:flex;flex-direction:column;gap:6px"><li data-i18n="fx3_1">Clic-droit sur <code>labCE_app.exe</code> → Propriétés</li><li data-i18n="fx3_2">En bas → cocher <strong>"Débloquer"</strong> → OK</li><li data-i18n="fx3_3">Ou : message SmartScreen → "Informations complémentaires" → "Exécuter quand même"</li></ol></div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span class="acc-icon">🐍</span><span data-i18n="fx4">ModuleNotFoundError (sources Python)</span></div><span class="acc-chev">▼</span></div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">CMD</span><button class="cb-copy" onclick="copyTxt('pip install --upgrade numpy matplotlib openpyxl pillow scipy nidaqmx')">Copier</button></div><div class="cb-body"><code><span class="sy-cmd">pip install</span> --upgrade numpy matplotlib openpyxl pillow scipy nidaqmx</code></div></div>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span class="acc-icon">🔴</span><span data-i18n="fx5">Code retour 3010 après installation NI-DAQmx</span></div><span class="acc-chev">▼</span></div>
+      <div class="acc-body"><div class="acc-body-inner"><div class="alert a-info"><div class="alert-body"><h4 data-i18n="fx5h">Pas une erreur</h4><p data-i18n="fx5p">Code 3010 = installation réussie, redémarrage requis. Redémarrez Windows normalement. labCE fonctionnera après.</p></div></div></div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span class="acc-icon">📁</span><span data-i18n="fx6">Où se trouvent les fichiers installés ?</span></div><span class="acc-chev">▼</span></div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <div class="cb-wrap"><div class="cb-body"><code><span class="sy-cmt"># Application</span>   <span class="sy-val">%LOCALAPPDATA%\labCE\labCE_app.exe</span>
+<span class="sy-cmt"># Configuration</span> <span class="sy-val">%LOCALAPPDATA%\labCE\config.ini</span>
+<span class="sy-cmt"># Logs</span>          <span class="sy-val">%LOCALAPPDATA%\labCE\labce.log</span>
+<span class="sy-cmt"># Raccourci</span>     <span class="sy-val">%USERPROFILE%\Desktop\labCE v5.3.lnk</span></code></div></div>
+      </div></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span class="acc-icon">🔁</span><span data-i18n="fx7">Désinstaller labCE</span></div><span class="acc-chev">▼</span></div>
+      <div class="acc-body"><div class="acc-body-inner">
+        <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">CMD (admin)</span><button class="cb-copy" onclick="copyTxt('taskkill /f /im labCE_app.exe\nrmdir /s /q \"%LOCALAPPDATA%\\labCE\"\ndel \"%USERPROFILE%\\Desktop\\labCE v5.3.lnk\"')">Copier</button></div><div class="cb-body"><code><span class="sy-cmd">taskkill</span> /f /im labCE_app.exe
+<span class="sy-cmd">rmdir</span> /s /q <span class="sy-str">"%LOCALAPPDATA%\labCE"</span>
+<span class="sy-cmd">del</span> <span class="sy-str">"%USERPROFILE%\Desktop\labCE v5.3.lnk"</span></code></div></div>
+      </div></div>
+    </div>
+
+  </div>
+
+</div><!-- /wrap -->
+</div><!-- /page-install -->
+</div><!-- /tab-install -->
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- TAB — MISES À JOUR                          -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="tab-update" class="tab-pane">
+<div style="padding:64px 0">
+<div class="wrap">
+
+  <div style="margin-bottom:40px">
+    <div class="sec-label"><span data-i18n="upd_eyebrow">Gestion des versions</span></div>
+    <h1 class="h-display h-lg" style="margin-bottom:10px" data-i18n="upd_title">Mises à jour<br>labCE</h1>
+    <p data-i18n="upd_sub">Téléchargez la dernière version, puis lancez <code>UPDATE.bat</code> pour mettre à jour votre installation.</p>
+  </div>
+
+  <!-- VERSION BANNER -->
+  <div class="ver-banner" id="ver-banner">
+    <div class="ver-num" id="ver-num">…</div>
+    <div class="ver-meta">
+      <h3 id="ver-label" data-i18n="upd_loading">Chargement...</h3>
+      <p id="ver-date" style="margin-bottom:12px"></p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn btn-amber" id="ver-dl-btn" href="#" download>
+          ↓ <span data-i18n="upd_dl">Télécharger labCE_app.exe</span>
+        </a>
+        <button class="btn btn-ghost" onclick="switchTab('install');switchInst('update')" data-i18n="upd_howto_btn">
+          📋 Comment installer la mise à jour
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHANGELOG -->
+  <div class="grid2" style="gap:40px;align-items:start">
+    <div>
+      <h2 class="h-display h-md" style="margin-bottom:20px" data-i18n="upd_cl_title">Nouveautés v<span id="cl-ver">…</span></h2>
+      <div id="changelog-list" style="border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;background:var(--panel);padding:0 20px">
+        <div class="cl-item"><span class="cl-badge cl-new">…</span><span class="cl-text" data-i18n="upd_loading">Chargement du changelog…</span></div>
+      </div>
+    </div>
+
+    <div>
+      <!-- PROCÉDURE DE MISE À JOUR -->
+      <h2 class="h-display h-md" style="margin-bottom:20px" data-i18n="upd_proc_title">Procédure<br>en 3 étapes</h2>
+      <div style="border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;background:var(--panel)">
+        <div class="host-step" style="padding:16px 20px">
+          <div class="host-num">1</div>
+          <div>
+            <div style="font-weight:600;margin-bottom:4px" data-i18n="upd_s1">Télécharger le nouvel exe</div>
+            <p style="font-size:.85rem" data-i18n="upd_s1p">Cliquer sur le bouton de téléchargement ci-dessus pour obtenir <code>labCE_app.exe</code>.</p>
+          </div>
+        </div>
+        <div class="host-step" style="padding:16px 20px">
+          <div class="host-num">2</div>
+          <div>
+            <div style="font-weight:600;margin-bottom:4px" data-i18n="upd_s2">Placer l'exe à côté de UPDATE.bat</div>
+            <p style="font-size:.85rem" data-i18n="upd_s2p">Mettre <code>labCE_app.exe</code> et <code>UPDATE.bat</code> dans le même dossier sur votre PC.</p>
+          </div>
+        </div>
+        <div class="host-step" style="padding:16px 20px">
+          <div class="host-num" style="color:var(--green)">✓</div>
+          <div>
+            <div style="font-weight:600;margin-bottom:4px" data-i18n="upd_s3">Double-cliquer UPDATE.bat</div>
+            <p style="font-size:.85rem" data-i18n="upd_s3p">Le script ferme labCE, remplace l'exe et confirme le succès. Terminé.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN -->
+      <div style="margin-top:28px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+          <h2 class="h-display h-md" data-i18n="upd_admin_title">Zone administrateur</h2>
+          <span class="badge b-amber" data-i18n="upd_admin_badge">Responsable logiciel</span>
+        </div>
+        <div class="panel" style="border-color:var(--border-a)">
+          <div id="gh-config-status" style="margin-bottom:14px"></div>
+          <p style="margin-bottom:14px;font-size:.88rem" data-i18n="upd_admin_desc">Une seule action pour publier une mise à jour : créer une Release GitHub. Le site se met à jour automatiquement en moins de 2 minutes.</p>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+            <div class="cl-item" style="border:1px solid var(--border);border-radius:var(--r);padding:12px 14px">
+              <span class="cl-badge b-grey" style="font-size:.62rem;white-space:nowrap;min-width:26px;justify-content:center">1×</span>
+              <div>
+                <div style="font-weight:600;font-size:.9rem;margin-bottom:2px"><code>index.html</code> — <span data-i18n="upd_admin_f1_title">Configuration initiale</span></div>
+                <p style="font-size:.82rem" data-i18n="upd_admin_f1">Ouvrir <code>index.html</code>, trouver <code>const GH = { owner: '' }</code> tout en haut du script et remplacer <code>''</code> par votre identifiant GitHub (ex. <code>'jean-dupont'</code>). À faire une seule fois.</p>
+              </div>
+            </div>
+            <div class="cl-item" style="border:1px solid var(--border);border-radius:var(--r);padding:12px 14px">
+              <span class="cl-badge cl-new">2</span>
+              <div>
+                <div style="font-weight:600;font-size:.9rem;margin-bottom:2px" data-i18n="upd_admin_f2_title">Créer une Release GitHub</div>
+                <p style="font-size:.82rem" data-i18n="upd_admin_f2">Sur github.com → votre repo → <strong>Releases → New release</strong>. Tag : <code>v5.4</code>. Écrire les notes en Markdown structuré (voir ci-dessous). Joindre <code>labCE_app.exe</code> en pièce jointe. Cliquer <strong>Publish release</strong>.</p>
+              </div>
+            </div>
+            <div class="cl-item" style="border:1px solid var(--border);border-radius:var(--r);padding:12px 14px">
+              <span class="cl-badge cl-imp" style="font-size:.75rem">✓</span>
+              <div>
+                <div style="font-weight:600;font-size:.9rem;margin-bottom:2px" data-i18n="upd_admin_f3_title">Automatique — &lt; 2 min</div>
+                <p style="font-size:.82rem" data-i18n="upd_admin_f3">GitHub Actions génère <code>version.json</code> depuis les notes de release et le commite sur main. GitHub Pages redéploie. Le changelog et le bouton de téléchargement se mettent à jour au prochain chargement de la page.</p>
+              </div>
+            </div>
+          </div>
+          <div class="cb-wrap" style="margin:0">
+            <div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title" data-i18n="upd_admin_cb_title">Notes de release — format Markdown</span><button class="cb-copy" onclick="copyTxt('## Nouveautés\n- Nouvelle fonctionnalité X\n- Mode simulation amélioré\n\n## Corrections\n- Correction bug affichage\n\n## Améliorations\n- Performance temps réel ×2')">Copier</button></div>
+            <div class="cb-body"><code><span class="sy-cmt">## Nouveautés</span>
+<span class="sy-str">- Nouvelle fonctionnalité X</span>
+<span class="sy-str">- Mode simulation amélioré</span>
+
+<span class="sy-cmt">## Corrections</span>
+<span class="sy-str">- Correction bug affichage</span>
+
+<span class="sy-cmt">## Améliorations</span>
+<span class="sy-str">- Performance temps réel ×2</span>
+
+<span class="sy-key">→ Sections reconnues : Nouveautés / Corrections / Améliorations</span>
+<span class="sy-key">→ Aussi : New / Fix / Improve (anglais)</span></code></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HÉBERGEMENT -->
+  <div style="margin-top:56px">
+    <div class="sec-label"><span data-i18n="host_label">Hébergement sans serveur</span></div>
+    <h2 class="h-display h-md" style="margin-bottom:8px" data-i18n="host_title">Mettre le site en ligne<br>gratuitement</h2>
+    <p style="margin-bottom:28px;max-width:580px" data-i18n="host_sub">Deux options pour héberger cette page sur internet, sans PC allumé en permanence, sans abonnement.</p>
+
+    <div class="grid2" style="gap:20px">
+      <!-- Netlify -->
+      <div class="panel" style="border-color:var(--border-a)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div style="font-size:1.8rem">🚀</div>
+          <div>
+            <div style="font-weight:700;font-size:1rem">Netlify Drop</div>
+            <span class="badge b-green" data-i18n="host_rec">Le plus simple</span>
+          </div>
+        </div>
+        <p style="font-size:.87rem;margin-bottom:14px" data-i18n="host_n_desc">Glisser-déposer le dossier sur la page Netlify → URL publique en 30 secondes. Gratuit, sans compte requis.</p>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+          <div class="host-step" style="padding:8px 0;border-bottom:1px solid var(--border)"><div class="host-num" style="font-size:1rem;min-width:22px">1</div><p style="font-size:.84rem" data-i18n="host_n1">Aller sur <strong>netlify.com/drop</strong></p></div>
+          <div class="host-step" style="padding:8px 0;border-bottom:1px solid var(--border)"><div class="host-num" style="font-size:1rem;min-width:22px">2</div><p style="font-size:.84rem" data-i18n="host_n2">Glisser le dossier <code>labCE - Copy/</code> dans la zone</p></div>
+          <div class="host-step" style="padding:8px 0;border-bottom:1px solid var(--border)"><div class="host-num" style="font-size:1rem;min-width:22px">3</div><p style="font-size:.84rem" data-i18n="host_n3">Copier l'URL générée (ex. <code>labce-abc123.netlify.app</code>)</p></div>
+          <div class="host-step" style="padding:8px 0"><div class="host-num" style="font-size:1rem;color:var(--green);min-width:22px">✓</div><p style="font-size:.84rem" data-i18n="host_n4">Entrer cette URL dans la section QR code → Générer</p></div>
+        </div>
+        <div class="alert a-warn" style="margin:0"><div class="alert-body"><h4 data-i18n="host_n_warn_h">Limite 100 MB par fichier</h4><p data-i18n="host_n_warn_p">Pour le ZIP complet (3.3 GB), héberger sur Google Drive et mettre le lien dans le bouton de téléchargement.</p></div></div>
+      </div>
+
+      <!-- GitHub Pages -->
+      <div class="panel">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <div style="font-size:1.8rem">🐙</div>
+          <div>
+            <div style="font-weight:700;font-size:1rem">GitHub Pages + Releases</div>
+            <span class="badge b-blue" data-i18n="host_pro">Solution complète</span>
+          </div>
+        </div>
+        <p style="font-size:.87rem;margin-bottom:14px" data-i18n="host_g_desc">Site sur GitHub Pages + fichiers lourds comme Releases GitHub (jusqu'à 2 GB par fichier). URL stable, mises à jour via push.</p>
+        <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
+          <div class="host-step" style="padding:8px 0;border-bottom:1px solid var(--border)"><div class="host-num" style="font-size:1rem;min-width:22px">1</div><p style="font-size:.84rem" data-i18n="host_g1">Créer un repo sur <strong>github.com</strong></p></div>
+          <div class="host-step" style="padding:8px 0;border-bottom:1px solid var(--border)"><div class="host-num" style="font-size:1rem;min-width:22px">2</div><p style="font-size:.84rem" data-i18n="host_g2">Uploader les fichiers HTML/CSS/PNG dans le repo</p></div>
+          <div class="host-step" style="padding:8px 0;border-bottom:1px solid var(--border)"><div class="host-num" style="font-size:1rem;min-width:22px">3</div><p style="font-size:.84rem" data-i18n="host_g3">Settings → Pages → Source: main → URL automatique</p></div>
+          <div class="host-step" style="padding:8px 0"><div class="host-num" style="font-size:1rem;min-width:22px">4</div><p style="font-size:.84rem" data-i18n="host_g4">Créer une Release → attacher les ZIPs comme assets</p></div>
+        </div>
+        <div class="alert a-info" style="margin:0"><div class="alert-body"><h4 data-i18n="host_g_note_h">Mises à jour 100% automatiques</h4><p data-i18n="host_g_note_p">Publiez une Release GitHub avec <code>labCE_app.exe</code> en pièce jointe → GitHub Actions génère <code>version.json</code> automatiquement → le site affiche la nouvelle version en &lt; 2 min. Zéro manipulation manuelle.</p></div></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+</div>
+</div><!-- /tab-update -->
+
+</div><!-- /main -->
+
+<footer>
+  <div class="wrap">
+    <p>labCE <span id="footer-ver">v5.3</span> — Acquisition NI-DAQmx · Kistler 9217A · ASM PMIS3-20 · Python + Tkinter + Matplotlib</p>
+  </div>
+</footer>
+
+<script>
+/* ─── GITHUB CONFIG ─────────────────────────────────────────────────────────
+   Remplissez owner avec votre nom d'utilisateur GitHub (ex: 'jean-dupont').
+   Le repo doit contenir les releases avec labCE_app.exe en asset.
+   Laissez owner vide ('') pour utiliser version.json en local.
+──────────────────────────────────────────────────────────────────────────── */
+const GH = { owner: 'SOUARENK', repo: 'labce' };
+
+/* ─── i18n ─── */
+const T = {
+  fr:{
+    nav_pres:'🏠 Présentation', nav_inst:'⚙️ Installation',
+    hero_title:'Acquisition<br>de données<br><em>pour bancs</em><br><em>d\'essai</em>',
+    hero_sub:'<strong>labCE</strong> est un logiciel professionnel d\'acquisition, visualisation et analyse de données mécaniques en temps réel — effort, course, capteurs NI-DAQmx, encodeurs linéaires.',
+    hero_cta1:'⚡ Installer maintenant', hero_cta2:'🖼 Voir le logiciel',
+    hero_img_label:'// Interface principale — cliquer pour agrandir',
+    m1:'Hz échant. min', m2:'Canaux simultanés', m3:'Points en mémoire', m4:'Décodage encodeur', m5:'Export intégré', m6:'Installation auto',
+    feat_label:'Fonctionnalités', feat_title:'Ce que labCE<br>fait pour vous',
+    f1h:'Acquisition NI-DAQmx temps réel', f1p:'Interface hybride analogique (cellule de charge Kistler ai0) + compteur linéaire (encodeur ASM ctr0) avec décodage X4. Fréquence configurable, correction de zéro automatique.',
+    f2h:'Visualisation graphique interactive', f2p:'Courbes Matplotlib temps réel avec curseur d\'inspection, zoom/pan/reset, superposition multi-courbes pour comparer plusieurs essais en direct.',
+    f3h:'Export Excel + statistiques', f3p:'Export multi-onglets avec graphiques intégrés, Min/Max/Moyenne/Écart-type par courbe, interpolation de points de référence, comparaison automatique entre essais.',
+    f4h:'Guide interactif intégré', f4p:'Écran de bienvenue, mise en évidence séquentielle des boutons pour nouveaux utilisateurs, tooltips sur tous les contrôles. Aucune formation préalable requise.',
+    f5h:'Mode simulation sans hardware', f5p:'Démarrage automatique en simulation si aucune carte NI n\'est détectée. Import Excel/CSV, analyse et export complets disponibles sans matériel.',
+    f6h:'Multi-PC via config.ini', f6p:'Déploiement sur plusieurs postes avec configuration par machine : nom du device, canaux, sensibilités, fréquence. Un seul exécutable pour tout le parc.',
+    hw_label:'Matériel testé', hw_title:'Équipements<br>compatibles',
+    hw_th1:'Paramètre', hw_th2:'Valeur', hw_th3:'Canal',
+    hw_r1a:'Cellule de charge', hw_r2a:'Plage mesure', hw_r3a:'Encodeur linéaire', hw_r4a:'Décodage', hw_r6a:'Pas encodeur', hw_r8a:'Fréquence défaut',
+    hw_note_h:'Vérification dans NI MAX', hw_note_p:'Le nom du device (ex. <code>Dev1</code>) doit correspondre à ce qui est affiché dans NI Measurement &amp; Automation Explorer.',
+    sc_label:'Captures d\'écran', sc_title:'L\'interface<br>en détail',
+    sc1:'Interface principale — vue complète', sc2:'Graphique Effort / Course temps réel', sc3:'Panneau de contrôle — acquisition', sc4:'Écran de bienvenue — guide démarrage', sc5:'Fenêtre paramètres', sc6:'Analyse et interpolation de points', sc7:'Sélection du mode de mesure',
+    dl_label:'Téléchargement', dl_title:'Choisir<br>votre package', dl_sub:'Deux versions selon que NI-DAQmx est déjà installé ou non sur le poste.',
+    dl1_desc:'Inclut NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat', dl2_desc:'NI-DAQmx déjà installé requis — labCE + INSTALLER.bat uniquement', dl3_desc:'Code source complet + requirements.txt + build scripts',
+    dl_btn:'↓ Télécharger',
+    qr_label:'Accès rapide — QR Code', qr_title:'Placez ce QR<br>près du banc', qr_sub:'Les techniciens scannent le QR code pour accéder directement à cette page depuis leur téléphone et télécharger le logiciel.',
+    qr_url_label:'URL de cette page', qr_gen:'Générer', qr_hint:'Entrez l\'adresse IP du PC qui héberge cette page sur le réseau local, puis cliquez Générer.', qr_placeholder:'QR code apparaîtra ici',
+    inst_eyebrow:'Guide d\'installation', inst_title:'Installer labCE v5.3', inst_sub:'Suivez ce guide pas à pas pour installer labCE sur Windows, avec ou sans le driver NI-DAQmx.',
+    it_auto:'⚡ Automatique', it_manual:'🔧 Manuelle', it_update:'🔄 Mise à jour', it_fix:'🐛 Dépannage',
+    ia_rec:'Méthode recommandée — 1 double-clic', ia_rec_p:'INSTALLER.bat installe NI-DAQmx, copie labCE et crée le raccourci bureau automatiquement. Prévoir 10 à 30 min.',
+    ia_chk_h:'✅ Vérifier avant de lancer',
+    chk0:'Package ZIP complètement extrait (pas lancé depuis l\'archive)', chk1:'Dossier <code>NI-DAQmx/</code> présent à côté de INSTALLER.bat', chk2:'Fichier <code>labCE_app.exe</code> présent dans le dossier', chk3:'Droits administrateur disponibles sur ce PC', chk4:'Au moins 5 GB d\'espace disque libre', chk5:'Windows 10 ou 11 (64 bits)',
+    chk_count:'0 / 6 prérequis validés', chk_launch:'🚀 Tout est prêt — lancer INSTALLER.bat',
+    ia_steps_h:'📋 Étapes détaillées',
+    ts0:'Extraire le package ZIP complet', ts0p:'Clic-droit sur <code>labCE_v5.3_Package.zip</code> → "Extraire tout" dans un dossier sans accent ni espace (ex. <code>C:\\labCE</code>).', ts0w:'Ne pas lancer depuis le ZIP', ts0wp:'Windows bloque les exécutables lancés directement depuis une archive. Extraire d\'abord.',
+    ts1:'Vérifier la structure du dossier', ts2:'Double-cliquer sur INSTALLER.bat', ts2p:'Si une fenêtre UAC apparaît → cliquer <strong>Oui</strong>. Si rien ne se passe → clic-droit → "Exécuter en tant qu\'administrateur".',
+    ts3:'Redémarrer si demandé (code 3010)', ts3p:'Si la console affiche <code>[INFO] Un redémarrage sera nécessaire</code>, redémarrez Windows normalement avant de lancer labCE.',
+    ts4:'Configurer config.ini (optionnel)', ts4p:'Le fichier est copié dans <code>%LOCALAPPDATA%\\labCE\\</code>. Adaptez le nom du device NI à votre poste.',
+    ts5:'Lancer labCE depuis le raccourci bureau', ts5h:'Sans matériel NI ?', ts5p:'labCE démarre automatiquement en mode simulation. Vous pouvez importer des fichiers CSV/Excel et utiliser toutes les fonctions d\'analyse.',
+    im_h:'Installation manuelle', im_p:'Choisissez cette méthode si INSTALLER.bat échoue, ou si vous préférez utiliser les sources Python.',
+    mm_exe:'Exécutable .exe', mm_exe_p:'Sans Python — recommandé', mm_py:'Sources Python', mm_py_p:'Pour développeurs',
+    me1:'Installer NI-DAQmx (si absent)', me2:'Créer le dossier et copier les fichiers', me3:'Lancer labCE_app.exe', me3p:'Double-cliquez sur <code>%LOCALAPPDATA%\\labCE\\labCE_app.exe</code>. Si Windows SmartScreen bloque → clic-droit sur l\'exe → Propriétés → cocher "Débloquer".',
+    mp1:'Installer Python 3.10+', mp1p:'Depuis <strong>python.org</strong>. Cocher impérativement <strong>"Add Python to PATH"</strong>.',
+    mp2:'Créer l\'environnement virtuel', mp3:'Installer les dépendances', mp4:'Lancer l\'application',
+    iu_h:'Mise à jour via UPDATE.bat', iu_p:'Seul l\'exécutable est remplacé. NI-DAQmx et config.ini ne sont pas touchés.',
+    uu1:'Récupérer le nouveau labCE_app.exe', uu1p:'Cliquer sur le bouton <strong>↓ Télécharger labCE_app.exe</strong> dans l\'onglet <em>Mises à jour</em> de ce site.',
+    uu2:'Placer exe + UPDATE.bat côte à côte', uu3:'Double-cliquer UPDATE.bat', uu3p:'Le script ferme automatiquement labCE si ouvert, puis remplace l\'exe. Résultat attendu :',
+    uu3_err:'[ERREUR] La copie a échoué', uu3_err_p:'labCE est encore ouvert → Gestionnaire des tâches → fin de tâche <code>labCE_app.exe</code> → relancer UPDATE.bat.',
+    uu4:'Vérifier la version dans la barre de titre',
+    fix_h:'Problèmes fréquents',
+    fx1:'[ERREUR] labCE_app.exe introuvable', fx1p:'<code>INSTALLER.bat</code> ou <code>UPDATE.bat</code> doit être dans le <strong>même dossier</strong> que <code>labCE_app.exe</code>.',
+    fx2:'NI-DAQmx non disponible / device non détecté', fx2_ok:'Normal sans matériel NI — labCE fonctionne en simulation. Si vous avez du matériel :',
+    fx2_1:'Vérifier que NI-DAQmx est installé (Panneau de configuration → Programmes)', fx2_2:'Ouvrir NI MAX — le device doit être visible', fx2_3:'Vérifier le champ <code>device = Dev1</code> dans <code>config.ini</code>', fx2_4:'Cliquer "🔄 Rafraîchir" dans labCE', fx2_5:'Redémarrer si NI-DAQmx vient d\'être installé',
+    fx3:'Windows SmartScreen / Antivirus bloque l\'exe', fx3_1:'Clic-droit sur <code>labCE_app.exe</code> → Propriétés', fx3_2:'En bas → cocher <strong>"Débloquer"</strong> → OK', fx3_3:'Ou : message SmartScreen → "Informations complémentaires" → "Exécuter quand même"',
+    fx4:'ModuleNotFoundError (sources Python)', fx5:'Code retour 3010 après installation NI-DAQmx', fx5h:'Pas une erreur', fx5p:'Code 3010 = installation réussie, redémarrage requis. Redémarrez Windows normalement.',
+    fx6:'Où se trouvent les fichiers installés ?', fx7:'Désinstaller labCE',
+    nav_update:'📦 Mises à jour',
+    upd_eyebrow:'Gestion des versions', upd_title:'Mises à jour<br>labCE', upd_sub:'Téléchargez la dernière version, puis lancez <code>UPDATE.bat</code> pour mettre à jour votre installation.',
+    upd_loading:'Chargement...', upd_dl:'Télécharger labCE_app.exe', upd_howto_btn:'📋 Comment installer la mise à jour',
+    upd_cl_title:'Nouveautés v', upd_proc_title:'Procédure<br>en 3 étapes',
+    upd_s1:'Télécharger le nouvel exe', upd_s1p:'Cliquer sur le bouton de téléchargement ci-dessus pour obtenir <code>labCE_app.exe</code>.',
+    upd_s2:'Placer l\'exe à côté de UPDATE.bat', upd_s2p:'Mettre <code>labCE_app.exe</code> et <code>UPDATE.bat</code> dans le même dossier sur votre PC.',
+    upd_s3:'Double-cliquer UPDATE.bat', upd_s3p:'Le script ferme labCE, remplace l\'exe et confirme le succès. Terminé.',
+    upd_admin_title:'Zone administrateur', upd_admin_badge:'Responsable logiciel',
+    upd_admin_desc:'Une seule action pour publier une mise à jour : créer une Release GitHub. Le site se met à jour automatiquement en moins de 2 minutes.',
+    upd_admin_f1_title:'Configuration initiale (1 fois)',
+    upd_admin_f1:'Ouvrir <code>index.html</code>, trouver <code>const GH = { owner: \'\' }</code> tout en haut du script et remplacer <code>\'\'</code> par votre identifiant GitHub (ex. <code>\'jean-dupont\'</code>). À faire une seule fois.',
+    upd_admin_f2_title:'Créer une Release GitHub',
+    upd_admin_f2:'Sur github.com → votre repo → <strong>Releases → New release</strong>. Tag : <code>v5.4</code>. Écrire les notes en Markdown structuré (voir ci-dessous). Joindre <code>labCE_app.exe</code> en pièce jointe. Cliquer <strong>Publish release</strong>.',
+    upd_admin_f3_title:'Automatique — &lt; 2 min',
+    upd_admin_f3:'GitHub Actions génère <code>version.json</code> depuis les notes de release et le commite sur main. GitHub Pages redéploie. Le changelog et le bouton de téléchargement se mettent à jour au prochain chargement de la page.',
+    upd_admin_cb_title:'Notes de release — format Markdown',
+    host_label:'Hébergement sans serveur', host_title:'Mettre le site en ligne<br>gratuitement', host_sub:'Deux options pour héberger cette page sur internet, sans PC allumé en permanence, sans abonnement.',
+    host_rec:'Le plus simple', host_pro:'Solution complète',
+    host_n_desc:'Glisser-déposer le dossier sur la page Netlify → URL publique en 30 secondes. Gratuit, sans compte requis.',
+    host_n1:'Aller sur <strong>netlify.com/drop</strong>', host_n2:'Glisser le dossier <code>labCE - Copy/</code> dans la zone', host_n3:'Copier l\'URL générée (ex. <code>labce-abc123.netlify.app</code>)', host_n4:'Entrer cette URL dans la section QR code → Générer',
+    host_n_warn_h:'Limite 100 MB par fichier', host_n_warn_p:'Pour le ZIP complet (3.3 GB), héberger sur Google Drive et mettre le lien dans le bouton de téléchargement.',
+    host_g_desc:'Site sur GitHub Pages + fichiers lourds comme Releases GitHub (jusqu\'à 2 GB par fichier). URL stable, mises à jour via push.',
+    host_g1:'Créer un repo sur <strong>github.com</strong>', host_g2:'Uploader les fichiers HTML/CSS/PNG dans le repo', host_g3:'Settings → Pages → Source: main → URL automatique', host_g4:'Créer une Release → attacher les ZIPs comme assets',
+    host_g_note_h:'Mises à jour 100% automatiques', host_g_note_p:'Publiez une Release GitHub avec <code>labCE_app.exe</code> en pièce jointe → GitHub Actions génère <code>version.json</code> automatiquement → le site affiche la nouvelle version en &lt; 2 min. Zéro manipulation manuelle.'
+  },
+  en:{
+    nav_pres:'🏠 Overview', nav_inst:'⚙️ Installation',
+    hero_title:'Data<br>Acquisition<br><em>for Test</em><br><em>Benches</em>',
+    hero_sub:'<strong>labCE</strong> is a professional software for real-time mechanical data acquisition, visualization and analysis — force, displacement, NI-DAQmx sensors, linear encoders.',
+    hero_cta1:'⚡ Install now', hero_cta2:'🖼 View screenshots',
+    hero_img_label:'// Main interface — click to enlarge',
+    m1:'Hz min sample rate', m2:'Simultaneous channels', m3:'Points in memory', m4:'Encoder decoding', m5:'Integrated export', m6:'Auto installation',
+    feat_label:'Features', feat_title:'What labCE<br>does for you',
+    f1h:'Real-time NI-DAQmx acquisition', f1p:'Hybrid analog interface (Kistler load cell ai0) + linear counter (ASM encoder ctr0) with X4 decoding. Configurable frequency, automatic zero correction.',
+    f2h:'Interactive graphical visualization', f2p:'Real-time Matplotlib curves with inspection cursor, zoom/pan/reset, multi-curve overlay to compare tests live.',
+    f3h:'Excel export + statistics', f3p:'Multi-sheet export with embedded charts, Min/Max/Mean/StdDev per curve, reference point interpolation, automatic comparison between tests.',
+    f4h:'Built-in interactive guide', f4p:'Welcome screen, sequential button highlighting for new users, tooltips on all controls. No prior training required.',
+    f5h:'Simulation mode without hardware', f5p:'Auto-starts in simulation if no NI card detected. Excel/CSV import, full analysis and export available without hardware.',
+    f6h:'Multi-PC via config.ini', f6p:'Deploy across multiple workstations with per-machine configuration: device name, channels, sensitivities, frequency. One executable for the entire lab.',
+    hw_label:'Tested hardware', hw_title:'Compatible<br>equipment',
+    hw_th1:'Parameter', hw_th2:'Value', hw_th3:'Channel',
+    hw_r1a:'Load cell', hw_r2a:'Measurement range', hw_r3a:'Linear encoder', hw_r4a:'Decoding', hw_r6a:'Encoder pitch', hw_r8a:'Default frequency',
+    hw_note_h:'Check in NI MAX', hw_note_p:'The device name (e.g. <code>Dev1</code>) must match what is shown in NI Measurement &amp; Automation Explorer.',
+    sc_label:'Screenshots', sc_title:'The interface<br>in detail',
+    sc1:'Main interface — full view', sc2:'Force / Displacement real-time graph', sc3:'Control panel — acquisition', sc4:'Welcome screen — startup guide', sc5:'Settings window', sc6:'Analysis and point interpolation', sc7:'Measurement mode selection',
+    dl_label:'Download', dl_title:'Choose<br>your package', dl_sub:'Two versions depending on whether NI-DAQmx is already installed.',
+    dl1_desc:'Includes NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat', dl2_desc:'NI-DAQmx already required — labCE + INSTALLER.bat only', dl3_desc:'Full source code + requirements.txt + build scripts',
+    dl_btn:'↓ Download',
+    qr_label:'Quick access — QR Code', qr_title:'Place this QR<br>near the bench', qr_sub:'Technicians scan the QR code to reach this page directly from their phone and download the software.',
+    qr_url_label:'URL of this page', qr_gen:'Generate', qr_hint:'Enter the IP address of the PC hosting this page on the local network, then click Generate.', qr_placeholder:'QR code will appear here',
+    inst_eyebrow:'Installation guide', inst_title:'Install labCE v5.3', inst_sub:'Follow this step-by-step guide to install labCE on Windows, with or without the NI-DAQmx driver.',
+    it_auto:'⚡ Automatic', it_manual:'🔧 Manual', it_update:'🔄 Update', it_fix:'🐛 Troubleshoot',
+    ia_rec:'Recommended method — 1 double-click', ia_rec_p:'INSTALLER.bat installs NI-DAQmx, copies labCE and creates the desktop shortcut automatically. Allow 10 to 30 min.',
+    ia_chk_h:'✅ Check before launching',
+    chk0:'ZIP package fully extracted (not run from the archive)', chk1:'<code>NI-DAQmx/</code> folder present next to INSTALLER.bat', chk2:'<code>labCE_app.exe</code> file present in the folder', chk3:'Administrator rights available on this PC', chk4:'At least 5 GB of free disk space', chk5:'Windows 10 or 11 (64-bit)',
+    chk_count:'0 / 6 prerequisites validated', chk_launch:'🚀 All ready — run INSTALLER.bat',
+    ia_steps_h:'📋 Detailed steps',
+    ts0:'Extract the full ZIP package', ts0p:'Right-click <code>labCE_v5.3_Package.zip</code> → "Extract All" to a folder without accents or spaces (e.g. <code>C:\\labCE</code>).', ts0w:'Do not run from the ZIP', ts0wp:'Windows may block executables run directly from an archive. Extract first.',
+    ts1:'Verify the folder structure', ts2:'Double-click INSTALLER.bat', ts2p:'If a UAC window appears → click <strong>Yes</strong>. If nothing happens → right-click → "Run as administrator".',
+    ts3:'Restart if prompted (code 3010)', ts3p:'If the console shows <code>[INFO] A restart will be required</code>, restart Windows normally before launching labCE.',
+    ts4:'Configure config.ini (optional)', ts4p:'The file is copied to <code>%LOCALAPPDATA%\\labCE\\</code>. Adjust the NI device name for your workstation.',
+    ts5:'Launch labCE from the desktop shortcut', ts5h:'No NI hardware?', ts5p:'labCE automatically starts in simulation mode. You can import CSV/Excel files and use all analysis functions.',
+    im_h:'Manual installation', im_p:'Choose this method if INSTALLER.bat fails, or if you prefer to use the Python sources.',
+    mm_exe:'Executable .exe', mm_exe_p:'No Python needed — recommended', mm_py:'Python sources', mm_py_p:'For developers',
+    me1:'Install NI-DAQmx (if absent)', me2:'Create folder and copy files', me3:'Launch labCE_app.exe', me3p:'Double-click <code>%LOCALAPPDATA%\\labCE\\labCE_app.exe</code>. If Windows SmartScreen blocks → right-click → Properties → check "Unblock".',
+    mp1:'Install Python 3.10+', mp1p:'From <strong>python.org</strong>. Check <strong>"Add Python to PATH"</strong>.',
+    mp2:'Create virtual environment', mp3:'Install dependencies', mp4:'Launch the application',
+    iu_h:'Update via UPDATE.bat', iu_p:'Only the executable is replaced. NI-DAQmx and config.ini are not touched.',
+    uu1:'Get the new labCE_app.exe', uu1p:'Click the <strong>↓ Download labCE_app.exe</strong> button in the <em>Updates</em> tab of this site.',
+    uu2:'Place exe + UPDATE.bat side by side', uu3:'Double-click UPDATE.bat', uu3p:'The script automatically closes labCE if open, then replaces the exe. Expected result:',
+    uu3_err:'[ERROR] Copy failed', uu3_err_p:'labCE is still open → Task Manager → end task <code>labCE_app.exe</code> → re-run UPDATE.bat.',
+    uu4:'Verify the version in the title bar',
+    fix_h:'Common issues',
+    fx1:'[ERROR] labCE_app.exe not found', fx1p:'<code>INSTALLER.bat</code> or <code>UPDATE.bat</code> must be in the <strong>same folder</strong> as <code>labCE_app.exe</code>.',
+    fx2:'NI-DAQmx unavailable / device not detected', fx2_ok:'Normal without NI hardware — labCE runs in simulation. If you have hardware:',
+    fx2_1:'Verify NI-DAQmx is installed (Control Panel → Programs)', fx2_2:'Open NI MAX — the device must be visible', fx2_3:'Check <code>device = Dev1</code> in <code>config.ini</code>', fx2_4:'Click "🔄 Refresh" in labCE', fx2_5:'Restart if NI-DAQmx was just installed',
+    fx3:'Windows SmartScreen / Antivirus blocks the exe', fx3_1:'Right-click <code>labCE_app.exe</code> → Properties', fx3_2:'At the bottom → check <strong>"Unblock"</strong> → OK', fx3_3:'Or: SmartScreen message → "More info" → "Run anyway"',
+    fx4:'ModuleNotFoundError (Python sources)', fx5:'Return code 3010 after NI-DAQmx installation', fx5h:'Not an error', fx5p:'Code 3010 = successful installation, restart required. Restart Windows normally.',
+    fx6:'Where are the installed files?', fx7:'Uninstall labCE',
+    nav_update:'📦 Updates',
+    upd_eyebrow:'Version management', upd_title:'labCE<br>Updates', upd_sub:'Download the latest version, then run <code>UPDATE.bat</code> to update your installation.',
+    upd_loading:'Loading...', upd_dl:'Download labCE_app.exe', upd_howto_btn:'📋 How to install the update',
+    upd_cl_title:'What\'s new in v', upd_proc_title:'3-step<br>procedure',
+    upd_s1:'Download the new exe', upd_s1p:'Click the download button above to get <code>labCE_app.exe</code>.',
+    upd_s2:'Place exe next to UPDATE.bat', upd_s2p:'Put <code>labCE_app.exe</code> and <code>UPDATE.bat</code> in the same folder on your PC.',
+    upd_s3:'Double-click UPDATE.bat', upd_s3p:'The script closes labCE, replaces the exe and confirms success. Done.',
+    upd_admin_title:'Administrator area', upd_admin_badge:'Software manager',
+    upd_admin_desc:'One action to publish an update: create a GitHub Release. The site updates automatically in under 2 minutes.',
+    upd_admin_f1_title:'Initial setup (once)',
+    upd_admin_f1:'Open <code>index.html</code>, find <code>const GH = { owner: \'\' }</code> at the top of the script and replace <code>\'\'</code> with your GitHub username (e.g. <code>\'jean-dupont\'</code>). One-time setup.',
+    upd_admin_f2_title:'Create a GitHub Release',
+    upd_admin_f2:'On github.com → your repo → <strong>Releases → New release</strong>. Tag: <code>v5.4</code>. Write notes in structured Markdown (see below). Attach <code>labCE_app.exe</code>. Click <strong>Publish release</strong>.',
+    upd_admin_f3_title:'Automatic — &lt; 2 min',
+    upd_admin_f3:'GitHub Actions generates <code>version.json</code> from the release notes and commits it to main. GitHub Pages redeploys. The changelog and download button update on next page load.',
+    upd_admin_cb_title:'Release notes — Markdown format',
+    host_label:'Serverless hosting', host_title:'Go live<br>for free', host_sub:'Two options to host this page online, without a PC running 24/7, without a subscription.',
+    host_rec:'Simplest', host_pro:'Complete solution',
+    host_n_desc:'Drag and drop the folder to the Netlify page → public URL in 30 seconds. Free, no account required.',
+    host_n1:'Go to <strong>netlify.com/drop</strong>', host_n2:'Drag the <code>labCE - Copy/</code> folder into the drop zone', host_n3:'Copy the generated URL (e.g. <code>labce-abc123.netlify.app</code>)', host_n4:'Enter this URL in the QR code section → Generate',
+    host_n_warn_h:'100 MB file limit', host_n_warn_p:'For the full ZIP (3.3 GB), host on Google Drive and update the download button link.',
+    host_g_desc:'Site on GitHub Pages + large files as GitHub Releases (up to 2 GB per file). Stable URL, updates via push.',
+    host_g1:'Create a repo on <strong>github.com</strong>', host_g2:'Upload HTML/CSS/PNG files to the repo', host_g3:'Settings → Pages → Source: main → automatic URL', host_g4:'Create a Release → attach ZIPs as assets',
+    host_g_note_h:'100% automatic updates', host_g_note_p:'Publish a GitHub Release with <code>labCE_app.exe</code> attached → GitHub Actions generates <code>version.json</code> automatically → the site shows the new version in &lt; 2 min. Zero manual steps.'
+  }
+};
+
+let lang = 'fr';
+let lastVersionData = null; // mémorise les données de version pour le re-render au toggle
+
+function toggleLang(){
+  lang = lang==='fr'?'en':'fr';
+  document.getElementById('lang-toggle').textContent = lang==='fr'?'EN':'FR';
+  document.documentElement.lang = lang;
+  applyLang();
+}
+function applyLang(){
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k = el.getAttribute('data-i18n');
+    if(T[lang][k]!==undefined) el.innerHTML = T[lang][k];
+  });
+  // Recréer cl-ver si le innerHTML de son parent h2 l'a effacé
+  const clHead = document.querySelector('[data-i18n="upd_cl_title"]');
+  if(clHead && !document.getElementById('cl-ver')){
+    const sp = document.createElement('span');
+    sp.id = 'cl-ver';
+    clHead.appendChild(sp);
+  }
+  updateChkCounter();
+  // Re-render changelog + badges avec la nouvelle langue
+  if(lastVersionData) applyVersionData(lastVersionData);
+}
+
+/* ─── TABS ─── */
+function switchTab(t){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  const idx = ['pres','install','update'].indexOf(t);
+  if(idx>=0) document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function switchInst(t){
+  document.querySelectorAll('.inst-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.inst-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('inst-'+t).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+/* ─── CHECKLIST ─── */
+const CHK_KEY='labce-chk-v1';
+let chkState = JSON.parse(localStorage.getItem(CHK_KEY)||'[false,false,false,false,false,false]');
+function initChk(){
+  chkState.forEach((v,i)=>{
+    if(v) document.querySelectorAll('.chk-item')[i]?.classList.add('checked');
+    const box=document.getElementById('cb'+i);
+    if(box&&v) box.textContent='✓';
+  });
+  updateChkCounter();
+}
+function toggleChk(el,i){
+  chkState[i]=!chkState[i];
+  el.classList.toggle('checked',chkState[i]);
+  const box=document.getElementById('cb'+i);
+  if(box) box.textContent=chkState[i]?'✓':'';
+  localStorage.setItem(CHK_KEY,JSON.stringify(chkState));
+  updateChkCounter();
+}
+function updateChkCounter(){
+  const done=chkState.filter(Boolean).length;
+  const total=6;
+  const pct=Math.round(done/total*100);
+  const txt=document.getElementById('chk-text');
+  const pctEl=document.getElementById('chk-pct');
+  const btn=document.getElementById('launch-btn');
+  if(txt) txt.textContent=(lang==='fr'?`${done} / ${total} prérequis validés`:`${done} / ${total} prerequisites validated`);
+  if(pctEl) pctEl.textContent=pct+'%';
+  if(btn) btn.disabled=done<total;
+}
+
+/* ─── TIMELINE STEPS ─── */
+const STEP_KEY='labce-steps-v1';
+let stepState = JSON.parse(localStorage.getItem(STEP_KEY)||'{}');
+function doneStep(id){
+  stepState[id]=!stepState[id];
+  localStorage.setItem(STEP_KEY,JSON.stringify(stepState));
+  const el=document.getElementById('ts'+id)||document.getElementById(id);
+  if(!el)return;
+  el.classList.toggle('done',stepState[id]);
+  el.textContent=stepState[id]?'✓':(parseInt(id)+1||'?');
+}
+function initSteps(){
+  Object.entries(stepState).forEach(([id,v])=>{
+    const el=document.getElementById('ts'+id)||document.getElementById(id);
+    if(el&&v){el.classList.add('done');el.textContent='✓';}
+  });
+}
+
+/* ─── METHOD TOGGLE ─── */
+function selMethod(m,card){
+  document.querySelectorAll('.method-card').forEach(c=>c.classList.remove('sel'));
+  card.classList.add('sel');
+  document.getElementById('m-exe').style.display=m==='exe'?'block':'none';
+  document.getElementById('m-py').style.display=m==='py'?'block':'none';
+}
+
+/* ─── ACCORDION ─── */
+function toggleAcc(h){h.closest('.acc-item').classList.toggle('open')}
+
+/* ─── CAROUSEL ─── */
+function scrollCar(dir){
+  const t=document.getElementById('ct');
+  const w=t.querySelector('.c-slide')?.offsetWidth||400;
+  t.scrollBy({left:dir*(w+14),behavior:'smooth'});
+}
+/* drag scroll */
+(function(){
+  const el=document.getElementById('ct');
+  if(!el)return;
+  let down=false,sx=0,sl=0;
+  el.addEventListener('mousedown',e=>{down=true;sx=e.pageX-el.offsetLeft;sl=el.scrollLeft});
+  el.addEventListener('mouseleave',()=>down=false);
+  el.addEventListener('mouseup',()=>down=false);
+  el.addEventListener('mousemove',e=>{if(!down)return;e.preventDefault();el.scrollLeft=sl-(e.pageX-el.offsetLeft-sx)});
+})();
+
+/* ─── LIGHTBOX ─── */
+function openLb(src){
+  document.getElementById('lb-img').src=src;
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLb(){
+  document.getElementById('lb').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('lb').addEventListener('click',function(e){if(e.target===this)closeLb()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb()});
+
+/* ─── COPY ─── */
+function copyTxt(t){
+  navigator.clipboard.writeText(t).then(()=>{
+    const b=event.currentTarget;
+    const o=b.textContent;b.textContent='✓';b.style.color='var(--green)';
+    setTimeout(()=>{b.textContent=o;b.style.color=''},2000);
+  });
+}
+
+/* ─── VERSION — GitHub Releases API ou version.json local ─── */
+function parseMarkdownChangelog(body){
+  const TYPE_MAP={
+    'nouveau':'new','nouveauté':'new','ajout':'new','new':'new','add':'new','feat':'new',
+    'correction':'fix','correctif':'fix','fix':'fix','bug':'fix',
+    'amélioration':'improve','amélior':'improve','improve':'improve','perf':'improve','optimis':'improve'
+  };
+  function detectType(h){
+    const s=h.toLowerCase();
+    for(const[k,v] of Object.entries(TYPE_MAP)){if(s.includes(k))return v;}
+    return 'new';
+  }
+  const log=[];let curType='new';
+  for(const line of body.split('\n')){
+    const s=line.trim();
+    if(s.startsWith('##')){curType=detectType(s.replace(/^#+\s*/,''));}
+    else if(s.match(/^[-*•] /)){
+      const txt=s.slice(2).trim();
+      if(txt) log.push({type:curType,text:txt});
+    }
+  }
+  return log.length?log:[{type:'new',text:(lang==='fr'?'Voir les notes de version sur GitHub':'See full release notes on GitHub')}];
+}
+
+function applyVersionData(d){
+  lastVersionData = d;
+  // nav badge + title + footer
+  document.querySelectorAll('.nav-ver').forEach(el=>el.textContent='v'+d.version);
+  document.title='labCE v'+d.version;
+  const footerVer=document.getElementById('footer-ver');
+  if(footerVer) footerVer.textContent='v'+d.version;
+  // update tab banner
+  const verNum=document.getElementById('ver-num');
+  if(verNum) verNum.textContent='v'+d.version;
+  const clVer=document.getElementById('cl-ver');
+  if(clVer) clVer.textContent=d.version;
+  const label=document.getElementById('ver-label');
+  if(label) label.textContent=(lang==='fr'?'Dernière version stable':'Latest stable release');
+  const dateEl=document.getElementById('ver-date');
+  if(dateEl) dateEl.textContent=(lang==='fr'?'Publiée le ':'Released ')+d.date+(d.size_mb?' — '+d.size_mb+' MB':'');
+  const dlBtn=document.getElementById('ver-dl-btn');
+  if(dlBtn&&d.exe_url){dlBtn.href=d.exe_url;dlBtn.removeAttribute('download');}
+  else if(dlBtn&&d.exe_filename){dlBtn.href=d.exe_filename;dlBtn.download=d.exe_filename;}
+  // changelog
+  const list=document.getElementById('changelog-list');
+  if(list&&d.changelog&&d.changelog.length){
+    list.innerHTML=d.changelog.map(c=>{
+      const cls=c.type==='new'?'cl-new':c.type==='fix'?'cl-fix':'cl-imp';
+      const lbl=c.type==='new'?(lang==='fr'?'Nouveau':'New'):c.type==='fix'?(lang==='fr'?'Correction':'Fix'):(lang==='fr'?'Amélio.':'Improve');
+      return`<div class="cl-item"><span class="cl-badge ${cls}">${lbl}</span><span class="cl-text">${c.text}</span></div>`;
+    }).join('');
+  }
+}
+
+async function fetchVersion(){
+  // ── Cas 1 : GitHub Releases API (si GH.owner configuré) ──
+  if(GH.owner){
+    try{
+      const apiUrl=`https://api.github.com/repos/${GH.owner}/${GH.repo}/releases/latest`;
+      const r=await fetch(apiUrl,{headers:{Accept:'application/vnd.github+json'}});
+      if(!r.ok) throw new Error('GitHub API '+r.status);
+      const rel=await r.json();
+      const version=rel.tag_name.replace(/^v/,'');
+      const date=rel.published_at?rel.published_at.slice(0,10):'';
+      const exeAsset=rel.assets?.find(a=>a.name==='labCE_app.exe');
+      const size_mb=exeAsset?Math.round(exeAsset.size/1024/1024):0;
+      const exe_url=`https://github.com/${GH.owner}/${GH.repo}/releases/latest/download/labCE_app.exe`;
+      const changelog=parseMarkdownChangelog(rel.body||'');
+      applyVersionData({version,date,size_mb,exe_url,changelog});
+      return;
+    }catch(e){console.warn('GitHub Releases API inaccessible, repli sur version.json',e);}
+  }
+  // ── Cas 2 : version.json local (fallback) ──
+  try{
+    const r=await fetch('version.json?nocache='+Date.now());
+    if(!r.ok) throw new Error('version.json '+r.status);
+    const d=await r.json();
+    // Construit exe_url depuis package_url si absent
+    if(!d.exe_url&&GH.owner) d.exe_url=`https://github.com/${GH.owner}/${GH.repo}/releases/latest/download/labCE_app.exe`;
+    applyVersionData(d);
+  }catch(e){
+    const label=document.getElementById('ver-label');
+    if(label) label.textContent=(lang==='fr'?'Version non disponible — configurez GH.owner ou hébergez le site':'Version unavailable — set GH.owner or host the site');
+    console.error('fetchVersion:',e);
+  }
+}
+
+/* ─── GH CONFIG STATUS ─── */
+function checkGHConfig(){
+  const el=document.getElementById('gh-config-status');
+  if(!el) return;
+  if(!GH.owner){
+    el.innerHTML=`<div class="alert a-warn" style="margin:0"><div class="alert-body"><h4>⚠️ GH.owner non configuré</h4><p>Ouvrir <code>index.html</code>, chercher <code>const GH</code> tout en haut du script et renseigner votre identifiant GitHub pour activer les mises à jour automatiques.</p></div></div>`;
+  } else {
+    el.innerHTML=`<div class="alert a-ok" style="margin:0"><div class="alert-body"><h4>✅ Connecté — ${GH.owner}/${GH.repo}</h4><p>Les mises à jour automatiques sont actives. Créez une Release GitHub pour publier une nouvelle version.</p></div></div>`;
+  }
+}
+
+/* ─── QR CODE ─── */
+function genQR(){
+  const url=document.getElementById('qr-url').value.trim();
+  if(!url)return;
+  const box=document.getElementById('qr-box');
+  const img=document.createElement('img');
+  img.src=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=10&data=${encodeURIComponent(url)}`;
+  img.style.cssText='width:100%;height:100%;object-fit:contain';
+  img.alt='QR Code';
+  box.innerHTML='';
+  box.appendChild(img);
+}
+
+/* ─── SCROLL ANIMATIONS ─── */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}
+  });
+},{threshold:.08});
+document.querySelectorAll('.feat-item,.panel,.dl-card,.prereq-card,.tl-step,.acc-item').forEach(el=>{
+  el.style.cssText+='opacity:0;transform:translateY(12px);transition:opacity .4s ease,transform .4s ease';
+  obs.observe(el);
+});
+
+/* ─── INIT ─── */
+document.addEventListener('DOMContentLoaded',()=>{
+  initChk();
+  initSteps();
+  checkGHConfig();
+  document.getElementById('qr-url').value=window.location.href;
+  fetchVersion();
+  // Print date attr
+  document.getElementById('page-install')?.setAttribute('data-date',new Date().toLocaleDateString('fr-FR'));
+});
+</script>
+</body>
+</html>
