@@ -1,20 +1,47 @@
 {
   "version": "5.3",
-  "date": "2026-04-16",
+  "date": "2026-04-19",
   "exe_filename": "labCE_app.exe",
-  "package_url": "labCE_v5.3_FINAL.zip",
-  "package_full_url": "labCE_v5.3_Package.zip",
-  "size_mb": 82,
+  "exe_url": "https://github.com/SOUARENK/labce/releases/latest/download/labCE_app.exe",
+  "package_url": "https://github.com/SOUARENK/labce/releases/latest/download/labCE_app.exe",
+  "size_mb": 0,
   "changelog": [
-    { "type": "new", "text": "Acquisition hybride NI-DAQmx analogique + encodeur linéaire ASM PMIS3-20" },
-    { "type": "new", "text": "Décodage X4 encodeur, PFI8/9/10 configurables" },
-    { "type": "new", "text": "Export Excel multi-courbes avec graphiques intégrés et statistiques par courbe" },
-    { "type": "new", "text": "Guide interactif avec mise en évidence séquentielle des boutons" },
-    { "type": "new", "text": "Mode simulation automatique si aucun device NI détecté" },
-    { "type": "fix", "text": "Performance graphique temps réel améliorée (×10 vs v4.x)" },
-    { "type": "fix", "text": "Correction correction de zéro automatique sur les deux canaux" },
-    { "type": "fix", "text": "Stabilité acquisition longue durée (>1M points)" },
-    { "type": "improve", "text": "Déploiement multi-PC via config.ini par machine" },
-    { "type": "improve", "text": "Installateur automatique NI-DAQmx silencieux (INSTALLER.bat)" }
-  ]
+    {
+      "type": "new",
+      "text": "Acquisition hybride NI-DAQmx analogique + encodeur linéaire ASM PMIS3-20"
+    },
+    {
+      "type": "new",
+      "text": "Décodage X4 encodeur, PFI8/9/10 configurables"
+    },
+    {
+      "type": "new",
+      "text": "Export Excel multi-courbes avec graphiques intégrés et statistiques par courbe"
+    },
+    {
+      "type": "new",
+      "text": "Guide interactif avec mise en évidence séquentielle des boutons"
+    },
+    {
+      "type": "improve",
+      "text": "Zéro automatique en cours d'acquisition"
+    },
+    {
+      "type": "improve",
+      "text": "Sauvegarde/rechargement des essais nommés"
+    },
+    {
+      "type": "improve",
+      "text": "Interface bilingue FR/EN"
+    },
+    {
+      "type": "new",
+      "text": "**Package léger** (78 MB) : labCE + INSTALLER.bat — NI-DAQmx requis déjà installé"
+    },
+    {
+      "type": "new",
+      "text": "**Sources Python** (126 KB) : code source complet"
+    }
+  ],
+  "gh_release": "https://github.com/SOUARENK/labce/releases/latest"
 }
