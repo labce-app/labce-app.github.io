@@ -1136,7 +1136,7 @@ Lancez l'application depuis le raccourci sur le bureau.</code></div></div>
           <div class="host-step" style="padding:8px 0;border-bottom:1px solid var(--border)"><div class="host-num" style="font-size:1rem;min-width:22px">1</div><p style="font-size:.84rem" data-i18n="host_n1">Aller sur <strong>netlify.com/drop</strong></p></div>
           <div class="host-step" style="padding:8px 0;border-bottom:1px solid var(--border)"><div class="host-num" style="font-size:1rem;min-width:22px">2</div><p style="font-size:.84rem" data-i18n="host_n2">Glisser le dossier <code>labCE - Copy/</code> dans la zone</p></div>
           <div class="host-step" style="padding:8px 0;border-bottom:1px solid var(--border)"><div class="host-num" style="font-size:1rem;min-width:22px">3</div><p style="font-size:.84rem" data-i18n="host_n3">Copier l'URL générée (ex. <code>labce-abc123.netlify.app</code>)</p></div>
-          <div class="host-step" style="padding:8px 0"><div class="host-num" style="font-size:1rem;color:var(--green);min-width:22px">✓</div><p style="font-size:.84rem" data-i18n="host_n4">Entrer cette URL dans la section QR code → Générer</p></div>
+          <div class="host-step" style="padding:8px 0"><div class="host-num" style="font-size:1rem;color:var(--green);min-width:22px">✓</div><p style="font-size:.84rem" data-i18n="host_n4">Partager l'URL générée (section "Sur téléphone ?" → Copier)</p></div>
         </div>
         <div class="alert a-warn" style="margin:0"><div class="alert-body"><h4 data-i18n="host_n_warn_h">Limite 100 MB par fichier</h4><p data-i18n="host_n_warn_p">Pour le ZIP complet (3.3 GB), héberger sur Google Drive et mettre le lien dans le bouton de téléchargement.</p></div></div>
       </div>
@@ -1701,7 +1701,6 @@ function checkGHConfig(){
   }
 }
 
-/* ─── QR CODE ─── */
 /* ─── MOBILE → PC TRANSFER ─── */
 function getMtUrl(){
   return GH.owner
