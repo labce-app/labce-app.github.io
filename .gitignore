@@ -39,3 +39,10 @@ desktop.ini
 *.tmp
 *.bak
 ~$*
+
+# ─── Obsidian ───
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+.obsidian/.trash/
+notes/assets/

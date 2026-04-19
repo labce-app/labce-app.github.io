@@ -1,0 +1,9 @@
+{
+  "useMarkdownLinks": true,
+  "newFileLocation": "folder",
+  "newFileFolderPath": "notes",
+  "attachmentFolderPath": "notes/assets",
+  "spellcheck": false,
+  "defaultViewMode": "source",
+  "vimMode": false
+}
