@@ -154,14 +154,21 @@ code{font-family:var(--font-m);font-size:.84em;color:var(--amber);background:var
 .dl-name{font-weight:600;font-size:.95rem;color:var(--t1);margin-bottom:3px}
 .dl-desc{font-size:.82rem;color:var(--t2)}
 .dl-size{font-family:var(--font-m);font-size:.72rem;color:var(--t2);border:1px solid var(--border);padding:3px 8px;border-radius:var(--r);white-space:nowrap}
-/* ─── QR SECTION ─── */
-.qr-panel{background:var(--panel);border:1px solid var(--border-a);border-radius:var(--r2);padding:32px;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center}
-.qr-box{width:200px;height:200px;background:white;border-radius:var(--r2);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
-.qr-box img{width:100%;height:100%;object-fit:contain}
-.qr-placeholder{width:160px;height:160px;border:2px dashed var(--t3);border-radius:var(--r);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;text-align:center;padding:16px}
-.qr-input-row{display:flex;gap:8px;margin-top:12px}
-.qr-input{flex:1;background:var(--surface);border:1px solid var(--border);color:var(--t1);padding:9px 14px;border-radius:var(--r);font-family:var(--font-m);font-size:.82rem;outline:none;transition:border-color .18s}
-.qr-input:focus{border-color:var(--border-a)}
+/* ─── MOBILE TRANSFER ─── */
+.mt-panel{background:var(--panel);border:1px solid var(--border-a);border-radius:var(--r2);padding:28px;display:flex;flex-direction:column;gap:0}
+.mt-separator{text-align:center;font-size:.72rem;color:var(--t3);font-family:var(--font-m);letter-spacing:.05em;margin:14px 0;position:relative}
+.mt-separator::before,.mt-separator::after{content:'';position:absolute;top:50%;width:calc(50% - 56px);height:1px;background:var(--border)}
+.mt-separator::before{left:0}.mt-separator::after{right:0}
+.mt-row{display:flex;gap:8px}
+.mt-input{flex:1;background:var(--surface);border:1px solid var(--border);color:var(--t2);padding:9px 14px;border-radius:var(--r);font-family:var(--font-m);font-size:.78rem;outline:none;transition:border-color .18s;min-width:0}
+.mt-input:focus{border-color:var(--border-a)}
+.mt-methods{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.mt-method{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);cursor:pointer;transition:all .18s;font-family:var(--font-b);font-size:.85rem;color:var(--t1)}
+.mt-method:hover{border-color:var(--border-a);background:var(--panel-h)}
+.mt-method-icon{font-size:1.2rem;flex-shrink:0;width:28px;text-align:center}
+.mt-method-text{flex:1}
+.mt-method-text strong{display:block;font-size:.85rem;color:var(--t1)}
+.mt-method-text span{font-size:.75rem;color:var(--t3)}
 /* ─── INSTALL PAGE ─── */
 #page-install{padding:64px 0}
 .install-subnav{display:flex;gap:2px;margin-bottom:36px;border-bottom:1px solid var(--border)}
@@ -244,8 +251,6 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 @media(max-width:820px){
   .hero-grid,.grid2,.grid3,.grid4{grid-template-columns:1fr}
   .method-row{grid-template-columns:1fr}
-  .qr-panel{grid-template-columns:1fr}
-  .qr-box{width:100%;height:auto}
   .metrics-inner{gap:12px}.metric{flex:1 1 40%}
   .metric-sep{display:none}
   .c-slide{flex:0 0 85%}
@@ -387,7 +392,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 
 /* ─── PRINT ─── */
 @media print{
-  #nav,footer,.hero-actions,.carousel-btns,.c-btn,.qr-panel .btn,.dl-card .btn,
+  #nav,footer,.hero-actions,.carousel-btns,.c-btn,.mt-panel,.dl-card .btn,
   .cb-copy,.lang-btn,#screenshots,.sec-s:last-child,
   .install-subnav,.nav-right,#tab-pres,#tab-update{display:none!important}
   body{background:#fff!important;color:#111!important;font-size:10.5pt;background-image:none!important}
@@ -694,26 +699,34 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
             </div>
           </div>
         </div>
-        <!-- QR CODE -->
+        <!-- MOBILE → PC TRANSFER -->
         <div>
-          <div class="sec-label"><span data-i18n="qr_label">Accès rapide — QR Code</span></div>
-          <h2 class="h-display h-md" style="margin-bottom:8px" data-i18n="qr_title">Placez ce QR<br>près du banc</h2>
-          <p style="margin-bottom:20px" data-i18n="qr_sub">Les techniciens scannent le QR code pour accéder directement à cette page depuis leur téléphone et télécharger le logiciel.</p>
-          <div class="qr-panel">
-            <div>
-              <div class="label" style="margin-bottom:8px" data-i18n="qr_url_label">URL de cette page</div>
-              <div class="qr-input-row">
-                <input class="qr-input" id="qr-url" type="text" placeholder="http://192.168.1.x:7842">
-                <button class="btn btn-amber" onclick="genQR()" data-i18n="qr_gen">Générer</button>
-              </div>
-              <p style="margin-top:10px;font-size:.8rem" data-i18n="qr_hint">Entrez l'adresse IP du PC qui héberge cette page sur le réseau local, puis cliquez Générer.</p>
+          <div class="sec-label"><span data-i18n="mt_label">Sur téléphone ?</span></div>
+          <h2 class="h-display h-md" style="margin-bottom:8px" data-i18n="mt_title">Envoyez le lien<br>sur votre PC</h2>
+          <p style="margin-bottom:20px" data-i18n="mt_sub">Vous consultez depuis un téléphone ? Partagez le lien du site directement vers votre ordinateur Windows pour lancer le téléchargement.</p>
+          <div class="mt-panel">
+            <div class="mt-methods">
+              <button class="mt-method" onclick="sharePageLink()" id="btn-mt-share">
+                <span class="mt-method-icon">📤</span>
+                <div class="mt-method-text">
+                  <strong data-i18n="mt_share_title">Partager via WhatsApp / Email / SMS…</strong>
+                  <span data-i18n="mt_share_sub">Ouvre le menu de partage natif de votre téléphone</span>
+                </div>
+              </button>
+              <button class="mt-method" onclick="openEmail()" id="btn-mt-email">
+                <span class="mt-method-icon">✉️</span>
+                <div class="mt-method-text">
+                  <strong data-i18n="mt_email_title">S'envoyer un e-mail</strong>
+                  <span data-i18n="mt_email_sub">Ouvre votre appli e-mail avec le lien pré-rempli</span>
+                </div>
+              </button>
             </div>
-            <div class="qr-box" id="qr-box">
-              <div class="qr-placeholder">
-                <div style="font-size:2rem">⬛</div>
-                <p style="font-size:.72rem;color:var(--t2)" data-i18n="qr_placeholder">QR code apparaîtra ici</p>
-              </div>
+            <div class="mt-separator" data-i18n="mt_or">ou copiez le lien</div>
+            <div class="mt-row">
+              <input class="mt-input" id="mt-link" readonly>
+              <button class="btn btn-ghost" id="btn-mt-copy" onclick="copyMtLink()" data-i18n="mt_copy">📋 Copier</button>
             </div>
+            <p style="font-size:.76rem;color:var(--t3);margin-top:10px;line-height:1.5" data-i18n="mt_hint">Collez ce lien dans le navigateur de votre PC pour accéder au téléchargement.</p>
           </div>
         </div>
       </div>
@@ -1195,8 +1208,10 @@ const T = {
     dl_label:'Téléchargement', dl_title:'Choisir<br>votre package', dl_sub:'Deux versions selon que NI-DAQmx est déjà installé ou non sur le poste.',
     dl1_desc:'Inclut NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat', dl2_desc:'NI-DAQmx déjà installé requis — labCE + INSTALLER.bat uniquement', dl3_desc:'Code source complet + requirements.txt + build scripts',
     dl_btn:'↓ Télécharger',
-    qr_label:'Accès rapide — QR Code', qr_title:'Placez ce QR<br>près du banc', qr_sub:'Les techniciens scannent le QR code pour accéder directement à cette page depuis leur téléphone et télécharger le logiciel.',
-    qr_url_label:'URL de cette page', qr_gen:'Générer', qr_hint:'Entrez l\'adresse IP du PC qui héberge cette page sur le réseau local, puis cliquez Générer.', qr_placeholder:'QR code apparaîtra ici',
+    mt_label:'Sur téléphone ?', mt_title:'Envoyez le lien<br>sur votre PC', mt_sub:'Vous consultez depuis un téléphone ? Partagez le lien du site directement vers votre ordinateur Windows pour lancer le téléchargement.',
+    mt_share_title:'Partager via WhatsApp / Email / SMS…', mt_share_sub:'Ouvre le menu de partage natif de votre téléphone',
+    mt_email_title:'S\'envoyer un e-mail', mt_email_sub:'Ouvre votre appli e-mail avec le lien pré-rempli',
+    mt_or:'ou copiez le lien', mt_copy:'📋 Copier', mt_hint:'Collez ce lien dans le navigateur de votre PC pour accéder au téléchargement.',
     inst_eyebrow:'Guide d\'installation', inst_title:'Installer labCE v5.3', inst_sub:'Suivez ce guide pas à pas pour installer labCE sur Windows, avec ou sans le driver NI-DAQmx.',
     it_auto:'⚡ Automatique', it_manual:'🔧 Manuelle', it_update:'🔄 Mise à jour', it_fix:'🐛 Dépannage',
     ia_rec:'Méthode recommandée — 1 double-clic', ia_rec_p:'INSTALLER.bat installe NI-DAQmx, copie labCE et crée le raccourci bureau automatiquement. Prévoir 10 à 30 min.',
@@ -1245,7 +1260,7 @@ const T = {
     host_label:'Hébergement sans serveur', host_title:'Mettre le site en ligne<br>gratuitement', host_sub:'Deux options pour héberger cette page sur internet, sans PC allumé en permanence, sans abonnement.',
     host_rec:'Le plus simple', host_pro:'Solution complète',
     host_n_desc:'Glisser-déposer le dossier sur la page Netlify → URL publique en 30 secondes. Gratuit, sans compte requis.',
-    host_n1:'Aller sur <strong>netlify.com/drop</strong>', host_n2:'Glisser le dossier <code>labCE - Copy/</code> dans la zone', host_n3:'Copier l\'URL générée (ex. <code>labce-abc123.netlify.app</code>)', host_n4:'Entrer cette URL dans la section QR code → Générer',
+    host_n1:'Aller sur <strong>netlify.com/drop</strong>', host_n2:'Glisser le dossier <code>labCE - Copy/</code> dans la zone', host_n3:'Copier l\'URL générée (ex. <code>labce-abc123.netlify.app</code>)', host_n4:'Partager l\'URL générée avec les utilisateurs (section "Sur téléphone ?" → Copier)',
     host_n_warn_h:'Limite 100 MB par fichier', host_n_warn_p:'Pour le ZIP complet (3.3 GB), héberger sur Google Drive et mettre le lien dans le bouton de téléchargement.',
     host_g_desc:'Site sur GitHub Pages + fichiers lourds comme Releases GitHub (jusqu\'à 2 GB par fichier). URL stable, mises à jour via push.',
     host_g1:'Créer un repo sur <strong>github.com</strong>', host_g2:'Uploader les fichiers HTML/CSS/PNG dans le repo', host_g3:'Settings → Pages → Source: main → URL automatique', host_g4:'Créer une Release → attacher les ZIPs comme assets',
@@ -1275,8 +1290,10 @@ const T = {
     dl_label:'Download', dl_title:'Choose<br>your package', dl_sub:'Two versions depending on whether NI-DAQmx is already installed.',
     dl1_desc:'Includes NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat', dl2_desc:'NI-DAQmx already required — labCE + INSTALLER.bat only', dl3_desc:'Full source code + requirements.txt + build scripts',
     dl_btn:'↓ Download',
-    qr_label:'Quick access — QR Code', qr_title:'Place this QR<br>near the bench', qr_sub:'Technicians scan the QR code to reach this page directly from their phone and download the software.',
-    qr_url_label:'URL of this page', qr_gen:'Generate', qr_hint:'Enter the IP address of the PC hosting this page on the local network, then click Generate.', qr_placeholder:'QR code will appear here',
+    mt_label:'On your phone?', mt_title:'Send the link<br>to your PC', mt_sub:'Browsing from a phone? Share the site link directly to your Windows computer to start the download.',
+    mt_share_title:'Share via WhatsApp / Email / SMS…', mt_share_sub:'Opens your phone\'s native share menu',
+    mt_email_title:'Send yourself an email', mt_email_sub:'Opens your email app with the link pre-filled',
+    mt_or:'or copy the link', mt_copy:'📋 Copy', mt_hint:'Paste this link in your PC browser to access the download.',
     inst_eyebrow:'Installation guide', inst_title:'Install labCE v5.3', inst_sub:'Follow this step-by-step guide to install labCE on Windows, with or without the NI-DAQmx driver.',
     it_auto:'⚡ Automatic', it_manual:'🔧 Manual', it_update:'🔄 Update', it_fix:'🐛 Troubleshoot',
     ia_rec:'Recommended method — 1 double-click', ia_rec_p:'INSTALLER.bat installs NI-DAQmx, copies labCE and creates the desktop shortcut automatically. Allow 10 to 30 min.',
@@ -1325,7 +1342,7 @@ const T = {
     host_label:'Serverless hosting', host_title:'Go live<br>for free', host_sub:'Two options to host this page online, without a PC running 24/7, without a subscription.',
     host_rec:'Simplest', host_pro:'Complete solution',
     host_n_desc:'Drag and drop the folder to the Netlify page → public URL in 30 seconds. Free, no account required.',
-    host_n1:'Go to <strong>netlify.com/drop</strong>', host_n2:'Drag the <code>labCE - Copy/</code> folder into the drop zone', host_n3:'Copy the generated URL (e.g. <code>labce-abc123.netlify.app</code>)', host_n4:'Enter this URL in the QR code section → Generate',
+    host_n1:'Go to <strong>netlify.com/drop</strong>', host_n2:'Drag the <code>labCE - Copy/</code> folder into the drop zone', host_n3:'Copy the generated URL (e.g. <code>labce-abc123.netlify.app</code>)', host_n4:'Share the generated URL with users ("On your phone?" section → Copy)',
     host_n_warn_h:'100 MB file limit', host_n_warn_p:'For the full ZIP (3.3 GB), host on Google Drive and update the download button link.',
     host_g_desc:'Site on GitHub Pages + large files as GitHub Releases (up to 2 GB per file). Stable URL, updates via push.',
     host_g1:'Create a repo on <strong>github.com</strong>', host_g2:'Upload HTML/CSS/PNG files to the repo', host_g3:'Settings → Pages → Source: main → automatic URL', host_g4:'Create a Release → attach ZIPs as assets',
@@ -1685,16 +1702,45 @@ function checkGHConfig(){
 }
 
 /* ─── QR CODE ─── */
-function genQR(){
-  const url=document.getElementById('qr-url').value.trim();
-  if(!url)return;
-  const box=document.getElementById('qr-box');
-  const img=document.createElement('img');
-  img.src=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=10&data=${encodeURIComponent(url)}`;
-  img.style.cssText='width:100%;height:100%;object-fit:contain';
-  img.alt='QR Code';
-  box.innerHTML='';
-  box.appendChild(img);
+/* ─── MOBILE → PC TRANSFER ─── */
+function getMtUrl(){
+  return GH.owner
+    ? `https://${GH.owner.toLowerCase()}.github.io/${GH.repo}/`
+    : window.location.href.split('?')[0];
+}
+function sharePageLink(){
+  const url = getMtUrl();
+  const title = 'labCE — ' + (lang==='fr' ? 'Logiciel d\'acquisition' : 'Acquisition software');
+  const text = lang==='fr' ? 'Télécharger labCE pour Windows depuis ce lien :' : 'Download labCE for Windows from this link:';
+  if(navigator.share){
+    navigator.share({title, text, url}).catch(()=>{});
+  } else {
+    // Desktop fallback : copier dans le presse-papier
+    navigator.clipboard?.writeText(url).then(()=>{
+      const btn=document.getElementById('btn-mt-share');
+      if(btn){ const o=btn.innerHTML; btn.innerHTML='<span class="mt-method-icon">✅</span><div class="mt-method-text"><strong>'+(lang==='fr'?'Lien copié !':'Link copied!')+'</strong></div>'; setTimeout(()=>btn.innerHTML=o,2500); }
+    });
+  }
+}
+function openEmail(){
+  const url = getMtUrl();
+  const sub = encodeURIComponent(lang==='fr' ? 'labCE — lien de téléchargement' : 'labCE — download link');
+  const body = encodeURIComponent((lang==='fr' ? 'Télécharger labCE :\n' : 'Download labCE:\n') + url);
+  window.open(`mailto:?subject=${sub}&body=${body}`);
+}
+function copyMtLink(){
+  const inp=document.getElementById('mt-link');
+  const btn=document.getElementById('btn-mt-copy');
+  if(!inp||!btn)return;
+  const url=inp.value;
+  const ok=()=>{
+    const o=btn.innerHTML;
+    btn.innerHTML='✅ '+(lang==='fr'?'Copié !':'Copied!');
+    btn.style.color='var(--amber)';
+    setTimeout(()=>{btn.innerHTML=o;btn.style.color='';},2200);
+  };
+  if(navigator.clipboard){navigator.clipboard.writeText(url).then(ok);}
+  else{inp.select();document.execCommand('copy');ok();}
 }
 
 /* ─── SCROLL ANIMATIONS ─── */
@@ -1713,13 +1759,9 @@ document.addEventListener('DOMContentLoaded',()=>{
   initChk();
   initSteps();
   checkGHConfig();
-  // URL GitHub Pages si GH configuré, sinon URL courante
-  const ghPagesUrl = GH.owner
-    ? `https://${GH.owner.toLowerCase()}.github.io/${GH.repo}/`
-    : window.location.href;
-  document.getElementById('qr-url').value = ghPagesUrl;
-  // Générer le QR automatiquement
-  genQR();
+  // Pré-remplir le champ lien mobile transfer
+  const mtInp=document.getElementById('mt-link');
+  if(mtInp) mtInp.value=getMtUrl();
   fetchVersion();
   showView(0, null); // initialiser l'interface viewer
   // Print date attr

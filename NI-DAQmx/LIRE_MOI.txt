@@ -1,0 +1,37 @@
+============================================================
+  Dossier NI-DAQmx - Driver National Instruments
+============================================================
+
+Ce dossier contient le driver NI-DAQmx requis pour que
+labCE puisse communiquer avec le matériel NI.
+
+------------------------------------------------------------
+INSTALLATION AUTOMATIQUE (recommandée)
+------------------------------------------------------------
+Double-cliquez sur INSTALLER.bat (dossier parent).
+Le driver s'installe seul, sans aucune manipulation.
+
+------------------------------------------------------------
+INSTALLATION MANUELLE (si INSTALLER.bat ne fonctionne pas)
+------------------------------------------------------------
+1. Double-cliquez sur :
+      ni-daqmx_25.8.1_offline.iso
+   Windows monte l'image comme un lecteur (ex: D:\)
+
+2. Dans le lecteur monté, double-cliquez sur :
+      Install.exe
+
+3. Suivez les étapes de l'installateur NI.
+   Durée : 10 à 20 minutes.
+
+4. Redémarrez le PC si demandé.
+
+5. Lancez labCE_app.exe.
+
+------------------------------------------------------------
+REMARQUE
+------------------------------------------------------------
+Si NI-DAQmx est déjà installé sur ce PC, ignorez
+ce dossier — labCE fonctionnera directement.
+
+============================================================
