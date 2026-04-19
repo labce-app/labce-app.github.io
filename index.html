@@ -64,6 +64,7 @@ code{font-family:var(--font-m);font-size:.84em;color:var(--amber);background:var
 /* ─── BADGE ─── */
 .badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-m);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:2px;border:1px solid}
 .b-amber{color:var(--amber);background:var(--amb-dim);border-color:rgba(245,197,24,.25)}
+.b-grn{color:var(--green);background:var(--grn-dim);border-color:rgba(0,180,100,.25)}
 .b-blue{color:var(--blue);background:var(--blue-dim);border-color:rgba(61,127,255,.25)}
 .b-green{color:var(--green);background:var(--grn-dim);border-color:rgba(22,199,132,.25)}
 .b-grey{color:var(--t2);background:rgba(255,255,255,.04);border-color:var(--border)}
@@ -1216,8 +1217,13 @@ const T = {
     sc_label:'Captures d\'écran', sc_title:'L\'interface<br>en détail',
     sc_sub:'Cliquer sur une vue pour l\'agrandir. Chaque écran correspond à une étape clé du workflow.',
     sc1:'Interface principale — vue complète', sc2:'Graphique Effort / Course temps réel', sc3:'Panneau de contrôle — acquisition', sc4:'Écran de bienvenue — guide démarrage', sc5:'Fenêtre paramètres', sc6:'Analyse et interpolation de points', sc7:'Sélection du mode de mesure',
-    dl_label:'Téléchargement', dl_title:'Choisir<br>votre package', dl_sub:'Deux versions selon que NI-DAQmx est déjà installé ou non sur le poste.',
-    dl1_desc:'Inclut NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat', dl2_desc:'NI-DAQmx déjà installé requis — labCE + INSTALLER.bat uniquement', dl3_desc:'Code source complet + requirements.txt + build scripts',
+    dl_label:'Téléchargement', dl_title:'Choisir<br>votre package', dl_sub:'Trois packages disponibles selon votre configuration.',
+    dl_rec:'Recommandé', dl2_rec:'NI-DAQmx requis',
+    dl_btn_req:'🔗 Obtenir le lien',
+    dl1_desc:'Inclut NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat',
+    dl1_big_h:'⚠️ Fichier trop lourd pour GitHub (3,3 GB)',
+    dl1_big_p:'Ce package inclut NI-DAQmx offline. Contactez votre responsable pour obtenir le lien Google Drive. Si NI-DAQmx est déjà installé → utilisez le <strong>Package léger</strong>.',
+    dl2_desc:'NI-DAQmx déjà installé requis — labCE + INSTALLER.bat uniquement', dl3_desc:'Code source complet + requirements.txt + build scripts',
     dl_btn:'↓ Télécharger',
     mt_label:'Sur téléphone ?', mt_title:'Envoyez le lien<br>sur votre PC', mt_sub:'Vous consultez depuis un téléphone ? Partagez le lien du site directement vers votre ordinateur Windows pour lancer le téléchargement.',
     mt_share_title:'Partager via WhatsApp / Email / SMS…', mt_share_sub:'Ouvre le menu de partage natif de votre téléphone',
@@ -1298,8 +1304,13 @@ const T = {
     sc_label:'Screenshots', sc_title:'The interface<br>in detail',
     sc_sub:'Click any view to zoom in. Each screen shows a key step in the acquisition workflow.',
     sc1:'Main interface — full view', sc2:'Force / Displacement real-time graph', sc3:'Control panel — acquisition', sc4:'Welcome screen — startup guide', sc5:'Settings window', sc6:'Analysis and point interpolation', sc7:'Measurement mode selection',
-    dl_label:'Download', dl_title:'Choose<br>your package', dl_sub:'Two versions depending on whether NI-DAQmx is already installed.',
-    dl1_desc:'Includes NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat', dl2_desc:'NI-DAQmx already required — labCE + INSTALLER.bat only', dl3_desc:'Full source code + requirements.txt + build scripts',
+    dl_label:'Download', dl_title:'Choose<br>your package', dl_sub:'Three packages available depending on your setup.',
+    dl_rec:'Recommended', dl2_rec:'NI-DAQmx required',
+    dl_btn_req:'🔗 Get the link',
+    dl1_desc:'Includes NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat',
+    dl1_big_h:'⚠️ File too large for GitHub (3.3 GB)',
+    dl1_big_p:'This package includes NI-DAQmx offline. Contact your admin for the Google Drive link. If NI-DAQmx is already installed → use the <strong>Lightweight package</strong>.',
+    dl2_desc:'NI-DAQmx already required — labCE + INSTALLER.bat only', dl3_desc:'Full source code + requirements.txt + build scripts',
     dl_btn:'↓ Download',
     mt_label:'On your phone?', mt_title:'Send the link<br>to your PC', mt_sub:'Browsing from a phone? Share the site link directly to your Windows computer to start the download.',
     mt_share_title:'Share via WhatsApp / Email / SMS…', mt_share_sub:'Opens your phone\'s native share menu',
@@ -1711,6 +1722,16 @@ function checkGHConfig(){
     el.innerHTML=`<div class="alert a-ok" style="margin:0"><div class="alert-body"><h4>✅ Connecté — ${GH.owner}/${GH.repo}</h4><p>Les mises à jour automatiques sont actives. Créez une Release GitHub pour publier une nouvelle version.</p></div></div>`;
   }
 }
+
+/* ─── DOWNLOAD CARDS ─── */
+document.getElementById('dl-btn-full')?.addEventListener('click',function(e){
+  e.preventDefault();
+  const info=document.getElementById('dl-full-info');
+  if(!info)return;
+  const open=info.style.display==='flex';
+  info.style.display=open?'none':'flex';
+  this.textContent=open?(lang==='fr'?'🔗 Obtenir le lien':'🔗 Get the link'):'✖ Fermer';
+});
 
 /* ─── MOBILE → PC TRANSFER ─── */
 function getMtUrl(){
