@@ -419,8 +419,11 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 #sticky-dl.show{transform:translateY(0) scale(1);opacity:1;pointer-events:auto}
 @media(max-width:480px){#sticky-dl{bottom:14px;right:14px;padding:10px 16px;font-size:.82rem}}
 
-/* ─── SECTION REVEALS ─── */
-.gsap-reveal{will-change:transform,opacity}
+/* ─── SECTION REVEALS (IO) ─── */
+.rev{opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s ease}
+.rev.in{opacity:1;transform:translateY(0)}
+.rev-l{opacity:0;transform:translateX(-16px);transition:opacity .5s ease,transform .5s ease}
+.rev-l.in{opacity:1;transform:translateX(0)}
 
 /* ─── FEAT HOVER ─── */
 .feat-item{transition:background .2s,padding-left .2s;border-radius:var(--r);padding-left:8px;margin-left:-8px}
@@ -1935,38 +1938,32 @@ function initHeroCanvas(){
 /* ═══════════════════════════════════════════════════
    GSAP ANIMATIONS
 ═══════════════════════════════════════════════════ */
+/* ── Intersection Observer reveals (fiable même sur nav directe) ── */
+function initReveal(){
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  },{rootMargin:'0px 0px -6% 0px',threshold:0.04});
+
+  // Éléments avec reveal vertical
+  document.querySelectorAll(
+    '.dl-card:not([style*="display:none"]),.panel,.prereq-card,.tl-step,.acc-item,.hw-table,.alert,.cb-wrap,.cl-item,.host-step,.method-card'
+  ).forEach(el=>{el.classList.add('rev');io.observe(el);});
+
+  // Features avec reveal latéral + délai
+  document.querySelectorAll('.feat-item').forEach((el,i)=>{
+    el.classList.add('rev-l');
+    el.style.transitionDelay=(i*0.07)+'s';
+    io.observe(el);
+  });
+}
+
 function initGSAP(){
   if(typeof gsap==='undefined') return;
   gsap.registerPlugin(ScrollTrigger);
-
-  // ── Reveals sections ──
-  gsap.utils.toArray([
-    '.feat-item','.panel','.dl-card','.prereq-card',
-    '.tl-step','.acc-item','.hw-table','.alert','.cb-wrap'
-  ].join(',')).forEach(el=>{
-    gsap.from(el,{
-      y:22,opacity:0,duration:.55,ease:'power2.out',
-      scrollTrigger:{trigger:el,start:'top 91%',once:true}
-    });
-  });
-
-  // ── Features stagger ──
-  gsap.from('.feat-item',{
-    x:-18,opacity:0,duration:.5,stagger:.09,ease:'power2.out',
-    scrollTrigger:{trigger:'.feat-list',start:'top 85%',once:true}
-  });
-
-  // ── Screenshots section title ──
-  gsap.from('#screenshots .sec-label, #screenshots h2, #screenshots p',{
-    y:16,opacity:0,duration:.6,stagger:.1,ease:'power2.out',
-    scrollTrigger:{trigger:'#screenshots',start:'top 80%',once:true}
-  });
-
-  // ── Download cards stagger ──
-  gsap.from('.dl-card',{
-    y:18,opacity:0,duration:.5,stagger:.1,ease:'back.out(1.2)',
-    scrollTrigger:{trigger:'.dl-card',start:'top 88%',once:true}
-  });
 
   // ── Animated counters ──
   document.querySelectorAll('.metric-val[data-count]').forEach(el=>{
@@ -1975,7 +1972,7 @@ function initGSAP(){
     const isMillion=target>=1000000;
     let animated=false;
     ScrollTrigger.create({
-      trigger:el,start:'top 90%',once:true,
+      trigger:el,start:'top 95%',once:true,
       onEnter:()=>{
         if(animated) return;
         animated=true;
@@ -1993,19 +1990,18 @@ function initGSAP(){
   });
 
   // ── Nav scrolled state ──
-  ScrollTrigger.create({
-    trigger:'body',start:'top -60px',
-    onToggle:s=>document.getElementById('nav').classList.toggle('scrolled',s.isActive)
-  });
+  window.addEventListener('scroll',()=>{
+    document.getElementById('nav')?.classList.toggle('scrolled',window.scrollY>60);
+  },{passive:true});
 
   // ── Sticky download CTA ──
   const stickyBtn=document.getElementById('sticky-dl');
-  if(stickyBtn){
-    ScrollTrigger.create({
-      trigger:'#hero',start:'bottom 40%',
-      onEnter:()=>stickyBtn.classList.add('show'),
-      onLeaveBack:()=>stickyBtn.classList.remove('show')
-    });
+  const heroEl=document.getElementById('hero');
+  if(stickyBtn&&heroEl){
+    window.addEventListener('scroll',()=>{
+      const heroBottom=heroEl.getBoundingClientRect().bottom;
+      stickyBtn.classList.toggle('show',heroBottom<window.innerHeight*0.4);
+    },{passive:true});
     stickyBtn.addEventListener('click',e=>{
       e.preventDefault();
       const dlSec=document.querySelector('.dl-card')?.closest('section')||document.querySelector('#screenshots');
@@ -2024,6 +2020,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   fetchVersion();
   showView(0,null);
   document.getElementById('page-install')?.setAttribute('data-date',new Date().toLocaleDateString('fr-FR'));
+  initReveal();
   initHeroCanvas();
   initGSAP();
 });
