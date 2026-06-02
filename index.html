@@ -14,6 +14,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
 :root{
   --ink:#07090f;--surface:#0d1219;--panel:#111b26;--panel-h:#162130;
@@ -398,6 +400,64 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 .host-step:last-child{border-bottom:none}
 .host-num{font-family:var(--font-h);font-weight:900;font-size:1.6rem;color:var(--t3);flex-shrink:0;min-width:32px;line-height:1;margin-top:2px}
 
+/* ─── HERO CANVAS ─── */
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.13;z-index:0}
+#hero>.wrap{position:relative;z-index:1}
+.hero-scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,rgba(245,197,24,.6) 50%,transparent 100%);pointer-events:none;z-index:2;animation:scanLine 5s linear infinite}
+@keyframes scanLine{0%{top:-1px;opacity:0}5%{opacity:1}95%{opacity:1}100%{top:100%;opacity:0}}
+
+/* ─── GLOW CTA ─── */
+.btn-amber{box-shadow:0 0 0 rgba(245,197,24,0);transition:all .18s,box-shadow .3s}
+.btn-amber:hover{box-shadow:0 0 28px rgba(245,197,24,.35),0 4px 20px rgba(245,197,24,.2)}
+@keyframes ctaPulse{0%,100%{box-shadow:0 0 0 0 rgba(245,197,24,.4)}50%{box-shadow:0 0 0 8px rgba(245,197,24,.0)}}
+.btn-amber.btn-lg{animation:ctaPulse 2.8s ease-in-out infinite}
+
+/* ─── STICKY DOWNLOAD ─── */
+#sticky-dl{position:fixed;bottom:22px;right:22px;z-index:190;border-radius:var(--r2);
+  box-shadow:0 4px 32px rgba(0,0,0,.45),0 0 20px rgba(245,197,24,.2);
+  transform:translateY(80px) scale(.95);opacity:0;transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .3s;pointer-events:none}
+#sticky-dl.show{transform:translateY(0) scale(1);opacity:1;pointer-events:auto}
+@media(max-width:480px){#sticky-dl{bottom:14px;right:14px;padding:10px 16px;font-size:.82rem}}
+
+/* ─── SECTION REVEALS ─── */
+.gsap-reveal{will-change:transform,opacity}
+
+/* ─── FEAT HOVER ─── */
+.feat-item{transition:background .2s,padding-left .2s;border-radius:var(--r);padding-left:8px;margin-left:-8px}
+.feat-item:hover{background:rgba(245,197,24,.04);padding-left:14px}
+
+/* ─── METRIC HOVER ─── */
+.metric-val{display:block}
+.metrics-strip{cursor:default}
+
+/* ─── SCREENSHOT VIEWER TRANSITION ─── */
+#sc-main-img{transition:opacity .25s ease,transform .25s ease}
+#sc-main-img.changing{opacity:0;transform:scale(.97)}
+
+/* ─── DOWNLOAD CARD ENHANCED ─── */
+.dl-card{transition:all .2s,border-color .2s}
+.dl-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.25)}
+.dl-card:hover .btn-amber{box-shadow:0 0 20px rgba(245,197,24,.3)}
+
+/* ─── NAV SCROLLED ─── */
+#nav.scrolled{background:rgba(7,9,15,.97);border-bottom-color:rgba(245,197,24,.15)}
+
+/* ─── HERO GRID ENHANCED ─── */
+#hero{min-height:92vh;display:flex;align-items:center}
+.hero-grid{align-items:center}
+@media(max-width:820px){#hero{min-height:auto;padding:72px 0 48px}}
+
+/* ─── COUNTER ─── */
+.metric-val[data-count]{font-variant-numeric:tabular-nums}
+
+/* ─── VERSION BADGE PULSE ─── */
+@keyframes badgePulse{0%,100%{opacity:1}50%{opacity:.7}}
+.b-amber{animation:badgePulse 3s ease-in-out infinite}
+
+/* ─── CARD BORDER GLOW on hover ─── */
+.panel{transition:border-color .25s,box-shadow .25s}
+.panel:hover{box-shadow:0 0 24px rgba(245,197,24,.06)}
+
 /* ─── PRINT ─── */
 @media print{
   #nav,footer,.hero-actions,.carousel-btns,.c-btn,.mt-panel,.dl-card .btn,
@@ -464,6 +524,11 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
   </div>
 </nav>
 
+<!-- STICKY DOWNLOAD -->
+<a id="sticky-dl" class="btn btn-amber" href="#">
+  ⚡ <span data-i18n="hero_cta1">Télécharger</span>
+</a>
+
 <div id="main">
 
 <!-- ═══════════════════════════════════════════ -->
@@ -472,7 +537,9 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 <div id="tab-pres" class="tab-pane active">
 
   <!-- HERO -->
-  <section id="hero">
+  <section id="hero" style="position:relative;overflow:hidden">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-scan"></div>
     <div class="wrap">
       <div class="hero-grid">
         <div>
@@ -503,17 +570,17 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
   <div class="metrics-strip">
     <div class="wrap">
       <div class="metrics-inner">
-        <div class="metric"><div class="metric-val">50</div><div class="metric-label" data-i18n="m1">Hz échant. min</div></div>
+        <div class="metric"><div class="metric-val" data-count="50" data-suffix=" Hz">50</div><div class="metric-label" data-i18n="m1">Hz échant. min</div></div>
         <div class="metric-sep"></div>
-        <div class="metric"><div class="metric-val">2</div><div class="metric-label" data-i18n="m2">Canaux simultanés</div></div>
+        <div class="metric"><div class="metric-val" data-count="2" data-suffix="">2</div><div class="metric-label" data-i18n="m2">Canaux simultanés</div></div>
         <div class="metric-sep"></div>
-        <div class="metric"><div class="metric-val">1M</div><div class="metric-label" data-i18n="m3">Points en mémoire</div></div>
+        <div class="metric"><div class="metric-val" data-count="1000000" data-suffix="M">1M</div><div class="metric-label" data-i18n="m3">Points en mémoire</div></div>
         <div class="metric-sep"></div>
         <div class="metric"><div class="metric-val">X4</div><div class="metric-label" data-i18n="m4">Décodage encodeur</div></div>
         <div class="metric-sep"></div>
         <div class="metric"><div class="metric-val">Excel</div><div class="metric-label" data-i18n="m5">Export intégré</div></div>
         <div class="metric-sep"></div>
-        <div class="metric"><div class="metric-val">1 clic</div><div class="metric-label" data-i18n="m6">Installation auto</div></div>
+        <div class="metric"><div class="metric-val" data-count="1" data-suffix=" clic">1 clic</div><div class="metric-label" data-i18n="m6">Installation auto</div></div>
       </div>
     </div>
   </div>
@@ -1585,10 +1652,17 @@ function showView(idx, btn){
     const tabs = document.querySelectorAll('.sc-tab');
     if(tabs[idx]) tabs[idx].classList.add('active');
   }
-  // Image
+  // Image — smooth cross-fade
   const v = SC_VIEWS[idx];
   const img = document.getElementById('sc-main-img');
-  if(img){ img.src=v.img; img.alt=v.title[lang]||v.title.fr; }
+  if(img){
+    img.classList.add('changing');
+    setTimeout(()=>{
+      img.src=v.img; img.alt=v.title[lang]||v.title.fr;
+      img.onload=()=>img.classList.remove('changing');
+      img.onerror=()=>img.classList.remove('changing');
+    },200);
+  }
   // Info panel
   const info = document.getElementById('sc-info');
   if(info){
@@ -1782,29 +1856,176 @@ function copyMtLink(){
   else{inp.select();document.execCommand('copy');ok();}
 }
 
-/* ─── SCROLL ANIMATIONS ─── */
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}
+/* ═══════════════════════════════════════════════════
+   HERO CANVAS — oscilloscope waveform animé
+═══════════════════════════════════════════════════ */
+function initHeroCanvas(){
+  const canvas=document.getElementById('hero-canvas');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  let w,h,t=0,raf;
+
+  function resize(){
+    w=canvas.width=canvas.offsetWidth;
+    h=canvas.height=canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize',resize);
+
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    const pts=300;
+
+    // Canal effort — courbe force type Kistler
+    ctx.beginPath();
+    ctx.strokeStyle='#f5c518';
+    ctx.lineWidth=1.8;
+    ctx.shadowBlur=8;
+    ctx.shadowColor='rgba(245,197,24,.4)';
+    for(let i=0;i<=pts;i++){
+      const x=(i/pts)*w;
+      const p=(i/pts)*Math.PI*3+t;
+      const y=h*0.35
+        +Math.sin(p)*h*0.11
+        +Math.sin(p*2.1+0.5)*h*0.045
+        +Math.sin(p*0.4)*h*0.07
+        +Math.cos(p*5.3)*h*0.008;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+
+    // Canal course — encodeur linéaire
+    ctx.beginPath();
+    ctx.strokeStyle='#3d7fff';
+    ctx.lineWidth=1.2;
+    ctx.shadowColor='rgba(61,127,255,.3)';
+    ctx.shadowBlur=6;
+    for(let i=0;i<=pts;i++){
+      const x=(i/pts)*w;
+      const p=(i/pts)*Math.PI*1.5+t*0.6;
+      const y=h*0.72+Math.sin(p)*h*0.07+Math.sin(p*3+0.8)*h*0.02;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur=0;
+
+    // Grille de fond
+    ctx.strokeStyle='rgba(245,197,24,.04)';
+    ctx.lineWidth=1;
+    for(let i=1;i<8;i++){
+      ctx.beginPath();ctx.moveTo(0,h*i/8);ctx.lineTo(w,h*i/8);ctx.stroke();
+    }
+    for(let i=1;i<12;i++){
+      ctx.beginPath();ctx.moveTo(w*i/12,0);ctx.lineTo(w*i/12,h);ctx.stroke();
+    }
+
+    t+=0.012;
+    raf=requestAnimationFrame(draw);
+  }
+  draw();
+
+  // Arrêter l'animation quand hors viewport (économie CPU)
+  const heroObs=new IntersectionObserver(([e])=>{
+    if(e.isIntersecting){if(!raf)draw();}
+    else{cancelAnimationFrame(raf);raf=null;}
   });
-},{threshold:.08});
-document.querySelectorAll('.feat-item,.panel,.dl-card,.prereq-card,.tl-step,.acc-item').forEach(el=>{
-  el.style.cssText+='opacity:0;transform:translateY(12px);transition:opacity .4s ease,transform .4s ease';
-  obs.observe(el);
-});
+  heroObs.observe(canvas);
+}
+
+/* ═══════════════════════════════════════════════════
+   GSAP ANIMATIONS
+═══════════════════════════════════════════════════ */
+function initGSAP(){
+  if(typeof gsap==='undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ── Reveals sections ──
+  gsap.utils.toArray([
+    '.feat-item','.panel','.dl-card','.prereq-card',
+    '.tl-step','.acc-item','.hw-table','.alert','.cb-wrap'
+  ].join(',')).forEach(el=>{
+    gsap.from(el,{
+      y:22,opacity:0,duration:.55,ease:'power2.out',
+      scrollTrigger:{trigger:el,start:'top 91%',once:true}
+    });
+  });
+
+  // ── Features stagger ──
+  gsap.from('.feat-item',{
+    x:-18,opacity:0,duration:.5,stagger:.09,ease:'power2.out',
+    scrollTrigger:{trigger:'.feat-list',start:'top 85%',once:true}
+  });
+
+  // ── Screenshots section title ──
+  gsap.from('#screenshots .sec-label, #screenshots h2, #screenshots p',{
+    y:16,opacity:0,duration:.6,stagger:.1,ease:'power2.out',
+    scrollTrigger:{trigger:'#screenshots',start:'top 80%',once:true}
+  });
+
+  // ── Download cards stagger ──
+  gsap.from('.dl-card',{
+    y:18,opacity:0,duration:.5,stagger:.1,ease:'back.out(1.2)',
+    scrollTrigger:{trigger:'.dl-card',start:'top 88%',once:true}
+  });
+
+  // ── Animated counters ──
+  document.querySelectorAll('.metric-val[data-count]').forEach(el=>{
+    const target=parseFloat(el.getAttribute('data-count'));
+    const suffix=el.getAttribute('data-suffix')||'';
+    const isMillion=target>=1000000;
+    let animated=false;
+    ScrollTrigger.create({
+      trigger:el,start:'top 90%',once:true,
+      onEnter:()=>{
+        if(animated) return;
+        animated=true;
+        const obj={val:0};
+        gsap.to(obj,{
+          val:target,duration:isMillion?1.8:1.2,ease:'power2.out',
+          onUpdate(){
+            const v=obj.val;
+            if(isMillion) el.textContent=v>=900000?'1M':(v/1000000).toFixed(1)+'M';
+            else el.textContent=Math.round(v)+(suffix==='M'?'':suffix);
+          }
+        });
+      }
+    });
+  });
+
+  // ── Nav scrolled state ──
+  ScrollTrigger.create({
+    trigger:'body',start:'top -60px',
+    onToggle:s=>document.getElementById('nav').classList.toggle('scrolled',s.isActive)
+  });
+
+  // ── Sticky download CTA ──
+  const stickyBtn=document.getElementById('sticky-dl');
+  if(stickyBtn){
+    ScrollTrigger.create({
+      trigger:'#hero',start:'bottom 40%',
+      onEnter:()=>stickyBtn.classList.add('show'),
+      onLeaveBack:()=>stickyBtn.classList.remove('show')
+    });
+    stickyBtn.addEventListener('click',e=>{
+      e.preventDefault();
+      const dlSec=document.querySelector('.dl-card')?.closest('section')||document.querySelector('#screenshots');
+      if(dlSec) dlSec.scrollIntoView({behavior:'smooth'});
+    });
+  }
+}
 
 /* ─── INIT ─── */
 document.addEventListener('DOMContentLoaded',()=>{
   initChk();
   initSteps();
   checkGHConfig();
-  // Pré-remplir le champ lien mobile transfer
   const mtInp=document.getElementById('mt-link');
   if(mtInp) mtInp.value=getMtUrl();
   fetchVersion();
-  showView(0, null); // initialiser l'interface viewer
-  // Print date attr
+  showView(0,null);
   document.getElementById('page-install')?.setAttribute('data-date',new Date().toLocaleDateString('fr-FR'));
+  initHeroCanvas();
+  initGSAP();
 });
 </script>
 </body>

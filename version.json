@@ -2,9 +2,9 @@
   "version": "5.3",
   "date": "2026-04-19",
   "exe_filename": "labCE_app.exe",
-  "exe_url": "https://github.com/SOUARENK/labce/releases/latest/download/labCE_app.exe",
-  "package_url": "https://github.com/SOUARENK/labce/releases/latest/download/labCE_app.exe",
-  "size_mb": 0,
+  "exe_url": "https://github.com/labce-app/labce-app.github.io/releases/latest/download/labCE_app.exe",
+  "package_url": "https://github.com/labce-app/labce-app.github.io/releases/latest/download/labCE_app.exe",
+  "size_mb": 82,
   "changelog": [
     {
       "type": "new",
@@ -23,25 +23,37 @@
       "text": "Guide interactif avec mise en évidence séquentielle des boutons"
     },
     {
-      "type": "improve",
-      "text": "Zéro automatique en cours d'acquisition"
-    },
-    {
-      "type": "improve",
-      "text": "Sauvegarde/rechargement des essais nommés"
-    },
-    {
-      "type": "improve",
-      "text": "Interface bilingue FR/EN"
+      "type": "new",
+      "text": "Mode simulation complet sans carte NI — import CSV/XLSX, analyse et export"
     },
     {
       "type": "new",
-      "text": "**Package léger** (78 MB) : labCE + INSTALLER.bat — NI-DAQmx requis déjà installé"
+      "text": "Fenêtre d'accueil bilingue FR/EN avec récapitulatif des prérequis"
     },
     {
-      "type": "new",
-      "text": "**Sources Python** (126 KB) : code source complet"
+      "type": "improve",
+      "text": "Correction automatique de l'offset initial après acquisition"
+    },
+    {
+      "type": "improve",
+      "text": "Continuité stop/reprise : la position et le temps sont préservés"
+    },
+    {
+      "type": "improve",
+      "text": "Pile d'annulation Ctrl+Z (50 niveaux) sur points, courbes, offsets"
+    },
+    {
+      "type": "improve",
+      "text": "Interface bilingue FR/EN complète avec bascule instantanée"
+    },
+    {
+      "type": "improve",
+      "text": "Déploiement multi-PC via config.ini — un seul exe pour tout le parc"
+    },
+    {
+      "type": "fix",
+      "text": "Encodeur ASM : synchronisation ctr0 sur ai/SampleClock corrigée"
     }
   ],
-  "gh_release": "https://github.com/SOUARENK/labce/releases/latest"
+  "gh_release": "https://github.com/labce-app/labce-app.github.io/releases/latest"
 }
