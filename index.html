@@ -44,7 +44,7 @@ a{color:var(--amber);text-decoration:none}
 .h-xl{font-size:clamp(3.5rem,8vw,7rem)}
 .h-lg{font-size:clamp(2rem,4vw,3.2rem)}
 .h-md{font-size:clamp(1.4rem,2.5vw,2rem)}
-.label{font-family:var(--font-m);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t2)}
+.label{font-family:var(--font-b);font-size:.75rem;letter-spacing:.04em;text-transform:uppercase;color:var(--t2);font-weight:600}
 p{line-height:1.7;color:var(--t2);font-size:.95rem}
 code{font-family:var(--font-m);font-size:.84em;color:var(--amber);background:var(--amb-dim);padding:.1em .4em;border-radius:var(--r);border:1px solid rgba(245,197,24,.15)}
 /* ─── LAYOUT ─── */
@@ -58,9 +58,8 @@ code{font-family:var(--font-m);font-size:.84em;color:var(--amber);background:var
 .mt-s{margin-top:12px}.mt-m{margin-top:24px}.mt-l{margin-top:48px}
 .sec{padding:80px 0}.sec-s{padding:48px 0}
 /* ─── SECTION HEADER ─── */
-.sec-label{display:flex;align-items:center;gap:14px;margin-bottom:20px}
-.sec-label::before{content:'';flex:0 0 28px;height:1px;background:var(--amber)}
-.sec-label span{font-family:var(--font-m);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amber)}
+.sec-label{margin-bottom:16px}
+.sec-label span{font-family:var(--font-b);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--t2);font-weight:600}
 /* ─── BUTTONS ─── */
 .btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:var(--r);font-family:var(--font-b);font-size:.9rem;font-weight:600;cursor:pointer;border:none;transition:all .18s;text-decoration:none;letter-spacing:.01em}
 .btn-amber{background:var(--amber);color:#07090f}
@@ -71,7 +70,7 @@ code{font-family:var(--font-m);font-size:.84em;color:var(--amber);background:var
 .btn-outline-green:hover{background:var(--grn-dim);transform:translateY(-1px);text-decoration:none;color:var(--green)}
 .btn-lg{padding:14px 28px;font-size:1rem}
 /* ─── BADGE ─── */
-.badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-m);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:2px;border:1px solid}
+.badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-b);font-size:.7rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase;padding:3px 10px;border-radius:2px;border:1px solid}
 .b-amber{color:var(--amber);background:var(--amb-dim);border-color:rgba(245,197,24,.25)}
 .b-grn{color:var(--green);background:var(--grn-dim);border-color:rgba(0,180,100,.25)}
 .b-blue{color:var(--blue);background:var(--blue-dim);border-color:rgba(61,127,255,.25)}
@@ -195,7 +194,7 @@ code{font-family:var(--font-m);font-size:.84em;color:var(--amber);background:var
 .chk-item.checked .chk-box{background:var(--green);border-color:var(--green);color:#07090f}
 .chk-text{font-size:.9rem;color:var(--t2);transition:color .18s}
 .chk-item.checked .chk-text{color:var(--t1)}
-.chk-counter{font-family:var(--font-m);font-size:.78rem;color:var(--t2);padding:8px 16px;background:var(--amb-dim);border:1px solid rgba(245,197,24,.15);border-radius:var(--r);display:flex;align-items:center;justify-content:space-between}
+.chk-counter{font-family:var(--font-b);font-size:.8rem;color:var(--t2);padding:8px 16px;background:var(--amb-dim);border:1px solid rgba(245,197,24,.15);border-radius:var(--r);display:flex;align-items:center;justify-content:space-between}
 .chk-counter span{color:var(--amber);font-weight:500}
 .launch-btn{margin-top:16px;width:100%}
 .launch-btn:disabled{opacity:.35;pointer-events:none;cursor:not-allowed}
@@ -363,11 +362,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 
 /* Très petit téléphone */
 @media(max-width:360px){
-  .nav-tab:nth-child(1)::before{content:'🏠'}
-  .nav-tab:nth-child(2)::before{content:'⚙️'}
-  .nav-tab:nth-child(3)::before{content:'📦'}
-  .nav-tab[data-i18n]{font-size:0}
-  .nav-tab::before{font-size:1rem}
+  .nav-tab{font-size:.72rem}
   .wrap{padding:0 12px}
 }
 /* ─── LIGHTBOX ─── */
@@ -453,9 +448,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 /* ─── COUNTER ─── */
 .metric-val[data-count]{font-variant-numeric:tabular-nums}
 
-/* ─── VERSION BADGE PULSE ─── */
-@keyframes badgePulse{0%,100%{opacity:1}50%{opacity:.7}}
-.b-amber{animation:badgePulse 3s ease-in-out infinite}
+/* no badge pulse */
 
 /* ─── CARD BORDER GLOW on hover ─── */
 .panel{transition:border-color .25s,box-shadow .25s}
@@ -519,9 +512,9 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
     <div class="nav-right">
       <button class="lang-btn" onclick="toggleLang()" id="lang-toggle">EN</button>
       <div class="nav-tabs">
-        <button class="nav-tab active" onclick="switchTab('pres')" data-i18n="nav_pres">🏠 Présentation</button>
-        <button class="nav-tab" onclick="switchTab('install')" data-i18n="nav_inst">⚙️ Installation</button>
-        <button class="nav-tab" onclick="switchTab('update')" data-i18n="nav_update">📦 Mises à jour</button>
+        <button class="nav-tab active" onclick="switchTab('pres')" data-i18n="nav_pres">Présentation</button>
+        <button class="nav-tab" onclick="switchTab('install')" data-i18n="nav_inst">Installation</button>
+        <button class="nav-tab" onclick="switchTab('update')" data-i18n="nav_update">Mises à jour</button>
       </div>
     </div>
   </div>
@@ -529,7 +522,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 
 <!-- STICKY DOWNLOAD -->
 <a id="sticky-dl" class="btn btn-amber" href="#">
-  ⚡ <span data-i18n="hero_cta1">Télécharger</span>
+  <span data-i18n="hero_cta1">Télécharger</span>
 </a>
 
 <div id="main">
@@ -547,15 +540,15 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
       <div class="hero-grid">
         <div>
           <div class="hero-badges fade-up">
-            <span class="badge b-amber">● v5.3 stable</span>
+            <span class="badge b-amber">v5.3 stable</span>
             <span class="badge b-blue">NI-DAQmx</span>
             <span class="badge b-grey">Windows x64</span>
           </div>
           <h1 class="h-display h-xl hero-title fade-up d1" data-i18n="hero_title">Acquisition<br>de données<br><em>pour bancs</em><br><em>d'essai</em></h1>
-          <p class="hero-sub fade-up d2" data-i18n="hero_sub"><strong>labCE</strong> est un logiciel professionnel d'acquisition, visualisation et analyse de données mécaniques en temps réel — effort, course, capteurs NI-DAQmx, encodeurs linéaires.</p>
+          <p class="hero-sub fade-up d2" data-i18n="hero_sub"><strong>labCE</strong> — acquisition, visualisation et analyse de données mécaniques en temps réel. Effort, course, capteurs NI-DAQmx, encodeurs linéaires.</p>
           <div class="hero-actions fade-up d3">
-            <button class="btn btn-amber btn-lg" onclick="switchTab('install')" data-i18n="hero_cta1">⚡ Installer maintenant</button>
-            <button class="btn btn-ghost btn-lg" onclick="document.getElementById('screenshots').scrollIntoView({behavior:'smooth'})" data-i18n="hero_cta2">🖼 Voir le logiciel</button>
+            <button class="btn btn-amber btn-lg" onclick="switchTab('install')" data-i18n="hero_cta1">Installer</button>
+            <button class="btn btn-ghost btn-lg" onclick="document.getElementById('screenshots').scrollIntoView({behavior:'smooth'})" data-i18n="hero_cta2">Voir l'interface</button>
           </div>
         </div>
         <div class="fade-up d2">
@@ -596,7 +589,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
       <div class="grid2" style="gap:56px;align-items:start">
         <div>
           <div class="sec-label"><span data-i18n="feat_label">Fonctionnalités</span></div>
-          <h2 class="h-display h-lg" style="margin-bottom:32px" data-i18n="feat_title">Ce que labCE<br>fait pour vous</h2>
+          <h2 class="h-display h-lg" style="margin-bottom:32px" data-i18n="feat_title">Fonctionnalités</h2>
           <div class="feat-list">
             <div class="feat-item">
               <span class="feat-num">01</span>
@@ -685,8 +678,8 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
   <section class="sec" id="screenshots" style="background:var(--surface)">
     <div class="wrap">
       <div class="sec-label"><span data-i18n="sc_label">Captures d'écran</span></div>
-      <h2 class="h-display h-lg" style="margin-bottom:10px" data-i18n="sc_title">L'interface<br>en détail</h2>
-      <p style="margin-bottom:32px;max-width:560px" data-i18n="sc_sub">Cliquer sur une vue pour l'agrandir. Chaque écran correspond à une étape clé du workflow d'acquisition.</p>
+      <h2 class="h-display h-lg" style="margin-bottom:10px" data-i18n="sc_title">Interface</h2>
+      <p style="margin-bottom:32px;max-width:560px" data-i18n="sc_sub">Cliquer sur une vue pour l'agrandir.</p>
 
       <!-- Sélecteur de vues -->
       <div class="sc-nav" id="sc-nav">
@@ -724,7 +717,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
       <div class="sc-viewer">
         <div class="sc-img-wrap" id="sc-img-wrap">
           <img id="sc-main-img" src="ss_main_full.png" alt="labCE interface" onclick="openLb(this.src)" style="cursor:zoom-in;width:100%;border-radius:var(--r2);display:block;border:1px solid var(--border)" onerror="this.style.minHeight='280px';this.style.background='var(--panel)'">
-          <div class="sc-zoom-hint">🔍 Cliquer pour agrandir</div>
+          <div class="sc-zoom-hint">Cliquer pour agrandir</div>
         </div>
         <div class="sc-info" id="sc-info">
           <!-- Contenu injecté par JS -->
@@ -748,68 +741,67 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
       <div class="grid2" style="gap:48px;align-items:start">
         <div>
           <div class="sec-label"><span data-i18n="dl_label">Téléchargement</span></div>
-          <h2 class="h-display h-lg" style="margin-bottom:8px" data-i18n="dl_title">Choisir<br>votre package</h2>
-          <p style="margin-bottom:28px" data-i18n="dl_sub">Deux versions selon que NI-DAQmx est déjà installé ou non sur le poste.</p>
+          <h2 class="h-display h-lg" style="margin-bottom:8px" data-i18n="dl_title">Téléchargement</h2>
+          <p style="margin-bottom:28px" data-i18n="dl_sub">Package complet (NI-DAQmx inclus) ou package léger si NI-DAQmx est déjà installé.</p>
           <div style="display:flex;flex-direction:column;gap:10px">
             <div class="dl-card">
               <div class="dl-info">
-                <div class="dl-name">📦 Package complet <span class="badge b-amber" style="margin-left:6px" data-i18n="dl_rec">Recommandé</span></div>
-                <div class="dl-desc" data-i18n="dl1_desc">Inclut NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat</div>
+                <div class="dl-name">Package complet <span class="badge b-amber" style="margin-left:6px" data-i18n="dl_rec">Recommandé</span></div>
+                <div class="dl-desc" data-i18n="dl1_desc">NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat — 3,3 GB</div>
               </div>
-              <span class="dl-size">≈ 3,3 GB</span>
-              <a class="btn btn-amber" id="dl-btn-full" href="#dl-full-info" data-i18n="dl_btn_req">🔗 Lien disponible</a>
+              <a class="btn btn-amber" id="dl-btn-full" href="#dl-full-info" data-i18n="dl_btn_req">Obtenir le lien</a>
             </div>
             <div class="dl-card" id="dl-full-info" style="background:var(--amb-dim);border-color:var(--border-a);display:none">
               <div class="dl-info" style="flex:1">
-                <div class="dl-name" style="margin-bottom:6px" data-i18n="dl1_big_h">⚠️ Fichier trop lourd pour GitHub (3,3 GB)</div>
-                <p style="font-size:.82rem;color:var(--t2);line-height:1.5" data-i18n="dl1_big_p">Ce package inclut NI-DAQmx offline. Uploadez-le sur Google Drive ou OneDrive, puis <strong>contactez votre responsable</strong> pour obtenir le lien direct.</p>
-                <p style="font-size:.78rem;color:var(--t3);margin-top:6px">Si NI-DAQmx est déjà installé sur votre PC → utilisez le <strong>Package léger</strong> ci-dessous.</p>
+                <div class="dl-name" style="margin-bottom:6px" data-i18n="dl1_big_h">Fichier trop lourd pour GitHub (3,3 GB)</div>
+                <p style="font-size:.82rem;color:var(--t2);line-height:1.5" data-i18n="dl1_big_p">Ce package inclut NI-DAQmx offline. Hébergez-le sur Google Drive ou OneDrive, puis partagez le lien direct avec vos utilisateurs.</p>
+                <p style="font-size:.78rem;color:var(--t3);margin-top:6px">NI-DAQmx déjà installé sur le poste ? Utilisez le package léger ci-dessous.</p>
               </div>
             </div>
             <div class="dl-card">
               <div class="dl-info">
-                <div class="dl-name">📦 Package léger <span class="badge b-grn" style="margin-left:6px" data-i18n="dl2_rec">NI-DAQmx requis</span></div>
-                <div class="dl-desc" data-i18n="dl2_desc">NI-DAQmx déjà installé requis — labCE + INSTALLER.bat uniquement</div>
+                <div class="dl-name">Package léger <span class="badge b-grn" style="margin-left:6px" data-i18n="dl2_rec">NI-DAQmx requis</span></div>
+                <div class="dl-desc" data-i18n="dl2_desc">labCE + INSTALLER.bat — NI-DAQmx doit être déjà installé</div>
               </div>
               <span class="dl-size">≈ 82 MB</span>
-              <a class="btn btn-ghost" href="https://github.com/labce-app/labce-app.github.io/releases/download/v5.3/labCE_v5.3_FINAL.zip" data-i18n="dl_btn">↓ Télécharger</a>
+              <a class="btn btn-ghost" href="https://github.com/labce-app/labce-app.github.io/releases/download/v5.3/labCE_v5.3_FINAL.zip" data-i18n="dl_btn">Télécharger</a>
             </div>
             <div class="dl-card">
               <div class="dl-info">
-                <div class="dl-name">🐍 Sources Python</div>
-                <div class="dl-desc" data-i18n="dl3_desc">Code source complet + requirements.txt + build scripts</div>
+                <div class="dl-name">Sources Python</div>
+                <div class="dl-desc" data-i18n="dl3_desc">Code source + requirements.txt + scripts de compilation</div>
               </div>
               <span class="dl-size">≈ 126 KB</span>
-              <a class="btn btn-ghost" href="https://github.com/labce-app/labce-app.github.io/releases/download/v5.3/labCE_v5.3_sources.zip" data-i18n="dl_btn">↓ Télécharger</a>
+              <a class="btn btn-ghost" href="https://github.com/labce-app/labce-app.github.io/releases/download/v5.3/labCE_v5.3_sources.zip" data-i18n="dl_btn">Télécharger</a>
             </div>
           </div>
         </div>
         <!-- MOBILE → PC TRANSFER -->
         <div>
-          <div class="sec-label"><span data-i18n="mt_label">Sur téléphone ?</span></div>
-          <h2 class="h-display h-md" style="margin-bottom:8px" data-i18n="mt_title">Envoyez le lien<br>sur votre PC</h2>
-          <p style="margin-bottom:20px" data-i18n="mt_sub">Vous consultez depuis un téléphone ? Partagez le lien du site directement vers votre ordinateur Windows pour lancer le téléchargement.</p>
+          <div class="sec-label"><span data-i18n="mt_label">Depuis un téléphone</span></div>
+          <h2 class="h-display h-md" style="margin-bottom:8px" data-i18n="mt_title">Envoyer le lien<br>sur votre PC</h2>
+          <p style="margin-bottom:20px" data-i18n="mt_sub">Partagez le lien de cette page vers votre PC Windows pour lancer le téléchargement.</p>
           <div class="mt-panel">
             <div class="mt-methods">
               <button class="mt-method" onclick="sharePageLink()" id="btn-mt-share">
-                <span class="mt-method-icon">📤</span>
+                <span class="mt-method-icon" style="font-style:normal">↗</span>
                 <div class="mt-method-text">
-                  <strong data-i18n="mt_share_title">Partager via WhatsApp / Email / SMS…</strong>
-                  <span data-i18n="mt_share_sub">Ouvre le menu de partage natif de votre téléphone</span>
+                  <strong data-i18n="mt_share_title">Partager via WhatsApp / Email / SMS</strong>
+                  <span data-i18n="mt_share_sub">Menu de partage natif du téléphone</span>
                 </div>
               </button>
               <button class="mt-method" onclick="openEmail()" id="btn-mt-email">
-                <span class="mt-method-icon">✉️</span>
+                <span class="mt-method-icon" style="font-style:normal">@</span>
                 <div class="mt-method-text">
                   <strong data-i18n="mt_email_title">S'envoyer un e-mail</strong>
-                  <span data-i18n="mt_email_sub">Ouvre votre appli e-mail avec le lien pré-rempli</span>
+                  <span data-i18n="mt_email_sub">Lien pré-rempli dans votre appli e-mail</span>
                 </div>
               </button>
             </div>
             <div class="mt-separator" data-i18n="mt_or">ou copiez le lien</div>
             <div class="mt-row">
               <input class="mt-input" id="mt-link" readonly>
-              <button class="btn btn-ghost" id="btn-mt-copy" onclick="copyMtLink()" data-i18n="mt_copy">📋 Copier</button>
+              <button class="btn btn-ghost" id="btn-mt-copy" onclick="copyMtLink()" data-i18n="mt_copy">Copier</button>
             </div>
             <p style="font-size:.76rem;color:var(--t3);margin-top:10px;line-height:1.5" data-i18n="mt_hint">Collez ce lien dans le navigateur de votre PC pour accéder au téléchargement.</p>
           </div>
@@ -826,43 +818,39 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 <div id="tab-install" class="tab-pane">
 <div id="page-install">
 <div class="wrap">
-  <div style="margin-bottom:36px">
-    <div class="sec-label"><span data-i18n="inst_eyebrow">Guide d'installation</span></div>
-    <h1 class="h-display h-lg" style="margin-bottom:10px" data-i18n="inst_title">Installer labCE v5.3</h1>
-    <p data-i18n="inst_sub">Suivez ce guide pas à pas pour installer labCE sur Windows, avec ou sans le driver NI-DAQmx.</p>
+  <div style="margin-bottom:36px;padding-top:8px">
+    <h1 class="h-display h-lg" style="margin-bottom:8px">Installation — labCE v5.3</h1>
+    <p style="color:var(--t2)">Windows 10 / 11 · 64 bits · NI-DAQmx requis pour l'acquisition matérielle</p>
   </div>
   <div class="install-subnav">
-    <button class="inst-tab active" onclick="switchInst('auto')" data-i18n="it_auto">⚡ Automatique</button>
-    <button class="inst-tab" onclick="switchInst('manual')" data-i18n="it_manual">🔧 Manuelle</button>
-    <button class="inst-tab" onclick="switchInst('update')" data-i18n="it_update">🔄 Mise à jour</button>
-    <button class="inst-tab" onclick="switchInst('fix')" data-i18n="it_fix">🐛 Dépannage</button>
+    <button class="inst-tab active" onclick="switchInst('install')">Installation</button>
+    <button class="inst-tab" onclick="switchInst('update')">Mise à jour</button>
+    <button class="inst-tab" onclick="switchInst('fix')">Dépannage</button>
   </div>
 
-  <!-- ── AUTO ── -->
-  <div id="inst-auto" class="inst-pane active">
-    <div class="alert a-ok"><div class="alert-body"><h4 data-i18n="ia_rec">Méthode recommandée — 1 double-clic</h4><p data-i18n="ia_rec_p">INSTALLER.bat installe NI-DAQmx, copie labCE et crée le raccourci bureau automatiquement. Prévoir 10 à 30 min.</p></div></div>
-
-    <h3 style="margin:28px 0 12px;font-size:1rem" data-i18n="ia_chk_h">✅ Vérifier avant de lancer</h3>
+  <!-- ── INSTALLATION ── -->
+  <div id="inst-install" class="inst-pane active">
+    <h3 style="margin:0 0 14px;font-size:.95rem;font-weight:600">Prérequis</h3>
     <div class="checklist" id="chklist">
-      <div class="chk-item" onclick="toggleChk(this,0)"><div class="chk-box" id="cb0"></div><span class="chk-text" data-i18n="chk0">Package ZIP complètement extrait (pas lancé depuis l'archive)</span></div>
-      <div class="chk-item" onclick="toggleChk(this,1)"><div class="chk-box" id="cb1"></div><span class="chk-text" data-i18n="chk1">Dossier <code>NI-DAQmx/</code> présent à côté de INSTALLER.bat</span></div>
-      <div class="chk-item" onclick="toggleChk(this,2)"><div class="chk-box" id="cb2"></div><span class="chk-text" data-i18n="chk2">Fichier <code>labCE_app.exe</code> présent dans le dossier</span></div>
-      <div class="chk-item" onclick="toggleChk(this,3)"><div class="chk-box" id="cb3"></div><span class="chk-text" data-i18n="chk3">Droits administrateur disponibles sur ce PC</span></div>
-      <div class="chk-item" onclick="toggleChk(this,4)"><div class="chk-box" id="cb4"></div><span class="chk-text" data-i18n="chk4">Au moins 5 GB d'espace disque libre</span></div>
-      <div class="chk-item" onclick="toggleChk(this,5)"><div class="chk-box" id="cb5"></div><span class="chk-text" data-i18n="chk5">Windows 10 ou 11 (64 bits)</span></div>
+      <div class="chk-item" onclick="toggleChk(this,0)"><div class="chk-box" id="cb0"></div><span class="chk-text">ZIP extrait dans un dossier (pas ouvert directement depuis l'archive)</span></div>
+      <div class="chk-item" onclick="toggleChk(this,1)"><div class="chk-box" id="cb1"></div><span class="chk-text">Dossier <code>NI-DAQmx/</code> présent à côté de <code>INSTALLER.bat</code></span></div>
+      <div class="chk-item" onclick="toggleChk(this,2)"><div class="chk-box" id="cb2"></div><span class="chk-text">Fichier <code>labCE_app.exe</code> présent dans le même dossier</span></div>
+      <div class="chk-item" onclick="toggleChk(this,3)"><div class="chk-box" id="cb3"></div><span class="chk-text">Droits administrateur sur ce PC</span></div>
+      <div class="chk-item" onclick="toggleChk(this,4)"><div class="chk-box" id="cb4"></div><span class="chk-text">5 GB d'espace disque disponible</span></div>
+      <div class="chk-item" onclick="toggleChk(this,5)"><div class="chk-box" id="cb5"></div><span class="chk-text">Windows 10 ou 11 (64 bits)</span></div>
     </div>
-    <div class="chk-counter"><span id="chk-text" data-i18n="chk_count">0 / 6 prérequis validés</span><span id="chk-pct" style="color:var(--t3)">0%</span></div>
-    <button class="btn btn-amber btn-lg launch-btn" id="launch-btn" disabled onclick="switchInst('auto');document.getElementById('step-section').scrollIntoView({behavior:'smooth'})" data-i18n="chk_launch">🚀 Tout est prêt — lancer INSTALLER.bat</button>
+    <div class="chk-counter"><span id="chk-text">0 / 6 prérequis validés</span><span id="chk-pct" style="color:var(--t3)">0 %</span></div>
+    <button class="btn btn-amber btn-lg launch-btn" id="launch-btn" disabled onclick="document.getElementById('step-section').scrollIntoView({behavior:'smooth'})">Tous les prérequis sont validés — suivre les étapes ci-dessous</button>
 
     <div id="step-section">
-    <h3 style="margin:36px 0 20px;font-size:1rem" data-i18n="ia_steps_h">📋 Étapes détaillées</h3>
+    <h3 style="margin:36px 0 20px;font-size:.95rem;font-weight:600">Étapes</h3>
     <div class="tl">
       <div class="tl-step">
         <div class="tl-num" id="ts0" onclick="doneStep(0)" title="Cliquer pour marquer complété">1</div>
         <div class="tl-content">
-          <div class="tl-title" data-i18n="ts0">Extraire le package ZIP complet</div>
-          <p data-i18n="ts0p">Clic-droit sur <code>labCE_v5.3_Package.zip</code> → "Extraire tout" dans un dossier sans accent ni espace (ex. <code>C:\labCE</code>).</p>
-          <div class="alert a-warn" style="margin-top:10px"><div class="alert-body"><h4 data-i18n="ts0w">Ne pas lancer depuis le ZIP</h4><p data-i18n="ts0wp">Windows bloque les exécutables lancés directement depuis une archive. Extraire d'abord.</p></div></div>
+          <div class="tl-title">Extraire le package ZIP</div>
+          <p>Clic-droit sur <code>labCE_v5.3_Package.zip</code> → "Extraire tout" — choisir un chemin sans espace ni accent (ex. <code>C:\labCE</code>).</p>
+          <div class="alert a-warn" style="margin-top:10px"><div class="alert-body"><h4>Ne pas lancer depuis le ZIP</h4><p>Windows bloque les exécutables lancés depuis une archive. Extraire d'abord.</p></div></div>
         </div>
       </div>
       <div class="tl-step">
@@ -883,8 +871,8 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
       <div class="tl-step">
         <div class="tl-num" id="ts2" onclick="doneStep(2)" title="Cliquer pour marquer complété">3</div>
         <div class="tl-content">
-          <div class="tl-title" data-i18n="ts2">Double-cliquer sur INSTALLER.bat</div>
-          <p style="margin-bottom:10px" data-i18n="ts2p">Si une fenêtre UAC apparaît → cliquer <strong>Oui</strong>. Si rien ne se passe → clic-droit → "Exécuter en tant qu'administrateur".</p>
+          <div class="tl-title">Double-cliquer sur INSTALLER.bat</div>
+          <p style="margin-bottom:10px">Fenêtre UAC : cliquer <strong>Oui</strong>. Si rien ne se passe : clic-droit → "Exécuter en tant qu'administrateur".</p>
           <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">Console — sortie attendue</span></div><div class="cb-body"><code><span class="sy-cmt">========================================================</span>
 <span class="sy-warn">  labCE v5.3  -  Installation automatique</span>
 <span class="sy-cmt">========================================================</span>
@@ -911,15 +899,15 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
       <div class="tl-step">
         <div class="tl-num" id="ts3" onclick="doneStep(3)" title="Cliquer pour marquer complété">4</div>
         <div class="tl-content">
-          <div class="tl-title" data-i18n="ts3">Redémarrer si demandé (code 3010)</div>
-          <p data-i18n="ts3p">Si la console affiche <code>[INFO] Un redémarrage sera nécessaire</code>, redémarrez Windows normalement avant de lancer labCE. Ce n'est pas une erreur.</p>
+          <div class="tl-title">Redémarrer si code 3010</div>
+          <p>Si la console affiche <code>[INFO] Un redémarrage sera nécessaire</code>, redémarrer Windows avant de lancer labCE. Ce n'est pas une erreur.</p>
         </div>
       </div>
       <div class="tl-step">
         <div class="tl-num" id="ts4" onclick="doneStep(4)" title="Cliquer pour marquer complété">5</div>
         <div class="tl-content">
-          <div class="tl-title" data-i18n="ts4">Configurer config.ini (optionnel)</div>
-          <p style="margin-bottom:10px" data-i18n="ts4p">Le fichier est copié dans <code>%LOCALAPPDATA%\labCE\</code>. Adaptez le nom du device NI à votre poste.</p>
+          <div class="tl-title">Configurer config.ini — optionnel</div>
+          <p style="margin-bottom:10px">Fichier copié dans <code>%LOCALAPPDATA%\labCE\</code>. Ajuster le nom du device NI si différent de <code>Dev1</code>.</p>
           <div class="cb-wrap">
             <div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">config.ini</span><button class="cb-copy" onclick="copyTxt('[NI]\ndevice = Dev1\nhas_ni = true\n\n[Channels]\neffort_ai = ai0\ncourse_ai = ctr0\n\n[Acquisition]\nfrequency_hz = 50\n\n[Sensors]\nsensitivity_effort_nv = 1.0\nsensitivity_course_mmv = 1.0')">Copier</button></div>
             <div class="cb-body"><code><span class="sy-sec">[NI]</span>
@@ -942,124 +930,69 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
       <div class="tl-step">
         <div class="tl-num done" id="ts5">✓</div>
         <div class="tl-content">
-          <div class="tl-title" data-i18n="ts5">Lancer labCE depuis le raccourci bureau</div>
-          <div class="alert a-ok" style="margin-top:8px"><div class="alert-body"><h4 data-i18n="ts5h">Sans matériel NI ?</h4><p data-i18n="ts5p">labCE démarre automatiquement en mode simulation. Vous pouvez importer des fichiers CSV/Excel et utiliser toutes les fonctions d'analyse.</p></div></div>
+          <div class="tl-title">Lancer labCE depuis le raccourci bureau</div>
+          <div class="alert a-info" style="margin-top:8px"><div class="alert-body"><h4>Sans matériel NI</h4><p>labCE démarre en mode simulation. Import CSV/Excel et toutes les fonctions d'analyse disponibles.</p></div></div>
         </div>
       </div>
     </div>
     </div>
   </div>
 
-  <!-- ── MANUAL ── -->
-  <div id="inst-manual" class="inst-pane">
-    <div class="alert a-info"><div class="alert-body"><h4 data-i18n="im_h">Installation manuelle</h4><p data-i18n="im_p">Choisissez cette méthode si INSTALLER.bat échoue, ou si vous préférez utiliser les sources Python.</p></div></div>
-    <div class="method-row" style="margin-top:20px">
-      <div class="method-card sel" onclick="selMethod('exe',this)"><div class="mi">⚙️</div><h3 data-i18n="mm_exe">Exécutable .exe</h3><p data-i18n="mm_exe_p">Sans Python — recommandé</p></div>
-      <div class="method-card" onclick="selMethod('py',this)"><div class="mi">🐍</div><h3 data-i18n="mm_py">Sources Python</h3><p data-i18n="mm_py_p">Pour développeurs</p></div>
-    </div>
-    <div id="m-exe">
-      <div class="tl">
-        <div class="tl-step"><div class="tl-num" onclick="doneStep('m0')" id="m0">1</div><div class="tl-content">
-          <div class="tl-title" data-i18n="me1">Installer NI-DAQmx (si absent)</div>
-          <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">PowerShell (admin)</span><button class="cb-copy" onclick="copyTxt('Mount-DiskImage -ImagePath \"NI-DAQmx\\ni-daqmx_25.8.1_offline.iso\"\n# puis lancer Install.exe depuis le lecteur monté')">Copier</button></div><div class="cb-body"><code><span class="sy-cmt"># Monter l'ISO et lancer l'installateur</span>
-<span class="sy-cmd">Mount-DiskImage</span> <span class="sy-str">-ImagePath "NI-DAQmx\ni-daqmx_25.8.1_offline.iso"</span>
-<span class="sy-cmt"># Aller dans le lecteur monté (ex. D:\)</span>
-<span class="sy-cmd">D:\Install.exe</span> <span class="sy-str">--passive --accept-eulas</span></code></div></div>
-        </div></div>
-        <div class="tl-step"><div class="tl-num" onclick="doneStep('m1')" id="m1">2</div><div class="tl-content">
-          <div class="tl-title" data-i18n="me2">Créer le dossier et copier les fichiers</div>
-          <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">CMD</span><button class="cb-copy" onclick="copyTxt('mkdir \"%LOCALAPPDATA%\\labCE\"\ncopy /y labCE_app.exe \"%LOCALAPPDATA%\\labCE\\\"\ncopy /y config.ini \"%LOCALAPPDATA%\\labCE\\\"\ncopy /y Logo_LabCE.ico \"%LOCALAPPDATA%\\labCE\\\"')">Copier</button></div><div class="cb-body"><code><span class="sy-cmd">mkdir</span> <span class="sy-str">"%LOCALAPPDATA%\labCE"</span>
-<span class="sy-cmd">copy</span> /y <span class="sy-str">labCE_app.exe  "%LOCALAPPDATA%\labCE\"</span>
-<span class="sy-cmd">copy</span> /y <span class="sy-str">config.ini     "%LOCALAPPDATA%\labCE\"</span>
-<span class="sy-cmd">copy</span> /y <span class="sy-str">Logo_LabCE.ico "%LOCALAPPDATA%\labCE\"</span></code></div></div>
-        </div></div>
-        <div class="tl-step"><div class="tl-num done" id="m2">✓</div><div class="tl-content">
-          <div class="tl-title" data-i18n="me3">Lancer labCE_app.exe</div>
-          <p data-i18n="me3p">Double-cliquez sur <code>%LOCALAPPDATA%\labCE\labCE_app.exe</code>. Si Windows SmartScreen bloque → clic-droit sur l'exe → Propriétés → cocher "Débloquer".</p>
-        </div></div>
-      </div>
-    </div>
-    <div id="m-py" style="display:none">
-      <div class="tl">
-        <div class="tl-step"><div class="tl-num" onclick="doneStep('p0')" id="p0">1</div><div class="tl-content">
-          <div class="tl-title" data-i18n="mp1">Installer Python 3.10+</div>
-          <p data-i18n="mp1p">Depuis <strong>python.org</strong>. Cocher impérativement <strong>"Add Python to PATH"</strong>. Vérifier :</p>
-          <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">CMD</span></div><div class="cb-body"><code><span class="sy-cmd">python</span> --version
-<span class="sy-ok">Python 3.11.x</span></code></div></div>
-        </div></div>
-        <div class="tl-step"><div class="tl-num" onclick="doneStep('p1')" id="p1">2</div><div class="tl-content">
-          <div class="tl-title" data-i18n="mp2">Créer l'environnement virtuel</div>
-          <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">CMD</span><button class="cb-copy" onclick="copyTxt('python -m venv .venv\n.venv\\Scripts\\activate')">Copier</button></div><div class="cb-body"><code><span class="sy-cmd">python</span> -m venv .venv
-<span class="sy-cmd">.venv\Scripts\activate</span></code></div></div>
-        </div></div>
-        <div class="tl-step"><div class="tl-num" onclick="doneStep('p2')" id="p2">3</div><div class="tl-content">
-          <div class="tl-title" data-i18n="mp3">Installer les dépendances</div>
-          <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">CMD (env activé)</span><button class="cb-copy" onclick="copyTxt('pip install -r requirements.txt')">Copier</button></div><div class="cb-body"><code><span class="sy-cmd">pip install</span> -r requirements.txt
-<span class="sy-cmt"># matplotlib, numpy, openpyxl, pillow, scipy, nidaqmx</span></code></div></div>
-        </div></div>
-        <div class="tl-step"><div class="tl-num done" id="p3">✓</div><div class="tl-content">
-          <div class="tl-title" data-i18n="mp4">Lancer l'application</div>
-          <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">CMD</span><button class="cb-copy" onclick="copyTxt('python labCE_app.py')">Copier</button></div><div class="cb-body"><code><span class="sy-cmd">python</span> labCE_app.py</code></div></div>
-        </div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── UPDATE ── -->
+  <!-- ── MISE À JOUR ── -->
   <div id="inst-update" class="inst-pane">
-    <div class="alert a-info"><div class="alert-body"><h4 data-i18n="iu_h">Mise à jour via UPDATE.bat</h4><p data-i18n="iu_p">Seul l'exécutable est remplacé. NI-DAQmx et config.ini ne sont pas touchés.</p></div></div>
-    <div class="tl" style="margin-top:24px">
+    <p style="margin-bottom:24px;color:var(--t2)">Seul l'exécutable est remplacé. NI-DAQmx et config.ini ne sont pas modifiés.</p>
+    <div class="tl">
       <div class="tl-step"><div class="tl-num" onclick="doneStep('u0')" id="u0">1</div><div class="tl-content">
-        <div class="tl-title" data-i18n="uu1">Récupérer le nouveau labCE_app.exe</div>
-        <p data-i18n="uu1p">Cliquer sur le bouton <strong>↓ Télécharger labCE_app.exe</strong> dans l'onglet <em>Mises à jour</em> de ce site.</p>
+        <div class="tl-title">Télécharger le nouveau labCE_app.exe</div>
+        <p>Bouton <strong>Télécharger labCE_app.exe</strong> dans l'onglet <em>Mises à jour</em> de ce site.</p>
       </div></div>
       <div class="tl-step"><div class="tl-num" onclick="doneStep('u1')" id="u1">2</div><div class="tl-content">
-        <div class="tl-title" data-i18n="uu2">Placer exe + UPDATE.bat côte à côte</div>
-        <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">Structure requise</span></div><div class="cb-body"><code><span class="sy-ok">Dossier_maj/</span>
+        <div class="tl-title">Placer labCE_app.exe à côté de UPDATE.bat</div>
+        <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">Structure</span></div><div class="cb-body"><code><span class="sy-ok">dossier/</span>
 ├── <span class="sy-cmd">labCE_app.exe</span>   <span class="sy-cmt">← nouvelle version</span>
 └── <span class="sy-warn">UPDATE.bat</span>      <span class="sy-cmt">← à double-cliquer</span></code></div></div>
       </div></div>
       <div class="tl-step"><div class="tl-num" onclick="doneStep('u2')" id="u2">3</div><div class="tl-content">
-        <div class="tl-title" data-i18n="uu3">Double-cliquer UPDATE.bat</div>
-        <p data-i18n="uu3p">Le script ferme automatiquement labCE si ouvert, puis remplace l'exe. Résultat attendu :</p>
+        <div class="tl-title">Double-cliquer UPDATE.bat</div>
+        <p style="margin-bottom:10px">Le script ferme labCE s'il est ouvert, puis remplace l'exe.</p>
         <div class="cb-wrap"><div class="cb-body"><code><span class="sy-ok">[OK] labCE mis a jour avec succes.</span>
-Lancez l'application depuis le raccourci sur le bureau.</code></div></div>
-        <div class="alert a-err"><div class="alert-body"><h4 data-i18n="uu3_err">[ERREUR] La copie a échoué</h4><p data-i18n="uu3_err_p">labCE est encore ouvert → Gestionnaire des tâches → fin de tâche <code>labCE_app.exe</code> → relancer UPDATE.bat.</p></div></div>
+Lancez l'application depuis le raccourci bureau.</code></div></div>
+        <div class="alert a-err" style="margin-top:10px"><div class="alert-body"><h4>[ERREUR] La copie a échoué</h4><p>labCE est encore ouvert — Gestionnaire des tâches → fin de tâche <code>labCE_app.exe</code> → relancer UPDATE.bat.</p></div></div>
       </div></div>
       <div class="tl-step"><div class="tl-num done" id="u3">✓</div><div class="tl-content">
-        <div class="tl-title" data-i18n="uu4">Vérifier la version dans la barre de titre</div>
+        <div class="tl-title">Vérifier la version dans la barre de titre</div>
       </div></div>
     </div>
   </div>
 
   <!-- ── DÉPANNAGE ── -->
   <div id="inst-fix" class="inst-pane">
-    <h3 style="margin-bottom:16px;font-size:1rem" data-i18n="fix_h">Problèmes fréquents</h3>
+    <h3 style="margin-bottom:16px;font-size:.95rem;font-weight:600">Problèmes fréquents</h3>
 
     <div class="acc-item open">
-      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span class="acc-icon">❌</span><span data-i18n="fx1">[ERREUR] labCE_app.exe introuvable</span></div><span class="acc-chev">▼</span></div>
-      <div class="acc-body"><div class="acc-body-inner"><p data-i18n="fx1p"><code>INSTALLER.bat</code> ou <code>UPDATE.bat</code> doit être dans le <strong>même dossier</strong> que <code>labCE_app.exe</code>. Ne pas l'exécuter depuis un raccourci ou un autre emplacement.</p></div></div>
+      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span data-i18n="fx1">[ERREUR] labCE_app.exe introuvable</span></div><span class="acc-chev">▼</span></div>
+      <div class="acc-body"><div class="acc-body-inner"><p><code>INSTALLER.bat</code> ou <code>UPDATE.bat</code> doit être dans le <strong>même dossier</strong> que <code>labCE_app.exe</code>. Ne pas l'exécuter depuis un raccourci.</p></div></div>
     </div>
     <div class="acc-item">
-      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span class="acc-icon">⚠️</span><span data-i18n="fx2">NI-DAQmx non disponible / device non détecté</span></div><span class="acc-chev">▼</span></div>
-      <div class="acc-body"><div class="acc-body-inner"><p data-i18n="fx2_ok">Normal sans matériel NI — labCE fonctionne en simulation. Si vous avez du matériel :</p><ul style="list-style:disc;padding-left:20px;color:var(--t2);margin-top:8px;display:flex;flex-direction:column;gap:6px"><li data-i18n="fx2_1">Vérifier que NI-DAQmx est installé (Panneau de configuration → Programmes)</li><li data-i18n="fx2_2">Ouvrir NI MAX — le device doit être visible</li><li data-i18n="fx2_3">Vérifier le champ <code>device = Dev1</code> dans <code>config.ini</code></li><li data-i18n="fx2_4">Cliquer "🔄 Rafraîchir" dans labCE</li><li data-i18n="fx2_5">Redémarrer si NI-DAQmx vient d'être installé</li></ul></div></div>
+      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span>NI-DAQmx non disponible / device non détecté</span></div><span class="acc-chev">▼</span></div>
+      <div class="acc-body"><div class="acc-body-inner"><p>Sans matériel NI, labCE fonctionne en simulation. Avec du matériel :</p><ul style="list-style:disc;padding-left:20px;color:var(--t2);margin-top:8px;display:flex;flex-direction:column;gap:6px"><li>Vérifier que NI-DAQmx est installé (Panneau de configuration → Programmes)</li><li>Ouvrir NI MAX — le device doit être visible</li><li>Vérifier <code>device = Dev1</code> dans <code>config.ini</code></li><li>Cliquer "Rafraîchir" dans labCE</li><li>Redémarrer si NI-DAQmx vient d'être installé</li></ul></div></div>
     </div>
     <div class="acc-item">
-      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span class="acc-icon">🔒</span><span data-i18n="fx3">Windows SmartScreen / Antivirus bloque l'exe</span></div><span class="acc-chev">▼</span></div>
+      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span>Windows SmartScreen / antivirus bloque l'exe</span></div><span class="acc-chev">▼</span></div>
       <div class="acc-body"><div class="acc-body-inner"><ol style="list-style:decimal;padding-left:20px;color:var(--t2);display:flex;flex-direction:column;gap:6px"><li data-i18n="fx3_1">Clic-droit sur <code>labCE_app.exe</code> → Propriétés</li><li data-i18n="fx3_2">En bas → cocher <strong>"Débloquer"</strong> → OK</li><li data-i18n="fx3_3">Ou : message SmartScreen → "Informations complémentaires" → "Exécuter quand même"</li></ol></div></div>
     </div>
     <div class="acc-item">
-      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span class="acc-icon">🐍</span><span data-i18n="fx4">ModuleNotFoundError (sources Python)</span></div><span class="acc-chev">▼</span></div>
+      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span data-i18n="fx4">ModuleNotFoundError (sources Python)</span></div><span class="acc-chev">▼</span></div>
       <div class="acc-body"><div class="acc-body-inner">
         <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">CMD</span><button class="cb-copy" onclick="copyTxt('pip install --upgrade numpy matplotlib openpyxl pillow scipy nidaqmx')">Copier</button></div><div class="cb-body"><code><span class="sy-cmd">pip install</span> --upgrade numpy matplotlib openpyxl pillow scipy nidaqmx</code></div></div>
       </div></div>
     </div>
     <div class="acc-item">
-      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span class="acc-icon">🔴</span><span data-i18n="fx5">Code retour 3010 après installation NI-DAQmx</span></div><span class="acc-chev">▼</span></div>
+      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span data-i18n="fx5">Code retour 3010 après installation NI-DAQmx</span></div><span class="acc-chev">▼</span></div>
       <div class="acc-body"><div class="acc-body-inner"><div class="alert a-info"><div class="alert-body"><h4 data-i18n="fx5h">Pas une erreur</h4><p data-i18n="fx5p">Code 3010 = installation réussie, redémarrage requis. Redémarrez Windows normalement. labCE fonctionnera après.</p></div></div></div></div>
     </div>
     <div class="acc-item">
-      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span class="acc-icon">📁</span><span data-i18n="fx6">Où se trouvent les fichiers installés ?</span></div><span class="acc-chev">▼</span></div>
+      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span data-i18n="fx6">Où se trouvent les fichiers installés ?</span></div><span class="acc-chev">▼</span></div>
       <div class="acc-body"><div class="acc-body-inner">
         <div class="cb-wrap"><div class="cb-body"><code><span class="sy-cmt"># Application</span>   <span class="sy-val">%LOCALAPPDATA%\labCE\labCE_app.exe</span>
 <span class="sy-cmt"># Configuration</span> <span class="sy-val">%LOCALAPPDATA%\labCE\config.ini</span>
@@ -1068,7 +1001,7 @@ Lancez l'application depuis le raccourci sur le bureau.</code></div></div>
       </div></div>
     </div>
     <div class="acc-item">
-      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span class="acc-icon">🔁</span><span data-i18n="fx7">Désinstaller labCE</span></div><span class="acc-chev">▼</span></div>
+      <div class="acc-head" onclick="toggleAcc(this)"><div class="acc-head-l"><span data-i18n="fx7">Désinstaller labCE</span></div><span class="acc-chev">▼</span></div>
       <div class="acc-body"><div class="acc-body-inner">
         <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">CMD (admin)</span><button class="cb-copy" onclick="copyTxt('taskkill /f /im labCE_app.exe\nrmdir /s /q \"%LOCALAPPDATA%\\labCE\"\ndel \"%USERPROFILE%\\Desktop\\labCE v5.3.lnk\"')">Copier</button></div><div class="cb-body"><code><span class="sy-cmd">taskkill</span> /f /im labCE_app.exe
 <span class="sy-cmd">rmdir</span> /s /q <span class="sy-str">"%LOCALAPPDATA%\labCE"</span>
@@ -1106,7 +1039,7 @@ Lancez l'application depuis le raccourci sur le bureau.</code></div></div>
           ↓ <span data-i18n="upd_dl">Télécharger labCE_app.exe</span>
         </a>
         <button class="btn btn-ghost" onclick="switchTab('install');switchInst('update')" data-i18n="upd_howto_btn">
-          📋 Comment installer la mise à jour
+          Comment installer la mise à jour
         </button>
       </div>
     </div>
@@ -1210,7 +1143,6 @@ Lancez l'application depuis le raccourci sur le bureau.</code></div></div>
       <!-- Netlify -->
       <div class="panel" style="border-color:var(--border-a)">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-          <div style="font-size:1.8rem">🚀</div>
           <div>
             <div style="font-weight:700;font-size:1rem">Netlify Drop</div>
             <span class="badge b-green" data-i18n="host_rec">Le plus simple</span>
@@ -1229,7 +1161,6 @@ Lancez l'application depuis le raccourci sur le bureau.</code></div></div>
       <!-- GitHub Pages -->
       <div class="panel">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-          <div style="font-size:1.8rem">🐙</div>
           <div>
             <div style="font-weight:700;font-size:1rem">GitHub Pages + Releases</div>
             <span class="badge b-blue" data-i18n="host_pro">Solution complète</span>
@@ -1274,13 +1205,13 @@ const GH = {
 /* ─── i18n ─── */
 const T = {
   fr:{
-    nav_pres:'🏠 Présentation', nav_inst:'⚙️ Installation',
+    nav_pres:'Présentation', nav_inst:'Installation',
     hero_title:'Acquisition<br>de données<br><em>pour bancs</em><br><em>d\'essai</em>',
-    hero_sub:'<strong>labCE</strong> est un logiciel professionnel d\'acquisition, visualisation et analyse de données mécaniques en temps réel — effort, course, capteurs NI-DAQmx, encodeurs linéaires.',
-    hero_cta1:'⚡ Installer maintenant', hero_cta2:'🖼 Voir le logiciel',
+    hero_sub:'<strong>labCE</strong> — acquisition, visualisation et analyse de données mécaniques en temps réel. Effort, course, capteurs NI-DAQmx, encodeurs linéaires.',
+    hero_cta1:'Installer', hero_cta2:'Voir l\'interface',
     hero_img_label:'// Interface principale — cliquer pour agrandir',
     m1:'Hz échant. min', m2:'Canaux simultanés', m3:'Points en mémoire', m4:'Décodage encodeur', m5:'Export intégré', m6:'Installation auto',
-    feat_label:'Fonctionnalités', feat_title:'Ce que labCE<br>fait pour vous',
+    feat_label:'Fonctionnalités', feat_title:'Fonctionnalités',
     f1h:'Acquisition NI-DAQmx temps réel', f1p:'Interface hybride analogique (cellule de charge Kistler ai0) + compteur linéaire (encodeur ASM ctr0) avec décodage X4. Fréquence configurable, correction de zéro automatique.',
     f2h:'Visualisation graphique interactive', f2p:'Courbes Matplotlib temps réel avec curseur d\'inspection, zoom/pan/reset, superposition multi-courbes pour comparer plusieurs essais en direct.',
     f3h:'Export Excel + statistiques', f3p:'Export multi-onglets avec graphiques intégrés, Min/Max/Moyenne/Écart-type par courbe, interpolation de points de référence, comparaison automatique entre essais.',
@@ -1291,28 +1222,28 @@ const T = {
     hw_th1:'Paramètre', hw_th2:'Valeur', hw_th3:'Canal',
     hw_r1a:'Cellule de charge', hw_r2a:'Plage mesure', hw_r3a:'Encodeur linéaire', hw_r4a:'Décodage', hw_r6a:'Pas encodeur', hw_r8a:'Fréquence défaut',
     hw_note_h:'Vérification dans NI MAX', hw_note_p:'Le nom du device (ex. <code>Dev1</code>) doit correspondre à ce qui est affiché dans NI Measurement &amp; Automation Explorer.',
-    sc_label:'Captures d\'écran', sc_title:'L\'interface<br>en détail',
+    sc_label:'Captures d\'écran', sc_title:'Interface',
     sc_sub:'Cliquer sur une vue pour l\'agrandir. Chaque écran correspond à une étape clé du workflow.',
     sc1:'Interface principale — vue complète', sc2:'Graphique Effort / Course temps réel', sc3:'Panneau de contrôle — acquisition', sc4:'Écran de bienvenue — guide démarrage', sc5:'Fenêtre paramètres', sc6:'Analyse et interpolation de points', sc7:'Sélection du mode de mesure',
-    dl_label:'Téléchargement', dl_title:'Choisir<br>votre package', dl_sub:'Trois packages disponibles selon votre configuration.',
+    dl_label:'Téléchargement', dl_title:'Téléchargement', dl_sub:'Trois packages disponibles selon votre configuration.',
     dl_rec:'Recommandé', dl2_rec:'NI-DAQmx requis',
-    dl_btn_req:'🔗 Obtenir le lien',
+    dl_btn_req:'Obtenir le lien',
     dl1_desc:'Inclut NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat',
-    dl1_big_h:'⚠️ Fichier trop lourd pour GitHub (3,3 GB)',
+    dl1_big_h:'Fichier trop lourd pour GitHub (3,3 GB)',
     dl1_big_p:'Ce package inclut NI-DAQmx offline. Contactez votre responsable pour obtenir le lien Google Drive. Si NI-DAQmx est déjà installé → utilisez le <strong>Package léger</strong>.',
     dl2_desc:'NI-DAQmx déjà installé requis — labCE + INSTALLER.bat uniquement', dl3_desc:'Code source complet + requirements.txt + build scripts',
     dl_btn:'↓ Télécharger',
     mt_label:'Sur téléphone ?', mt_title:'Envoyez le lien<br>sur votre PC', mt_sub:'Vous consultez depuis un téléphone ? Partagez le lien du site directement vers votre ordinateur Windows pour lancer le téléchargement.',
     mt_share_title:'Partager via WhatsApp / Email / SMS…', mt_share_sub:'Ouvre le menu de partage natif de votre téléphone',
     mt_email_title:'S\'envoyer un e-mail', mt_email_sub:'Ouvre votre appli e-mail avec le lien pré-rempli',
-    mt_or:'ou copiez le lien', mt_copy:'📋 Copier', mt_hint:'Collez ce lien dans le navigateur de votre PC pour accéder au téléchargement.',
+    mt_or:'ou copiez le lien', mt_copy:'Copier', mt_hint:'Collez ce lien dans le navigateur de votre PC pour accéder au téléchargement.',
     inst_eyebrow:'Guide d\'installation', inst_title:'Installer labCE v5.3', inst_sub:'Suivez ce guide pas à pas pour installer labCE sur Windows, avec ou sans le driver NI-DAQmx.',
-    it_auto:'⚡ Automatique', it_manual:'🔧 Manuelle', it_update:'🔄 Mise à jour', it_fix:'🐛 Dépannage',
+    it_auto:'Installation', it_manual:'Manuelle', it_update:'Mise à jour', it_fix:'Dépannage',
     ia_rec:'Méthode recommandée — 1 double-clic', ia_rec_p:'INSTALLER.bat installe NI-DAQmx, copie labCE et crée le raccourci bureau automatiquement. Prévoir 10 à 30 min.',
-    ia_chk_h:'✅ Vérifier avant de lancer',
+    ia_chk_h:'Prérequis',
     chk0:'Package ZIP complètement extrait (pas lancé depuis l\'archive)', chk1:'Dossier <code>NI-DAQmx/</code> présent à côté de INSTALLER.bat', chk2:'Fichier <code>labCE_app.exe</code> présent dans le dossier', chk3:'Droits administrateur disponibles sur ce PC', chk4:'Au moins 5 GB d\'espace disque libre', chk5:'Windows 10 ou 11 (64 bits)',
-    chk_count:'0 / 6 prérequis validés', chk_launch:'🚀 Tout est prêt — lancer INSTALLER.bat',
-    ia_steps_h:'📋 Étapes détaillées',
+    chk_count:'0 / 6 prérequis validés', chk_launch:'Prérequis validés — suivre les étapes ci-dessous',
+    ia_steps_h:'Étapes',
     ts0:'Extraire le package ZIP complet', ts0p:'Clic-droit sur <code>labCE_v5.3_Package.zip</code> → "Extraire tout" dans un dossier sans accent ni espace (ex. <code>C:\\labCE</code>).', ts0w:'Ne pas lancer depuis le ZIP', ts0wp:'Windows bloque les exécutables lancés directement depuis une archive. Extraire d\'abord.',
     ts1:'Vérifier la structure du dossier', ts2:'Double-cliquer sur INSTALLER.bat', ts2p:'Si une fenêtre UAC apparaît → cliquer <strong>Oui</strong>. Si rien ne se passe → clic-droit → "Exécuter en tant qu\'administrateur".',
     ts3:'Redémarrer si demandé (code 3010)', ts3p:'Si la console affiche <code>[INFO] Un redémarrage sera nécessaire</code>, redémarrez Windows normalement avant de lancer labCE.',
@@ -1331,13 +1262,13 @@ const T = {
     fix_h:'Problèmes fréquents',
     fx1:'[ERREUR] labCE_app.exe introuvable', fx1p:'<code>INSTALLER.bat</code> ou <code>UPDATE.bat</code> doit être dans le <strong>même dossier</strong> que <code>labCE_app.exe</code>.',
     fx2:'NI-DAQmx non disponible / device non détecté', fx2_ok:'Normal sans matériel NI — labCE fonctionne en simulation. Si vous avez du matériel :',
-    fx2_1:'Vérifier que NI-DAQmx est installé (Panneau de configuration → Programmes)', fx2_2:'Ouvrir NI MAX — le device doit être visible', fx2_3:'Vérifier le champ <code>device = Dev1</code> dans <code>config.ini</code>', fx2_4:'Cliquer "🔄 Rafraîchir" dans labCE', fx2_5:'Redémarrer si NI-DAQmx vient d\'être installé',
+    fx2_1:'Vérifier que NI-DAQmx est installé (Panneau de configuration → Programmes)', fx2_2:'Ouvrir NI MAX — le device doit être visible', fx2_3:'Vérifier le champ <code>device = Dev1</code> dans <code>config.ini</code>', fx2_4:'Cliquer "Rafraîchir" dans labCE', fx2_5:'Redémarrer si NI-DAQmx vient d\'être installé',
     fx3:'Windows SmartScreen / Antivirus bloque l\'exe', fx3_1:'Clic-droit sur <code>labCE_app.exe</code> → Propriétés', fx3_2:'En bas → cocher <strong>"Débloquer"</strong> → OK', fx3_3:'Ou : message SmartScreen → "Informations complémentaires" → "Exécuter quand même"',
     fx4:'ModuleNotFoundError (sources Python)', fx5:'Code retour 3010 après installation NI-DAQmx', fx5h:'Pas une erreur', fx5p:'Code 3010 = installation réussie, redémarrage requis. Redémarrez Windows normalement.',
     fx6:'Où se trouvent les fichiers installés ?', fx7:'Désinstaller labCE',
-    nav_update:'📦 Mises à jour',
+    nav_update:'Mises à jour',
     upd_eyebrow:'Gestion des versions', upd_title:'Mises à jour<br>labCE', upd_sub:'Téléchargez la dernière version, puis lancez <code>UPDATE.bat</code> pour mettre à jour votre installation.',
-    upd_loading:'Chargement...', upd_dl:'Télécharger labCE_app.exe', upd_howto_btn:'📋 Comment installer la mise à jour',
+    upd_loading:'Chargement...', upd_dl:'Télécharger labCE_app.exe', upd_howto_btn:'Comment installer la mise à jour',
     upd_cl_title:'Nouveautés v', upd_proc_title:'Procédure<br>en 3 étapes',
     upd_s1:'Télécharger le nouvel exe', upd_s1p:'Cliquer sur le bouton de téléchargement ci-dessus pour obtenir <code>labCE_app.exe</code>.',
     upd_s2:'Placer l\'exe à côté de UPDATE.bat', upd_s2p:'Mettre <code>labCE_app.exe</code> et <code>UPDATE.bat</code> dans le même dossier sur votre PC.',
@@ -1361,10 +1292,10 @@ const T = {
     host_g_note_h:'Mises à jour 100% automatiques', host_g_note_p:'Publiez une Release GitHub avec <code>labCE_app.exe</code> en pièce jointe → GitHub Actions génère <code>version.json</code> automatiquement → le site affiche la nouvelle version en &lt; 2 min. Zéro manipulation manuelle.'
   },
   en:{
-    nav_pres:'🏠 Overview', nav_inst:'⚙️ Installation',
+    nav_pres:'Overview', nav_inst:'Installation',
     hero_title:'Data<br>Acquisition<br><em>for Test</em><br><em>Benches</em>',
     hero_sub:'<strong>labCE</strong> is a professional software for real-time mechanical data acquisition, visualization and analysis — force, displacement, NI-DAQmx sensors, linear encoders.',
-    hero_cta1:'⚡ Install now', hero_cta2:'🖼 View screenshots',
+    hero_cta1:'Install', hero_cta2:'View interface',
     hero_img_label:'// Main interface — click to enlarge',
     m1:'Hz min sample rate', m2:'Simultaneous channels', m3:'Points in memory', m4:'Encoder decoding', m5:'Integrated export', m6:'Auto installation',
     feat_label:'Features', feat_title:'What labCE<br>does for you',
@@ -1383,23 +1314,23 @@ const T = {
     sc1:'Main interface — full view', sc2:'Force / Displacement real-time graph', sc3:'Control panel — acquisition', sc4:'Welcome screen — startup guide', sc5:'Settings window', sc6:'Analysis and point interpolation', sc7:'Measurement mode selection',
     dl_label:'Download', dl_title:'Choose<br>your package', dl_sub:'Three packages available depending on your setup.',
     dl_rec:'Recommended', dl2_rec:'NI-DAQmx required',
-    dl_btn_req:'🔗 Get the link',
+    dl_btn_req:'Get the link',
     dl1_desc:'Includes NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat',
-    dl1_big_h:'⚠️ File too large for GitHub (3.3 GB)',
+    dl1_big_h:'File too large for GitHub (3.3 GB)',
     dl1_big_p:'This package includes NI-DAQmx offline. Contact your admin for the Google Drive link. If NI-DAQmx is already installed → use the <strong>Lightweight package</strong>.',
     dl2_desc:'NI-DAQmx already required — labCE + INSTALLER.bat only', dl3_desc:'Full source code + requirements.txt + build scripts',
     dl_btn:'↓ Download',
     mt_label:'On your phone?', mt_title:'Send the link<br>to your PC', mt_sub:'Browsing from a phone? Share the site link directly to your Windows computer to start the download.',
     mt_share_title:'Share via WhatsApp / Email / SMS…', mt_share_sub:'Opens your phone\'s native share menu',
     mt_email_title:'Send yourself an email', mt_email_sub:'Opens your email app with the link pre-filled',
-    mt_or:'or copy the link', mt_copy:'📋 Copy', mt_hint:'Paste this link in your PC browser to access the download.',
+    mt_or:'or copy the link', mt_copy:'Copy', mt_hint:'Paste this link in your PC browser to access the download.',
     inst_eyebrow:'Installation guide', inst_title:'Install labCE v5.3', inst_sub:'Follow this step-by-step guide to install labCE on Windows, with or without the NI-DAQmx driver.',
-    it_auto:'⚡ Automatic', it_manual:'🔧 Manual', it_update:'🔄 Update', it_fix:'🐛 Troubleshoot',
+    it_auto:'Installation', it_manual:'Manual', it_update:'Update', it_fix:'Troubleshoot',
     ia_rec:'Recommended method — 1 double-click', ia_rec_p:'INSTALLER.bat installs NI-DAQmx, copies labCE and creates the desktop shortcut automatically. Allow 10 to 30 min.',
-    ia_chk_h:'✅ Check before launching',
+    ia_chk_h:'Prerequisites',
     chk0:'ZIP package fully extracted (not run from the archive)', chk1:'<code>NI-DAQmx/</code> folder present next to INSTALLER.bat', chk2:'<code>labCE_app.exe</code> file present in the folder', chk3:'Administrator rights available on this PC', chk4:'At least 5 GB of free disk space', chk5:'Windows 10 or 11 (64-bit)',
-    chk_count:'0 / 6 prerequisites validated', chk_launch:'🚀 All ready — run INSTALLER.bat',
-    ia_steps_h:'📋 Detailed steps',
+    chk_count:'0 / 6 prerequisites validated', chk_launch:'All prerequisites validated — follow the steps below',
+    ia_steps_h:'Steps',
     ts0:'Extract the full ZIP package', ts0p:'Right-click <code>labCE_v5.3_Package.zip</code> → "Extract All" to a folder without accents or spaces (e.g. <code>C:\\labCE</code>).', ts0w:'Do not run from the ZIP', ts0wp:'Windows may block executables run directly from an archive. Extract first.',
     ts1:'Verify the folder structure', ts2:'Double-click INSTALLER.bat', ts2p:'If a UAC window appears → click <strong>Yes</strong>. If nothing happens → right-click → "Run as administrator".',
     ts3:'Restart if prompted (code 3010)', ts3p:'If the console shows <code>[INFO] A restart will be required</code>, restart Windows normally before launching labCE.',
@@ -1418,13 +1349,13 @@ const T = {
     fix_h:'Common issues',
     fx1:'[ERROR] labCE_app.exe not found', fx1p:'<code>INSTALLER.bat</code> or <code>UPDATE.bat</code> must be in the <strong>same folder</strong> as <code>labCE_app.exe</code>.',
     fx2:'NI-DAQmx unavailable / device not detected', fx2_ok:'Normal without NI hardware — labCE runs in simulation. If you have hardware:',
-    fx2_1:'Verify NI-DAQmx is installed (Control Panel → Programs)', fx2_2:'Open NI MAX — the device must be visible', fx2_3:'Check <code>device = Dev1</code> in <code>config.ini</code>', fx2_4:'Click "🔄 Refresh" in labCE', fx2_5:'Restart if NI-DAQmx was just installed',
+    fx2_1:'Verify NI-DAQmx is installed (Control Panel → Programs)', fx2_2:'Open NI MAX — the device must be visible', fx2_3:'Check <code>device = Dev1</code> in <code>config.ini</code>', fx2_4:'Click "Refresh" in labCE', fx2_5:'Restart if NI-DAQmx was just installed',
     fx3:'Windows SmartScreen / Antivirus blocks the exe', fx3_1:'Right-click <code>labCE_app.exe</code> → Properties', fx3_2:'At the bottom → check <strong>"Unblock"</strong> → OK', fx3_3:'Or: SmartScreen message → "More info" → "Run anyway"',
     fx4:'ModuleNotFoundError (Python sources)', fx5:'Return code 3010 after NI-DAQmx installation', fx5h:'Not an error', fx5p:'Code 3010 = successful installation, restart required. Restart Windows normally.',
     fx6:'Where are the installed files?', fx7:'Uninstall labCE',
-    nav_update:'📦 Updates',
+    nav_update:'Updates',
     upd_eyebrow:'Version management', upd_title:'labCE<br>Updates', upd_sub:'Download the latest version, then run <code>UPDATE.bat</code> to update your installation.',
-    upd_loading:'Loading...', upd_dl:'Download labCE_app.exe', upd_howto_btn:'📋 How to install the update',
+    upd_loading:'Loading...', upd_dl:'Download labCE_app.exe', upd_howto_btn:'How to install the update',
     upd_cl_title:'What\'s new in v', upd_proc_title:'3-step<br>procedure',
     upd_s1:'Download the new exe', upd_s1p:'Click the download button above to get <code>labCE_app.exe</code>.',
     upd_s2:'Place exe next to UPDATE.bat', upd_s2p:'Put <code>labCE_app.exe</code> and <code>UPDATE.bat</code> in the same folder on your PC.',
@@ -1673,7 +1604,7 @@ function showView(idx, btn){
     const d=v.desc[lang]||v.desc.fr;
     const featsHtml=v.feats.map(f=>{
       const fLang=f[lang]||f.fr;
-      return`<div class="sc-feat"><span class="sc-feat-icon">${f.icon}</span><div class="sc-feat-text"><strong>${fLang.h}</strong>${fLang.p}</div></div>`;
+      return`<div class="sc-feat"><div class="sc-feat-text"><strong>${fLang.h}</strong>${fLang.p}</div></div>`;
     }).join('');
     info.innerHTML=`<div><div class="sc-info-title">${t}</div><p class="sc-info-desc">${d}</p></div>${featsHtml}`;
   }
@@ -1801,9 +1732,9 @@ function checkGHConfig(){
   const el=document.getElementById('gh-config-status');
   if(!el) return;
   if(!GH.owner){
-    el.innerHTML=`<div class="alert a-warn" style="margin:0"><div class="alert-body"><h4>⚠️ GH.owner non configuré</h4><p>Ouvrir <code>index.html</code>, chercher <code>const GH</code> tout en haut du script et renseigner votre identifiant GitHub pour activer les mises à jour automatiques.</p></div></div>`;
+    el.innerHTML=`<div class="alert a-warn" style="margin:0"><div class="alert-body"><h4>GH.owner non configuré</h4><p>Ouvrir <code>index.html</code>, chercher <code>const GH</code> tout en haut du script et renseigner votre identifiant GitHub pour activer les mises à jour automatiques.</p></div></div>`;
   } else {
-    el.innerHTML=`<div class="alert a-ok" style="margin:0"><div class="alert-body"><h4>✅ Connecté — ${GH.owner}/${GH.repo}</h4><p>Les mises à jour automatiques sont actives. Créez une Release GitHub pour publier une nouvelle version.</p></div></div>`;
+    el.innerHTML=`<div class="alert a-ok" style="margin:0"><div class="alert-body"><h4>Connecté — ${GH.owner}/${GH.repo}</h4><p>Les mises à jour automatiques sont actives. Créez une Release GitHub pour publier une nouvelle version.</p></div></div>`;
   }
 }
 
@@ -1814,7 +1745,7 @@ document.getElementById('dl-btn-full')?.addEventListener('click',function(e){
   if(!info)return;
   const open=info.style.display==='flex';
   info.style.display=open?'none':'flex';
-  this.textContent=open?(lang==='fr'?'🔗 Obtenir le lien':'🔗 Get the link'):'✖ Fermer';
+  this.textContent=open?(lang==='fr'?'Obtenir le lien':'Get the link'):'✖ Fermer';
 });
 
 /* ─── MOBILE → PC TRANSFER ─── */
