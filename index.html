@@ -13,9 +13,10 @@
 <link rel="icon" href="Logo_LabCE.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 <style>
 :root{
   --ink:#07090f;--surface:#0d1219;--panel:#111b26;--panel-h:#162130;
@@ -27,8 +28,8 @@
   --t1:#d4e0ee;--t2:#546a82;--t3:#253345;
   --r:3px;--r2:6px;
   --font-h:'Barlow Condensed','Arial Narrow',sans-serif;
-  --font-b:'IBM Plex Sans','Segoe UI',sans-serif;
-  --font-m:'IBM Plex Mono','Consolas',monospace;
+  --font-b:'DM Sans','Segoe UI',system-ui,sans-serif;
+  --font-m:'JetBrains Mono','Consolas',monospace;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -126,13 +127,20 @@ code{font-family:var(--font-m);font-size:.84em;color:var(--amber);background:var
 .metric-val{font-family:var(--font-h);font-weight:800;font-size:2.2rem;color:var(--amber);line-height:1}
 .metric-label{font-family:var(--font-m);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t2);margin-top:5px}
 .metric-sep{width:1px;height:40px;background:var(--border);flex-shrink:0}
-/* ─── FEATURES ─── */
+/* ─── FEATURES ACCORDION ─── */
 .feat-list{display:flex;flex-direction:column;gap:0}
-.feat-item{display:grid;grid-template-columns:56px 1fr;gap:20px;padding:22px 0;border-bottom:1px solid var(--border);align-items:start}
+.feat-item{border-bottom:1px solid var(--border);overflow:hidden}
 .feat-item:last-child{border-bottom:none}
-.feat-num{font-family:var(--font-h);font-weight:900;font-size:2.2rem;color:var(--t3);line-height:1;padding-top:2px;transition:color .2s}
-.feat-item:hover .feat-num{color:var(--amber)}
-.feat-head{font-family:var(--font-b);font-weight:600;font-size:1rem;color:var(--t1);margin-bottom:6px}
+.feat-trigger{display:grid;grid-template-columns:56px 1fr 24px;gap:20px;padding:20px 0;cursor:pointer;align-items:center;user-select:none}
+.feat-trigger:hover .feat-num{color:var(--amber)}
+.feat-num{font-family:var(--font-h);font-weight:900;font-size:2.2rem;color:var(--t3);line-height:1;transition:color .25s}
+.feat-item.open .feat-num{color:var(--amber)}
+.feat-head{font-family:var(--font-b);font-weight:600;font-size:1rem;color:var(--t1)}
+.feat-arrow{width:20px;height:20px;border:1.5px solid var(--t3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:var(--t3);transition:all .3s;flex-shrink:0}
+.feat-item.open .feat-arrow{background:var(--amber);border-color:var(--amber);color:#07090f;transform:rotate(45deg)}
+.feat-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1)}
+.feat-item.open .feat-body{max-height:200px}
+.feat-body-inner{padding:0 0 20px 76px}
 .feat-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 /* ─── CAROUSEL ─── */
 .carousel-wrap{position:relative}
@@ -420,9 +428,30 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 .rev-l{opacity:0;transform:translateX(-16px);transition:opacity .5s ease,transform .5s ease}
 .rev-l.in{opacity:1;transform:translateX(0)}
 
-/* ─── FEAT HOVER ─── */
-.feat-item{transition:background .2s,padding-left .2s;border-radius:var(--r);padding-left:8px;margin-left:-8px}
-.feat-item:hover{background:rgba(245,197,24,.04);padding-left:14px}
+/* ─── FEAT TRIGGER HOVER ─── */
+.feat-trigger{border-radius:var(--r);padding-left:8px;margin-left:-8px;transition:background .2s,padding-left .2s}
+.feat-trigger:hover{background:rgba(245,197,24,.04);padding-left:14px}
+.feat-item.open .feat-trigger{padding-left:14px;background:rgba(245,197,24,.03)}
+
+/* ─── CANVAS DEMO (screenshots section) ─── */
+#demo-canvas{display:block;width:100%;border-radius:var(--r2);background:var(--surface);cursor:zoom-in}
+.demo-wrap{position:relative;border:1px solid var(--border-a);border-radius:var(--r2);overflow:hidden}
+.demo-label{position:absolute;bottom:10px;left:14px;font-family:var(--font-m);font-size:.68rem;color:var(--t2);letter-spacing:.06em;pointer-events:none}
+.demo-live{position:absolute;top:12px;right:14px;display:flex;align-items:center;gap:6px;font-family:var(--font-m);font-size:.65rem;color:var(--green);letter-spacing:.05em}
+.demo-dot{width:7px;height:7px;background:var(--green);border-radius:50%;animation:livePulse 1.4s ease-in-out infinite}
+@keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+/* ─── 3D TILT ─── */
+.tilt-card{transform-style:preserve-3d;will-change:transform}
+
+/* ─── REVEAL VARIANTS ─── */
+.rev-r{opacity:0;transform:translateX(20px);transition:opacity .55s ease,transform .55s ease}
+.rev-r.in{opacity:1;transform:translateX(0)}
+.rev-scale{opacity:0;transform:scale(.95);transition:opacity .5s ease,transform .5s ease}
+.rev-scale.in{opacity:1;transform:scale(1)}
+
+/* ─── HERO PARALLAX ─── */
+.hero-parallax{will-change:transform}
 
 /* ─── METRIC HOVER ─── */
 .metric-val{display:block}
@@ -551,11 +580,11 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
             <button class="btn btn-ghost btn-lg" onclick="document.getElementById('screenshots').scrollIntoView({behavior:'smooth'})" data-i18n="hero_cta2">Voir l'interface</button>
           </div>
         </div>
-        <div class="fade-up d2">
-          <div class="bezel" style="cursor:zoom-in" onclick="openLb('ss_main_full.png')">
-            <div class="bezel-tl"></div><div class="bezel-br"></div>
-            <img src="ss_main_full.png" alt="labCE interface" onerror="this.parentElement.style.minHeight='340px';this.style.display='none'">
-            <div class="bezel-label" data-i18n="hero_img_label">// Interface principale — cliquer pour agrandir</div>
+        <div class="fade-up d2 hero-parallax">
+          <div class="demo-wrap tilt-card">
+            <canvas id="acq-demo" style="width:100%;border-radius:var(--r2);display:block"></canvas>
+            <div class="demo-live"><span class="demo-dot"></span>Acquisition</div>
+            <div class="demo-label">Effort (N) / Course (mm) — labCE v5.3</div>
           </div>
         </div>
       </div>
@@ -590,56 +619,75 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
         <div>
           <div class="sec-label"><span data-i18n="feat_label">Fonctionnalités</span></div>
           <h2 class="h-display h-lg" style="margin-bottom:32px" data-i18n="feat_title">Fonctionnalités</h2>
-          <div class="feat-list">
-            <div class="feat-item">
-              <span class="feat-num">01</span>
-              <div>
+          <div class="feat-list" id="feat-list">
+            <div class="feat-item open">
+              <div class="feat-trigger" onclick="toggleFeat(this)">
+                <span class="feat-num">01</span>
                 <div class="feat-head" data-i18n="f1h">Acquisition NI-DAQmx temps réel</div>
-                <p data-i18n="f1p">Interface hybride analogique (cellule de charge Kistler ai0) + compteur linéaire (encodeur ASM ctr0) avec décodage X4. Fréquence configurable, correction de zéro automatique.</p>
+                <span class="feat-arrow">+</span>
+              </div>
+              <div class="feat-body"><div class="feat-body-inner">
+                <p data-i18n="f1p">Cellule de charge Kistler (ai0) + encodeur linéaire ASM (ctr0), décodage X4. 50 Hz minimum, correction de zéro automatique.</p>
                 <div class="feat-tags"><span class="badge b-blue">ai0 — Effort</span><span class="badge b-grey">ctr0 — Course</span></div>
-              </div>
+              </div></div>
             </div>
             <div class="feat-item">
-              <span class="feat-num">02</span>
-              <div>
-                <div class="feat-head" data-i18n="f2h">Visualisation graphique interactive</div>
-                <p data-i18n="f2p">Courbes Matplotlib temps réel avec curseur d'inspection, zoom/pan/reset, superposition multi-courbes pour comparer plusieurs essais en direct.</p>
+              <div class="feat-trigger" onclick="toggleFeat(this)">
+                <span class="feat-num">02</span>
+                <div class="feat-head" data-i18n="f2h">Graphique temps réel</div>
+                <span class="feat-arrow">+</span>
+              </div>
+              <div class="feat-body"><div class="feat-body-inner">
+                <p data-i18n="f2p">Courbes Matplotlib avec curseur d'inspection, zoom, superposition multi-essais. Mise à jour à chaque point acquis.</p>
                 <div class="feat-tags"><span class="badge b-green">Matplotlib</span><span class="badge b-grey">Multi-courbes</span></div>
-              </div>
+              </div></div>
             </div>
             <div class="feat-item">
-              <span class="feat-num">03</span>
-              <div>
-                <div class="feat-head" data-i18n="f3h">Export Excel + statistiques</div>
-                <p data-i18n="f3p">Export multi-onglets avec graphiques intégrés, Min/Max/Moyenne/Écart-type par courbe, interpolation de points de référence, comparaison automatique entre essais.</p>
+              <div class="feat-trigger" onclick="toggleFeat(this)">
+                <span class="feat-num">03</span>
+                <div class="feat-head" data-i18n="f3h">Export Excel</div>
+                <span class="feat-arrow">+</span>
+              </div>
+              <div class="feat-body"><div class="feat-body-inner">
+                <p data-i18n="f3p">Multi-onglets avec graphiques intégrés, Min/Max/Moyenne/Écart-type par courbe, points de référence interpolés.</p>
                 <div class="feat-tags"><span class="badge b-amber">openpyxl</span><span class="badge b-grey">CSV continu</span></div>
-              </div>
+              </div></div>
             </div>
             <div class="feat-item">
-              <span class="feat-num">04</span>
-              <div>
+              <div class="feat-trigger" onclick="toggleFeat(this)">
+                <span class="feat-num">04</span>
                 <div class="feat-head" data-i18n="f4h">Guide interactif intégré</div>
-                <p data-i18n="f4p">Écran de bienvenue, mise en évidence séquentielle des boutons pour nouveaux utilisateurs, tooltips sur tous les contrôles. Aucune formation préalable requise.</p>
-                <div class="feat-tags"><span class="badge b-grey">Guide pas-à-pas</span><span class="badge b-grey">Tooltips</span></div>
+                <span class="feat-arrow">+</span>
               </div>
+              <div class="feat-body"><div class="feat-body-inner">
+                <p data-i18n="f4p">Mise en évidence séquentielle des boutons, tooltips sur tous les contrôles. Opérationnel en moins de 2 minutes.</p>
+                <div class="feat-tags"><span class="badge b-grey">Pas-à-pas</span><span class="badge b-grey">Tooltips</span></div>
+              </div></div>
             </div>
             <div class="feat-item">
-              <span class="feat-num">05</span>
-              <div>
-                <div class="feat-head" data-i18n="f5h">Mode simulation sans hardware</div>
-                <p data-i18n="f5p">Démarrage automatique en simulation si aucune carte NI n'est détectée. Import Excel/CSV, analyse et export complets disponibles sans matériel.</p>
-                <div class="feat-tags"><span class="badge b-amber">Sans NI requis</span><span class="badge b-grey">Import CSV/XLSX</span></div>
+              <div class="feat-trigger" onclick="toggleFeat(this)">
+                <span class="feat-num">05</span>
+                <div class="feat-head" data-i18n="f5h">Mode simulation</div>
+                <span class="feat-arrow">+</span>
               </div>
+              <div class="feat-body"><div class="feat-body-inner">
+                <p data-i18n="f5p">Démarre sans carte NI. Import Excel/CSV, analyse complète et export disponibles sans matériel.</p>
+                <div class="feat-tags"><span class="badge b-amber">Sans NI</span><span class="badge b-grey">Import CSV/XLSX</span></div>
+              </div></div>
             </div>
             <div class="feat-item">
-              <span class="feat-num">06</span>
-              <div>
+              <div class="feat-trigger" onclick="toggleFeat(this)">
+                <span class="feat-num">06</span>
                 <div class="feat-head" data-i18n="f6h">Multi-PC via config.ini</div>
-                <p data-i18n="f6p">Déploiement sur plusieurs postes avec configuration par machine : nom du device, canaux, sensibilités, fréquence. Un seul exécutable pour tout le parc.</p>
-                <div class="feat-tags"><span class="badge b-grey">config.ini</span><span class="badge b-green">Multi-poste</span></div>
+                <span class="feat-arrow">+</span>
               </div>
+              <div class="feat-body"><div class="feat-body-inner">
+                <p data-i18n="f6p">Un fichier de config par poste. Même exe, paramètres différents (device, canaux, sensibilités).</p>
+                <div class="feat-tags"><span class="badge b-grey">config.ini</span><span class="badge b-green">Multi-poste</span></div>
+              </div></div>
             </div>
           </div>
+          <a class="btn btn-amber" onclick="switchTab('install')" style="margin-top:28px;cursor:pointer">Installer labCE</a>
         </div>
         <div style="position:sticky;top:80px">
           <div class="sec-label"><span data-i18n="hw_label">Matériel testé</span></div>
@@ -744,18 +792,18 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
           <h2 class="h-display h-lg" style="margin-bottom:8px" data-i18n="dl_title">Téléchargement</h2>
           <p style="margin-bottom:28px" data-i18n="dl_sub">Package complet (NI-DAQmx inclus) ou package léger si NI-DAQmx est déjà installé.</p>
           <div style="display:flex;flex-direction:column;gap:10px">
-            <div class="dl-card">
+            <div class="dl-card" id="dl-card-full">
               <div class="dl-info">
-                <div class="dl-name">Package complet <span class="badge b-amber" style="margin-left:6px" data-i18n="dl_rec">Recommandé</span></div>
-                <div class="dl-desc" data-i18n="dl1_desc">NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat — 3,3 GB</div>
+                <div class="dl-name">Package complet <span class="badge b-amber" style="margin-left:6px">Recommandé</span></div>
+                <div class="dl-desc" id="dl-full-desc">NI-DAQmx 25.8.1 + labCE + INSTALLER.bat — 3,3 GB</div>
               </div>
-              <a class="btn btn-amber" id="dl-btn-full" href="#dl-full-info" data-i18n="dl_btn_req">Obtenir le lien</a>
+              <a class="btn btn-amber" id="dl-btn-full" href="#" onclick="return handleFullPkg(event)">Télécharger</a>
             </div>
             <div class="dl-card" id="dl-full-info" style="background:var(--amb-dim);border-color:var(--border-a);display:none">
               <div class="dl-info" style="flex:1">
-                <div class="dl-name" style="margin-bottom:6px" data-i18n="dl1_big_h">Fichier trop lourd pour GitHub (3,3 GB)</div>
-                <p style="font-size:.82rem;color:var(--t2);line-height:1.5" data-i18n="dl1_big_p">Ce package inclut NI-DAQmx offline. Hébergez-le sur Google Drive ou OneDrive, puis partagez le lien direct avec vos utilisateurs.</p>
-                <p style="font-size:.78rem;color:var(--t3);margin-top:6px">NI-DAQmx déjà installé sur le poste ? Utilisez le package léger ci-dessous.</p>
+                <div class="dl-name" style="margin-bottom:6px">Lien non configuré</div>
+                <p style="font-size:.82rem;color:var(--t2);line-height:1.5">Le lien du package complet n'est pas encore configuré. Contactez l'administrateur ou utilisez le <strong>package léger</strong> ci-dessous si NI-DAQmx est déjà installé.</p>
+                <p style="font-size:.78rem;color:var(--t3);margin-top:8px">Pour configurer : ouvrir <code>index.html</code>, trouver <code>const FULL_PKG_URL = ''</code> et coller le lien Google Drive / OneDrive.</p>
               </div>
             </div>
             <div class="dl-card">
@@ -1081,14 +1129,8 @@ Lancez l'application depuis le raccourci bureau.</code></div></div>
         </div>
       </div>
 
-      <!-- ADMIN -->
-      <div style="margin-top:28px">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-          <h2 class="h-display h-md" data-i18n="upd_admin_title">Zone administrateur</h2>
-          <span class="badge b-amber" data-i18n="upd_admin_badge">Responsable logiciel</span>
-        </div>
-        <div class="panel" style="border-color:var(--border-a)">
-          <div id="gh-config-status" style="margin-bottom:14px"></div>
+        <div id="gh-config-status" style="display:none"></div>
+        <div class="panel" style="border-color:var(--border-a);display:none">
           <p style="margin-bottom:14px;font-size:.88rem" data-i18n="upd_admin_desc">Une seule action pour publier une mise à jour : créer une Release GitHub. Le site se met à jour automatiquement en moins de 2 minutes.</p>
           <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
             <div class="cl-item" style="border:1px solid var(--border);border-radius:var(--r);padding:12px 14px">
@@ -1133,8 +1175,8 @@ Lancez l'application depuis le raccourci bureau.</code></div></div>
     </div>
   </div>
 
-  <!-- HÉBERGEMENT -->
-  <div style="margin-top:56px">
+  <!-- HÉBERGEMENT (hidden) -->
+  <div style="margin-top:56px;display:none">
     <div class="sec-label"><span data-i18n="host_label">Hébergement sans serveur</span></div>
     <h2 class="h-display h-md" style="margin-bottom:8px" data-i18n="host_title">Mettre le site en ligne<br>gratuitement</h2>
     <p style="margin-bottom:28px;max-width:580px" data-i18n="host_sub">Deux options pour héberger cette page sur internet, sans PC allumé en permanence, sans abonnement.</p>
@@ -1197,10 +1239,14 @@ Lancez l'application depuis le raccourci bureau.</code></div></div>
    Laissez owner vide ('') pour utiliser version.json en local.
 ──────────────────────────────────────────────────────────────────────────── */
 const GH = {
-  owner: 'labce-app',                   // compte GitHub des releases
-  repo: 'labce-app.github.io',          // repo des releases
-  pagesUrl: 'https://labce-app.github.io/' // URL publique du site
+  owner: 'labce-app',
+  repo: 'labce-app.github.io',
+  pagesUrl: 'https://labce-app.github.io/'
 };
+
+// Lien direct vers le package complet (3,3 GB — NI-DAQmx inclus)
+// Héberger sur Google Drive ou OneDrive, coller le lien ici
+const FULL_PKG_URL = '';
 
 /* ─── i18n ─── */
 const T = {
@@ -1738,15 +1784,7 @@ function checkGHConfig(){
   }
 }
 
-/* ─── DOWNLOAD CARDS ─── */
-document.getElementById('dl-btn-full')?.addEventListener('click',function(e){
-  e.preventDefault();
-  const info=document.getElementById('dl-full-info');
-  if(!info)return;
-  const open=info.style.display==='flex';
-  info.style.display=open?'none':'flex';
-  this.textContent=open?(lang==='fr'?'Obtenir le lien':'Get the link'):'✖ Fermer';
-});
+/* ─── DOWNLOAD CARDS — géré par handleFullPkg() ─── */
 
 /* ─── MOBILE → PC TRANSFER ─── */
 function getMtUrl(){
@@ -1869,7 +1907,7 @@ function initHeroCanvas(){
 /* ═══════════════════════════════════════════════════
    GSAP ANIMATIONS
 ═══════════════════════════════════════════════════ */
-/* ── Intersection Observer reveals (fiable même sur nav directe) ── */
+/* ── Intersection Observer reveals ── */
 function initReveal(){
   const io=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
@@ -1877,17 +1915,29 @@ function initReveal(){
       e.target.classList.add('in');
       io.unobserve(e.target);
     });
-  },{rootMargin:'0px 0px -6% 0px',threshold:0.04});
+  },{rootMargin:'0px 0px -4% 0px',threshold:0.04});
 
-  // Éléments avec reveal vertical
+  // Vertical
   document.querySelectorAll(
     '.dl-card:not([style*="display:none"]),.panel,.prereq-card,.tl-step,.acc-item,.hw-table,.alert,.cb-wrap,.cl-item,.host-step,.method-card'
   ).forEach(el=>{el.classList.add('rev');io.observe(el);});
 
-  // Features avec reveal latéral + délai
+  // Features latéral
   document.querySelectorAll('.feat-item').forEach((el,i)=>{
     el.classList.add('rev-l');
-    el.style.transitionDelay=(i*0.07)+'s';
+    el.style.transitionDelay=(i*0.06)+'s';
+    io.observe(el);
+  });
+
+  // Droite (tableau hardware, métriques)
+  document.querySelectorAll('.hw-table,.metrics-strip').forEach(el=>{
+    el.classList.add('rev-r');
+    io.observe(el);
+  });
+
+  // Scale (panneaux hero)
+  document.querySelectorAll('.demo-wrap,.bezel').forEach(el=>{
+    el.classList.add('rev-scale');
     io.observe(el);
   });
 }
@@ -1895,6 +1945,29 @@ function initReveal(){
 function initGSAP(){
   if(typeof gsap==='undefined') return;
   gsap.registerPlugin(ScrollTrigger);
+
+  // ── Parallax hero ──
+  gsap.to('.hero-title',{
+    y:-60,ease:'none',
+    scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}
+  });
+  gsap.to('.hero-parallax',{
+    y:-30,ease:'none',
+    scrollTrigger:{trigger:'#hero',start:'top top',end:'bottom top',scrub:true}
+  });
+  gsap.to('.hero-sub,.hero-actions',{
+    y:-40,opacity:0,ease:'none',
+    scrollTrigger:{trigger:'#hero',start:'40% top',end:'bottom top',scrub:true}
+  });
+
+  // ── Section titles reveal directional ──
+  gsap.utils.toArray('.sec-label,.h-display').forEach((el,i)=>{
+    const dir=i%2===0?-24:24;
+    gsap.from(el,{
+      x:dir,opacity:0,duration:.7,ease:'power3.out',
+      scrollTrigger:{trigger:el,start:'top 88%',once:true}
+    });
+  });
 
   // ── Animated counters ──
   document.querySelectorAll('.metric-val[data-count]').forEach(el=>{
@@ -1941,7 +2014,183 @@ function initGSAP(){
   }
 }
 
-/* ─── INIT ─── */
+/* ═══════════════════════════════════════════════════
+   FEATURES ACCORDION
+═══════════════════════════════════════════════════ */
+function toggleFeat(trigger){
+  const item=trigger.closest('.feat-item');
+  const wasOpen=item.classList.contains('open');
+  // Fermer tous
+  document.querySelectorAll('.feat-item.open').forEach(i=>{
+    i.classList.remove('open');
+    i.querySelector('.feat-arrow').textContent='+';
+  });
+  // Ouvrir si était fermé
+  if(!wasOpen){
+    item.classList.add('open');
+    trigger.querySelector('.feat-arrow').textContent='+';
+  }
+}
+// Initialiser — premier item ouvert par défaut
+document.addEventListener('DOMContentLoaded',()=>{
+  const first=document.querySelector('.feat-item.open');
+  // already open via HTML class
+});
+
+/* ═══════════════════════════════════════════════════
+   PACKAGE COMPLET — gestion lien externe
+═══════════════════════════════════════════════════ */
+function handleFullPkg(e){
+  e.preventDefault();
+  if(FULL_PKG_URL){
+    window.open(FULL_PKG_URL,'_blank');
+  } else {
+    const info=document.getElementById('dl-full-info');
+    const btn=document.getElementById('dl-btn-full');
+    if(!info||!btn) return;
+    const open=info.style.display==='flex';
+    info.style.display=open?'none':'flex';
+    btn.textContent=open?'Télécharger':'✖ Fermer';
+  }
+  return false;
+}
+// Mettre à jour le bouton si lien configuré
+(function(){
+  const btn=document.getElementById('dl-btn-full');
+  const desc=document.getElementById('dl-full-desc');
+  if(btn&&FULL_PKG_URL){
+    btn.href=FULL_PKG_URL;
+    btn.setAttribute('target','_blank');
+    if(desc) desc.textContent='NI-DAQmx 25.8.1 + labCE + INSTALLER.bat — 3,3 GB — Google Drive';
+  } else if(btn){
+    btn.textContent='Obtenir le lien';
+  }
+})();
+
+/* ═══════════════════════════════════════════════════
+   CANVAS DEMO ACQUISITION — hero
+   Simule une acquisition effort/course en temps réel
+═══════════════════════════════════════════════════ */
+function initAcqDemo(){
+  const canvas=document.getElementById('acq-demo');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const DPR=window.devicePixelRatio||1;
+  const W=540, H=320;
+  canvas.width=W*DPR; canvas.height=H*DPR;
+  canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  ctx.scale(DPR,DPR);
+
+  // Paramètres des courbes (courbes de traction/compression réalistes)
+  const CURVES=[
+    {color:'#f5c518',alpha:.9,phase:0,   amp:1.0,noise:.015},
+    {color:'#3d7fff',alpha:.7,phase:0.4, amp:0.85,noise:.012},
+    {color:'#16c784',alpha:.5,phase:0.8, amp:0.72,noise:.01},
+  ];
+  let t=0;
+
+  // Courbe type "essai mécanique" : montée rapide + plateau + descente
+  function mechCurve(x, phase, amp, nz){
+    const p=(x+phase*0.6)%1;
+    // S-curve : montée + plateau + descente avec bruit
+    const base = p<.45 ? p/0.45 :
+                 p<.55 ? 1 :
+                 p<.95 ? 1-(p-.55)/0.4 : 0;
+    const noise=(Math.sin(x*97+phase*13)*nz+Math.sin(x*43+phase*7)*nz*.5);
+    return Math.max(0,base*amp+noise);
+  }
+
+  function draw(){
+    // Fond
+    ctx.fillStyle='#0a0f18';
+    ctx.fillRect(0,0,W,H);
+
+    // Grille
+    ctx.strokeStyle='rgba(255,255,255,.05)';
+    ctx.lineWidth=1;
+    const cols=8,rows=5,padX=48,padY=28,cW=W-padX-16,cH=H-padY-28;
+    for(let i=0;i<=rows;i++){
+      const y=padY+i*(cH/rows);
+      ctx.beginPath();ctx.moveTo(padX,y);ctx.lineTo(padX+cW,y);ctx.stroke();
+    }
+    for(let i=0;i<=cols;i++){
+      const x=padX+i*(cW/cols);
+      ctx.beginPath();ctx.moveTo(x,padY);ctx.lineTo(x,padY+cH);ctx.stroke();
+    }
+
+    // Axes labels
+    ctx.fillStyle='rgba(84,106,130,.8)';
+    ctx.font=`${10/DPR*DPR}px 'DM Sans',system-ui`;
+    ctx.textAlign='right';
+    for(let i=0;i<=rows;i++){
+      const v=Math.round((rows-i)*200/rows);
+      ctx.fillText(v+'N',padX-6,padY+i*(cH/rows)+4);
+    }
+    ctx.textAlign='center';
+    for(let i=0;i<=cols;i++){
+      const v=Math.round(i*20/cols*10)/10;
+      ctx.fillText(v+'mm',padX+i*(cW/cols),padY+cH+16);
+    }
+
+    // Courbes
+    const pts=160;
+    CURVES.forEach((c,ci)=>{
+      ctx.beginPath();
+      ctx.strokeStyle=c.color;
+      ctx.lineWidth=ci===0?2:1.4;
+      ctx.globalAlpha=c.alpha;
+      for(let i=0;i<=pts;i++){
+        const x=padX+i*(cW/pts);
+        const norm=mechCurve(i/pts+t*(.008+ci*.003),c.phase,c.amp,c.noise);
+        const y=padY+cH-norm*cH*.85;
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      }
+      ctx.stroke();
+    });
+    ctx.globalAlpha=1;
+
+    // Indicateur de tête (cursor live)
+    const headX=padX+cW*.85;
+    const headNorm=mechCurve(.85+t*.008,0,1.0,.015);
+    const headY=padY+cH-headNorm*cH*.85;
+    ctx.beginPath();
+    ctx.arc(headX,headY,4,0,Math.PI*2);
+    ctx.fillStyle='#f5c518';
+    ctx.shadowColor='#f5c518';
+    ctx.shadowBlur=10;
+    ctx.fill();
+    ctx.shadowBlur=0;
+
+    // Titre graphique
+    ctx.fillStyle='rgba(212,224,238,.6)';
+    ctx.font=`bold 11px 'DM Sans',system-ui`;
+    ctx.textAlign='left';
+    ctx.fillText('Effort / Course — Essai en cours',padX,padY-10);
+
+    t+=1;
+    requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+/* ═══════════════════════════════════════════════════
+   VANILLA TILT — effet 3D sur les cartes
+═══════════════════════════════════════════════════ */
+function initTilt(){
+  if(typeof VanillaTilt==='undefined') return;
+  VanillaTilt.init(document.querySelectorAll('.tilt-card'),{
+    max:8, speed:400, glare:true, 'max-glare':.12,
+    perspective:900, scale:1.02
+  });
+  // Tilt léger sur les dl-cards
+  VanillaTilt.init(document.querySelectorAll('.dl-card'),{
+    max:4, speed:300, glare:false, perspective:1200, scale:1.01
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded',()=>{
   initChk();
   initSteps();
@@ -1953,7 +2202,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('page-install')?.setAttribute('data-date',new Date().toLocaleDateString('fr-FR'));
   initReveal();
   initHeroCanvas();
+  initAcqDemo();
   initGSAP();
+  // VanillaTilt après un court délai (GSAP peut modifier le DOM)
+  setTimeout(initTilt,600);
 });
 </script>
 </body>
