@@ -483,6 +483,71 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 .panel{transition:border-color .25s,box-shadow .25s}
 .panel:hover{box-shadow:0 0 24px rgba(245,197,24,.06)}
 
+/* ─── GLOBAL z-index (bg-canvas derrière tout) ─── */
+#nav,#main,footer{position:relative;z-index:1}
+
+/* ─── TAB TRANSITIONS ─── */
+.tab-pane{transition:opacity .4s ease,transform .4s ease}
+.tab-pane.tab-exit{opacity:0;transform:translateX(-16px);pointer-events:none}
+.tab-pane.tab-enter{opacity:0;transform:translateX(20px)}
+
+/* ─── INSTALL PROGRESS STICKY ─── */
+#install-prog-wrap{position:sticky;top:58px;z-index:50;height:3px;background:var(--surface);border-bottom:none;margin:-36px -28px 36px}
+#install-prog-bar{height:100%;width:0;background:linear-gradient(90deg,var(--amber),var(--green));transition:width .6s cubic-bezier(.4,0,.2,1)}
+
+/* ─── CHECKLIST POP ─── */
+@keyframes chkPop{0%{transform:scale(1)}35%{transform:scale(1.08)}65%{transform:scale(.96)}100%{transform:scale(1)}}
+.chk-item.pop{animation:chkPop .28s ease}
+.chk-item.checked{border-color:rgba(22,199,132,.3)!important;background:rgba(22,199,132,.04)!important}
+.chk-item.checked .chk-box{background:var(--green)!important;border-color:var(--green)!important}
+@keyframes boxPop{0%{transform:scale(1)}40%{transform:scale(1.3)}100%{transform:scale(1)}}
+.chk-item.checked .chk-box{animation:boxPop .25s ease}
+
+/* ─── STEP NUMBER RIPPLE ─── */
+.tl-num{position:relative;overflow:visible!important;transition:all .3s}
+@keyframes tlRipple{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.8);opacity:0}}
+.tl-num::after{content:'';position:absolute;inset:-2px;border-radius:2px;background:var(--amber);opacity:0;pointer-events:none}
+.tl-num.rippling::after{animation:tlRipple .5s ease forwards}
+.tl-num.done{background:var(--green)!important;border-color:var(--green)!important;color:#07090f!important}
+
+/* ─── TERMINAL TYPEWRITER ─── */
+.cb-body code .typed-line{display:block}
+@keyframes caretBlink{0%,100%{opacity:1}50%{opacity:0}}
+.typing-caret{display:inline-block;width:7px;height:13px;background:var(--amber);vertical-align:middle;margin-left:2px;animation:caretBlink .7s infinite}
+
+/* ─── INSTALL STEP VISUAL HINTS ─── */
+.step-hint{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;font-size:.82rem;color:var(--t2)}
+.step-hint-icon{width:32px;height:32px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.hint-zip{background:rgba(61,127,255,.12);border:1px solid rgba(61,127,255,.2)}
+.hint-bat{background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.2)}
+.hint-ok{background:rgba(22,199,132,.1);border:1px solid rgba(22,199,132,.2)}
+@keyframes spinSlow{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.hint-spin{animation:spinSlow 3s linear infinite}
+@keyframes blinkCaret{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ─── CHANGELOG STAGGER ─── */
+.cl-item{opacity:0;transform:translateX(-10px);transition:opacity .4s ease,transform .4s ease}
+.cl-item.cl-in{opacity:1;transform:translateX(0)}
+
+/* ─── VERSION MORPH ─── */
+#ver-num{transition:transform .4s cubic-bezier(.34,1.56,.64,1),color .3s}
+#ver-num.morph{transform:scale(1.15);color:var(--green)}
+
+/* ─── DOWNLOAD BTN PULSE ─── */
+@keyframes dlPulse{0%,100%{box-shadow:0 0 0 0 rgba(245,197,24,.5)}50%{box-shadow:0 0 0 10px rgba(245,197,24,0)}}
+#ver-dl-btn{animation:dlPulse 2.5s ease-in-out infinite}
+#ver-dl-btn:hover{animation:none}
+
+/* ─── SECTION TITLE SPLIT ─── */
+.title-split .char{display:inline-block;opacity:0;transform:translateY(15px)}
+.title-split .char.in{opacity:1;transform:translateY(0);transition:opacity .4s ease,transform .4s ease}
+
+/* ─── PANEL BORDER FLOW ─── */
+@keyframes borderFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+/* ─── FEAT ITEM OPEN GLOW ─── */
+.feat-item.open{background:linear-gradient(180deg,rgba(245,197,24,.03) 0%,transparent 100%)}
+
 /* ─── PRINT ─── */
 @media print{
   #nav,footer,.hero-actions,.carousel-btns,.c-btn,.mt-panel,.dl-card .btn,
@@ -525,6 +590,9 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 </style>
 </head>
 <body>
+
+<!-- BACKGROUND PARTICLES -->
+<canvas id="bg-canvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.35"></canvas>
 
 <!-- LIGHTBOX -->
 <div id="lb"><button id="lb-close" onclick="closeLb()">✕</button><img id="lb-img" src="" alt=""></div>
@@ -865,6 +933,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 <!-- ═══════════════════════════════════════════ -->
 <div id="tab-install" class="tab-pane">
 <div id="page-install">
+<div id="install-prog-wrap"><div id="install-prog-bar"></div></div>
 <div class="wrap">
   <div style="margin-bottom:36px;padding-top:8px">
     <h1 class="h-display h-lg" style="margin-bottom:8px">Installation — labCE v5.3</h1>
@@ -896,6 +965,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
       <div class="tl-step">
         <div class="tl-num" id="ts0" onclick="doneStep(0)" title="Cliquer pour marquer complété">1</div>
         <div class="tl-content">
+          <div class="step-hint"><span class="step-hint-icon hint-zip">📦</span><span>Extraire dans un dossier <strong>sans espace ni accent</strong> — ex. <code>C:\labCE</code></span></div>
           <div class="tl-title">Extraire le package ZIP</div>
           <p>Clic-droit sur <code>labCE_v5.3_Package.zip</code> → "Extraire tout" — choisir un chemin sans espace ni accent (ex. <code>C:\labCE</code>).</p>
           <div class="alert a-warn" style="margin-top:10px"><div class="alert-body"><h4>Ne pas lancer depuis le ZIP</h4><p>Windows bloque les exécutables lancés depuis une archive. Extraire d'abord.</p></div></div>
@@ -919,6 +989,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
       <div class="tl-step">
         <div class="tl-num" id="ts2" onclick="doneStep(2)" title="Cliquer pour marquer complété">3</div>
         <div class="tl-content">
+          <div class="step-hint"><span class="step-hint-icon hint-bat">⚙</span><span>Durée : <strong>10 à 30 min</strong> — une fenêtre console s'ouvre et affiche la progression</span></div>
           <div class="tl-title">Double-cliquer sur INSTALLER.bat</div>
           <p style="margin-bottom:10px">Fenêtre UAC : cliquer <strong>Oui</strong>. Si rien ne se passe : clic-droit → "Exécuter en tant qu'administrateur".</p>
           <div class="cb-wrap"><div class="cb-header"><div class="cb-dots"><div class="cb-dot" style="background:#ff5f57"></div><div class="cb-dot" style="background:#ffbd2e"></div><div class="cb-dot" style="background:#28c840"></div></div><span class="cb-title">Console — sortie attendue</span></div><div class="cb-body"><code><span class="sy-cmt">========================================================</span>
@@ -978,6 +1049,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
       <div class="tl-step">
         <div class="tl-num done" id="ts5">✓</div>
         <div class="tl-content">
+          <div class="step-hint"><span class="step-hint-icon hint-ok">✓</span><span>Un raccourci <strong>labCE v5.3</strong> apparaît sur le bureau — double-cliquer pour lancer</span></div>
           <div class="tl-title">Lancer labCE depuis le raccourci bureau</div>
           <div class="alert a-info" style="margin-top:8px"><div class="alert-body"><h4>Sans matériel NI</h4><p>labCE démarre en mode simulation. Import CSV/Excel et toutes les fonctions d'analyse disponibles.</p></div></div>
         </div>
@@ -991,6 +1063,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
     <p style="margin-bottom:24px;color:var(--t2)">Seul l'exécutable est remplacé. NI-DAQmx et config.ini ne sont pas modifiés.</p>
     <div class="tl">
       <div class="tl-step"><div class="tl-num" onclick="doneStep('u0')" id="u0">1</div><div class="tl-content">
+        <div class="step-hint"><span class="step-hint-icon hint-zip">↓</span><span>Télécharger <code>labCE_app.exe</code> depuis l'onglet <strong>Mises à jour</strong> de ce site</span></div>
         <div class="tl-title">Télécharger le nouveau labCE_app.exe</div>
         <p>Bouton <strong>Télécharger labCE_app.exe</strong> dans l'onglet <em>Mises à jour</em> de ce site.</p>
       </div></div>
@@ -1454,14 +1527,44 @@ function applyLang(){
   showView(scCurrentIdx, null);
 }
 
-/* ─── TABS ─── */
+/* ─── TABS — avec transition slide ─── */
 function switchTab(t){
-  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  const current=document.querySelector('.tab-pane.active');
+  const next=document.getElementById('tab-'+t);
+  if(!next||next===current) return;
+
+  // Exit animation
+  if(current){
+    current.style.transition='opacity .25s ease,transform .25s ease';
+    current.style.opacity='0';
+    current.style.transform='translateX(-14px)';
+    setTimeout(()=>{
+      current.classList.remove('active');
+      current.style.cssText='';
+    },250);
+  }
+
+  // Enter animation
+  next.style.cssText='opacity:0;transform:translateX(18px);transition:opacity .35s ease,transform .35s ease';
+  setTimeout(()=>{
+    next.classList.add('active');
+    next.style.opacity='1';
+    next.style.transform='translateX(0)';
+    setTimeout(()=>{ next.style.cssText=''; },380);
+
+    // Déclencher les animations spécifiques à chaque onglet
+    if(t==='update') setTimeout(animateChangelog, 200);
+    if(t==='install') setTimeout(()=>{
+      initTerminalTypewriter();
+      updateInstallProgress();
+    },400);
+  },30);
+
+  // Nav
   document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+t).classList.add('active');
-  const idx = ['pres','install','update'].indexOf(t);
+  const idx=['pres','install','update'].indexOf(t);
   if(idx>=0) document.querySelectorAll('.nav-tab')[idx].classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo({top:0,behavior:'instant'});
 }
 function switchInst(t){
   document.querySelectorAll('.inst-pane').forEach(p=>p.classList.remove('active'));
@@ -1487,7 +1590,12 @@ function toggleChk(el,i){
   const box=document.getElementById('cb'+i);
   if(box) box.textContent=chkState[i]?'✓':'';
   localStorage.setItem(CHK_KEY,JSON.stringify(chkState));
+  // Animation pop
+  el.classList.remove('pop');
+  void el.offsetWidth; // reflow
+  el.classList.add('pop');
   updateChkCounter();
+  updateInstallProgress();
 }
 function updateChkCounter(){
   const done=chkState.filter(Boolean).length;
@@ -1508,9 +1616,16 @@ function doneStep(id){
   stepState[id]=!stepState[id];
   localStorage.setItem(STEP_KEY,JSON.stringify(stepState));
   const el=document.getElementById('ts'+id)||document.getElementById(id);
-  if(!el)return;
+  if(!el) return;
   el.classList.toggle('done',stepState[id]);
   el.textContent=stepState[id]?'✓':(parseInt(id)+1||'?');
+  // Ripple effect
+  if(stepState[id]){
+    el.classList.remove('rippling');
+    void el.offsetWidth;
+    el.classList.add('rippling');
+    setTimeout(()=>el.classList.remove('rippling'),550);
+  }
 }
 function initSteps(){
   Object.entries(stepState).forEach(([id,v])=>{
@@ -2015,6 +2130,163 @@ function initGSAP(){
 }
 
 /* ═══════════════════════════════════════════════════
+   BACKGROUND PARTICLES — réseau data points
+═══════════════════════════════════════════════════ */
+function initBgParticles(){
+  const canvas=document.getElementById('bg-canvas');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  let W,H;
+  function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+  resize();
+  window.addEventListener('resize',resize);
+
+  const N=55;
+  const pts=Array.from({length:N},()=>({
+    x:Math.random()*W, y:Math.random()*H,
+    vx:(Math.random()-.5)*.35, vy:(Math.random()-.5)*.35,
+    r:Math.random()*1.4+.6,
+    col:Math.random()>.6?'245,197,24':'61,127,255'
+  }));
+
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0||p.x>W) p.vx*=-1;
+      if(p.y<0||p.y>H) p.vy*=-1;
+      // Dot
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${p.col},.55)`;
+      ctx.fill();
+    });
+    // Lines between close points
+    for(let i=0;i<N;i++){
+      for(let j=i+1;j<N;j++){
+        const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<130){
+          ctx.beginPath();
+          ctx.moveTo(pts[i].x,pts[i].y);
+          ctx.lineTo(pts[j].x,pts[j].y);
+          ctx.strokeStyle=`rgba(245,197,24,${.08*(1-d/130)})`;
+          ctx.lineWidth=.6;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+/* ═══════════════════════════════════════════════════
+   INSTALL PROGRESS BAR
+═══════════════════════════════════════════════════ */
+function updateInstallProgress(){
+  const bar=document.getElementById('install-prog-bar');
+  if(!bar) return;
+  const items=document.querySelectorAll('.chk-item');
+  const done=document.querySelectorAll('.chk-item.checked').length;
+  const pct=items.length?Math.round(done/items.length*100):0;
+  bar.style.width=pct+'%';
+  if(pct===100){
+    bar.style.background='var(--green)';
+    // Flash
+    bar.style.boxShadow='0 0 12px rgba(22,199,132,.6)';
+    setTimeout(()=>bar.style.boxShadow='',1200);
+  } else {
+    bar.style.background='linear-gradient(90deg,var(--amber),var(--green))';
+    bar.style.boxShadow='';
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   TERMINAL TYPEWRITER
+═══════════════════════════════════════════════════ */
+function initTerminalTypewriter(){
+  const blocks=document.querySelectorAll('.inst-pane.active .cb-body code');
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      io.unobserve(e.target);
+      typeBlock(e.target);
+    });
+  },{threshold:.3});
+  blocks.forEach(b=>{
+    if(b.dataset.typed) return;
+    b.dataset.typed='1';
+    io.observe(b);
+  });
+}
+
+function typeBlock(code){
+  const original=code.innerHTML;
+  // Récupérer le texte sans balises pour le comptage, garder le HTML
+  const lines=original.split('\n');
+  code.innerHTML='';
+  let li=0;
+  // Ajouter un caret
+  const caret=document.createElement('span');
+  caret.className='typing-caret';
+  code.appendChild(caret);
+
+  function nextLine(){
+    if(li>=lines.length){ caret.remove(); return; }
+    const span=document.createElement('span');
+    span.className='typed-line';
+    span.innerHTML=lines[li]+(li<lines.length-1?'\n':'');
+    code.insertBefore(span,caret);
+    li++;
+    // Délai proportionnel à la longueur
+    const len=lines[li-1].replace(/<[^>]+>/g,'').length;
+    setTimeout(nextLine, Math.min(60+len*4, 180));
+  }
+  setTimeout(nextLine, 200);
+}
+
+/* ═══════════════════════════════════════════════════
+   CHANGELOG STAGGER ANIMATION
+═══════════════════════════════════════════════════ */
+function animateChangelog(){
+  const items=document.querySelectorAll('.cl-item');
+  items.forEach((el,i)=>{
+    el.classList.remove('cl-in');
+    setTimeout(()=>el.classList.add('cl-in'), i*55);
+  });
+}
+
+/* ═══════════════════════════════════════════════════
+   VERSION MORPH (update tab)
+═══════════════════════════════════════════════════ */
+function triggerVersionMorph(){
+  const el=document.getElementById('ver-num');
+  if(!el) return;
+  el.classList.add('morph');
+  setTimeout(()=>el.classList.remove('morph'),600);
+}
+
+/* ═══════════════════════════════════════════════════
+   GSAP TITLE CHARACTER SPLIT
+═══════════════════════════════════════════════════ */
+function initTitleSplits(){
+  if(typeof gsap==='undefined') return;
+  // Titres h2 hors hero — on split les mots
+  document.querySelectorAll('.sec .h-display, #page-install .h-display').forEach(el=>{
+    if(el.dataset.split) return;
+    el.dataset.split='1';
+    const text=el.innerHTML;
+    // Split par mots en préservant le HTML (em, br)
+    el.innerHTML=text.replace(/(\S+)/g,(w)=>`<span class="word-reveal" style="display:inline-block;overflow:hidden"><span style="display:inline-block;transform:translateY(100%)">${w}</span></span>`);
+    gsap.to(`#${el.id||''} .word-reveal>span, .h-display .word-reveal>span`,{
+      y:'0%',duration:.6,ease:'power3.out',stagger:.06,
+      scrollTrigger:{trigger:el,start:'top 88%',once:true}
+    });
+  });
+}
+
+/* ═══════════════════════════════════════════════════
    FEATURES ACCORDION
 ═══════════════════════════════════════════════════ */
 function toggleFeat(trigger){
@@ -2197,15 +2469,28 @@ document.addEventListener('DOMContentLoaded',()=>{
   checkGHConfig();
   const mtInp=document.getElementById('mt-link');
   if(mtInp) mtInp.value=getMtUrl();
-  fetchVersion();
+  fetchVersion().then(()=>triggerVersionMorph());
   showView(0,null);
   document.getElementById('page-install')?.setAttribute('data-date',new Date().toLocaleDateString('fr-FR'));
+
+  // Animations globales
+  initBgParticles();
   initReveal();
   initHeroCanvas();
   initAcqDemo();
   initGSAP();
-  // VanillaTilt après un court délai (GSAP peut modifier le DOM)
-  setTimeout(initTilt,600);
+
+  // Animations par onglet
+  updateInstallProgress();   // barre progression install
+  animateChangelog();        // stagger changelog (update tab visible au 1er switch)
+
+  // Typo + tilt
+  setTimeout(initTilt, 600);
+
+  // Typewriter si on est déjà sur l'install tab
+  if(document.getElementById('tab-install')?.classList.contains('active')){
+    setTimeout(initTerminalTypewriter, 500);
+  }
 });
 </script>
 </body>
