@@ -2,6 +2,7 @@
 Module d'export Excel avec gestion d'erreurs robuste
 labCE v5.0
 """
+import csv
 import openpyxl
 from openpyxl.chart import ScatterChart, Reference, Series
 from openpyxl.styles import Font, PatternFill, Alignment
@@ -19,6 +20,15 @@ def safe_sheet_title(raw_title):
     if not title:
         title = "Feuil1"
     return title
+
+
+def safe_file_name(raw_name):
+    """Retourne un nom de fichier sûr."""
+    name = re.sub(r'[\\/:\*?"<>|]', '_', str(raw_name))
+    name = re.sub(r'\s+', '_', name).strip('_')
+    if not name:
+        name = "export"
+    return name[:120]
 
 
 class ExcelExporter:
@@ -240,6 +250,112 @@ class ExcelExporter:
         except Exception as e:
             logging.error(f"Erreur création feuille Effort/Course : {e}")
 
+    def _unique_sheet_name(self, base_name):
+        name = safe_sheet_title(base_name)
+        existing = set(self.wb.sheetnames)
+        if name not in existing:
+            return name
+        idx = 2
+        while True:
+            candidate = safe_sheet_title(f"{base_name}_{idx}")
+            if candidate not in existing:
+                return candidate
+            idx += 1
+
+    def _write_curve_data_sheet(self, sheet_name, curve_title, curve_data):
+        """Écrit une feuille dédiée pour une courbe importée."""
+        try:
+            ws = self.wb.create_sheet(sheet_name)
+            ws.append([curve_title])
+            ws['A1'].font = self.title_font
+            ws.append([])
+
+            if 'time' in curve_data and 'effort' in curve_data:
+                headers = ["Temps (s)", "Effort (N)"]
+                values = zip(curve_data['time'], curve_data['effort'])
+            elif 'time' in curve_data and 'course' in curve_data:
+                headers = ["Temps (s)", "Course (mm)"]
+                values = zip(curve_data['time'], curve_data['course'])
+            elif 'course' in curve_data and 'effort' in curve_data:
+                headers = ["Course (mm)", "Effort (N)"]
+                values = zip(curve_data['course'], curve_data['effort'])
+            else:
+                headers = list(curve_data.keys())
+                values = zip(*[curve_data[k] for k in headers]) if headers else []
+
+            self._write_header_row(headers)
+            for row in values:
+                ws.append([round(x, 6) if isinstance(x, float) else x for x in row])
+            ws.append([])
+        except Exception as e:
+            logging.error(f"Erreur création feuille courbe '{curve_title}' : {e}")
+
+    def add_curve_data_sheets(self, curves):
+        """Ajoute une feuille dédiée pour chaque courbe importée."""
+        if not curves:
+            return
+        for i, (name, crv) in enumerate(curves.items(), start=1):
+            sheet_name = self._unique_sheet_name(f"Courbe_{i}_{name}")
+            title = f"Courbe {i} - {name}"
+            self._write_curve_data_sheet(sheet_name, title, crv)
+
+    def create_main_data_sheet(self, data):
+        """Crée une feuille dédiée pour les données principales."""
+        try:
+            ws = self.wb.create_sheet("Données_Principale")
+            ws.append(["Temps (s)", "Course (mm)", "Effort (N)", "Tension Effort (V)", "Tension Course (V)"])
+            for t, c, e, v_e, v_c in zip(
+                data['time'], data['course'], data['effort'],
+                data['raw_effort'], data['raw_course']
+            ):
+                ws.append([t, c, e, v_e, v_c])
+            ws.append([])
+        except Exception as e:
+            logging.error(f"Erreur création feuille données principale : {e}")
+
+    def _write_csv_file(self, save_directory, file_name, headers, rows):
+        """Écrit un fichier CSV simple."""
+        try:
+            path = os.path.join(save_directory, safe_file_name(file_name) + '.csv')
+            with open(path, 'w', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f, delimiter=';')
+                writer.writerow(headers)
+                for row in rows:
+                    writer.writerow(row)
+            logging.info(f"CSV exporté : {path}")
+        except Exception as e:
+            logging.error(f"Erreur export CSV '{file_name}' : {e}")
+
+    def export_csv_files(self, save_directory, test_name, data, curves):
+        """Exporte des fichiers CSV séparés pour chaque courbe."""
+        if not save_directory or not os.path.isdir(save_directory):
+            logging.error(f"Dossier CSV invalide : {save_directory}")
+            return
+
+        main_name = f"{test_name}_principale"
+        main_headers = ["Temps (s)", "Course (mm)", "Effort (N)", "Tension Effort (V)", "Tension Course (V)"]
+        main_rows = list(zip(
+            data['time'], data['course'], data['effort'],
+            data['raw_effort'], data['raw_course']
+        ))
+        self._write_csv_file(save_directory, main_name, main_headers, main_rows)
+
+        for i, (name, crv) in enumerate(curves.items(), start=1):
+            if 'time' in crv and 'effort' in crv:
+                headers = ["Temps (s)", "Effort (N)"]
+                rows = list(zip(crv['time'], crv['effort']))
+            elif 'time' in crv and 'course' in crv:
+                headers = ["Temps (s)", "Course (mm)"]
+                rows = list(zip(crv['time'], crv['course']))
+            elif 'course' in crv and 'effort' in crv:
+                headers = ["Course (mm)", "Effort (N)"]
+                rows = list(zip(crv['course'], crv['effort']))
+            else:
+                headers = list(crv.keys())
+                rows = list(zip(*[crv[k] for k in headers])) if headers else []
+            curve_name = f"{test_name}_courbe_{i}_{name}"
+            self._write_csv_file(save_directory, curve_name, headers, rows)
+
     def create_time_graphs_sheet(self, data):
         """Crée une feuille avec graphiques en fonction du temps."""
         try:
@@ -338,10 +454,14 @@ def export_complete(data_manager, save_directory, test_name,
 
         exporter.add_points(data['points'])
         exporter.add_additional_curves(data['additional_curves'])
+        exporter.add_curve_data_sheets(data['additional_curves'])
 
         if not data_manager.is_empty:
             exporter.create_effort_course_sheet(data, data['additional_curves'], points=data['points'])
             exporter.create_time_graphs_sheet(data)
+            exporter.create_main_data_sheet(data)
+
+        exporter.export_csv_files(save_directory, test_name, data, data['additional_curves'])
 
         success = exporter.save(filepath)
         return (success, filepath if success else None)

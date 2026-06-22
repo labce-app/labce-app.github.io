@@ -14,7 +14,7 @@ import logging
 import time
 import threading
 import numpy as np
-from config import AcquisitionConfig, ENCODER_CONFIG
+from config import AcquisitionConfig, ENCODER_CONFIG, ENABLE_SOFT_FILTER, EFFORT_FILTER_ALPHA
 
 try:
     import nidaqmx
@@ -198,6 +198,13 @@ class AcquisitionThread:
 
         # Détection auto du mode encodeur
         self.is_encoder = "ctr" in self.course_channel.lower()
+        # Filtre logiciel optionnel (IIR exponential moving average)
+        self._filter_enabled = bool(ENABLE_SOFT_FILTER)
+        try:
+            self._filter_alpha = float(EFFORT_FILTER_ALPHA)
+        except Exception:
+            self._filter_alpha = 0.15
+        self._last_filtered_effort = None
 
     def start(self):
         if self._running:
@@ -390,9 +397,19 @@ class AcquisitionThread:
                                   * self.sens_course)
 
                     # Effort : tension → Newtons (offset statique de tare uniquement)
-                    # La correction de dérive dynamique a été supprimée car elle
-                    # causait des chutes à 0N lors des arrêts du banc.
-                    effort = (v_effort - self.offset_effort) * self.sens_effort
+                    raw_effort_n = (v_effort - self.offset_effort) * self.sens_effort
+
+                    # Appliquer filtre logiciel optionnel (IIR EMA)
+                    if self._filter_enabled:
+                        if self._last_filtered_effort is None:
+                            filtered = raw_effort_n
+                        else:
+                            filtered = ((1.0 - self._filter_alpha) * self._last_filtered_effort
+                                        + self._filter_alpha * raw_effort_n)
+                        self._last_filtered_effort = filtered
+                        effort = filtered
+                    else:
+                        effort = raw_effort_n
 
                     self.data_manager.add_sample(
                         current_time, effort, course, v_effort, v_course)

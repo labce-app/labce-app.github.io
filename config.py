@@ -26,6 +26,11 @@ FIXED_EFFORT_CHANNEL = "ai0"
 FIXED_COURSE_CHANNEL = "ctr0"
 KISTLER_POPUP_THRESHOLD_N = 10
 
+# Filtre logiciel optionnel pour l'effort (utile si impossible d'utiliser DIFF hardware)
+# False = pas de filtrage, True = applique un IIR simple (exponential moving average)
+ENABLE_SOFT_FILTER = False
+# Coefficient alpha du filtre IIR (0 < alpha <= 1). Plus petit -> plus lissage.
+EFFORT_FILTER_ALPHA = 0.15
 BASE_DIR = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
 
 THEME = {
