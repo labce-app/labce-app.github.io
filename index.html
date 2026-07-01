@@ -1845,7 +1845,8 @@ function applyVersionData(d){
   const dlBtn=document.getElementById('ver-dl-btn');
   if(dlBtn&&d.exe_url){dlBtn.href=d.exe_url;dlBtn.removeAttribute('download');}
   else if(dlBtn&&d.exe_filename){dlBtn.href=d.exe_filename;dlBtn.download=d.exe_filename;}
-  if(!FULL_PKG_URL && d.package_url && d.package_url !== d.exe_url && d.package_url.toLowerCase().endsWith('.zip')){
+  // Prefer packaged ZIP from the release when available (overrides any local FULL_PKG_URL)
+  if(d.package_url && d.package_url !== d.exe_url && d.package_url.toLowerCase().endsWith('.zip')){
     setFullPkgUrl(d.package_url);
   }
   // changelog
@@ -2369,11 +2370,13 @@ function handleFullPkg(e){
 (function(){
   const btn=document.getElementById('dl-btn-full');
   const desc=document.getElementById('dl-full-desc');
-  if(btn&&FULL_PKG_URL){
-    setFullPkgUrl(FULL_PKG_URL);
-    if(desc) desc.textContent='NI-DAQmx 25.8.1 + labCE + INSTALLER.bat — 3,3 GB — Google Drive';
-  } else if(btn){
-    btn.textContent='Obtenir le lien';
+  if(btn){
+    if(FULL_PKG_URL){
+      setFullPkgUrl(FULL_PKG_URL);
+      if(desc) desc.textContent='NI-DAQmx 25.8.1 + labCE + INSTALLER.bat — 3,3 GB — local';
+    } else {
+      btn.textContent='Obtenir le lien';
+    }
   }
 })();
 
