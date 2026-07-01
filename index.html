@@ -19,7 +19,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 <style>
 :root{
-  --ink:#07090f;--surface:#0d1219;--panel:#111b26;--panel-h:#162130;
+  --ink:#0b1018;--surface:#0f1621;--panel:#131f2c;--panel-h:#182535;
   --border:rgba(255,255,255,.07);--border-a:rgba(245,197,24,.28);
   --amber:#f5c518;--amb-dim:rgba(245,197,24,.08);--amb-mid:rgba(245,197,24,.15);
   --blue:#3d7fff;--blue-dim:rgba(61,127,255,.09);
@@ -34,7 +34,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--font-b);background:var(--ink);color:var(--t1);min-height:100vh;overflow-x:hidden;
-  background-image:linear-gradient(rgba(245,197,24,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(245,197,24,.018) 1px,transparent 1px);
+  background-image:linear-gradient(rgba(245,197,24,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(245,197,24,.03) 1px,transparent 1px);
   background-size:48px 48px}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--surface)}
 ::-webkit-scrollbar-thumb{background:var(--t3);border-radius:3px}
@@ -404,7 +404,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 .host-num{font-family:var(--font-h);font-weight:900;font-size:1.6rem;color:var(--t3);flex-shrink:0;min-width:32px;line-height:1;margin-top:2px}
 
 /* ─── HERO CANVAS ─── */
-#hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.13;z-index:0}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.22;z-index:0}
 #hero>.wrap{position:relative;z-index:1}
 .hero-scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent 0%,rgba(245,197,24,.6) 50%,transparent 100%);pointer-events:none;z-index:2;animation:scanLine 5s linear infinite}
 @keyframes scanLine{0%{top:-1px;opacity:0}5%{opacity:1}95%{opacity:1}100%{top:100%;opacity:0}}
@@ -465,6 +465,18 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 .dl-card{transition:all .2s,border-color .2s}
 .dl-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.25)}
 .dl-card:hover .btn-amber{box-shadow:0 0 20px rgba(245,197,24,.3)}
+
+/* ─── DOWNLOAD PKG ICONS & VARIANTS ─── */
+.dl-pkg-icon{width:44px;height:44px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;font-weight:700}
+.dl-card-body{flex:1;display:flex;flex-direction:column;gap:4px}
+.dl-card-header{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dl-card-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px}
+.dl-card--featured{position:relative;border-color:rgba(245,197,24,.28);padding-left:20px}
+.dl-card--featured::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--amber);border-radius:var(--r) 0 0 var(--r)}
+.dl-card--green{position:relative;border-color:rgba(22,199,132,.2);padding-left:20px}
+.dl-card--green::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green);border-radius:var(--r) 0 0 var(--r)}
+.dl-card--blue{position:relative;border-color:rgba(61,127,255,.2);padding-left:20px}
+.dl-card--blue::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--blue);border-radius:var(--r) 0 0 var(--r)}
 
 /* ─── NAV SCROLLED ─── */
 #nav.scrolled{background:rgba(7,9,15,.97);border-bottom-color:rgba(245,197,24,.15)}
@@ -592,7 +604,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 <body>
 
 <!-- BACKGROUND PARTICLES -->
-<canvas id="bg-canvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.35"></canvas>
+<canvas id="bg-canvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.65"></canvas>
 
 <!-- LIGHTBOX -->
 <div id="lb"><button id="lb-close" onclick="closeLb()">✕</button><img id="lb-img" src="" alt=""></div>
@@ -651,8 +663,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
         <div class="fade-up d2 hero-parallax">
           <div class="demo-wrap tilt-card">
             <canvas id="acq-demo" style="width:100%;border-radius:var(--r2);display:block"></canvas>
-            <div class="demo-live"><span class="demo-dot"></span>Acquisition</div>
-            <div class="demo-label">Effort (N) / Course (mm) — labCE v5.3</div>
+            <div class="demo-live"><span class="demo-dot"></span>Acquisition en cours</div>
           </div>
         </div>
       </div>
@@ -673,7 +684,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
         <div class="metric-sep"></div>
         <div class="metric"><div class="metric-val">Excel</div><div class="metric-label" data-i18n="m5">Export intégré</div></div>
         <div class="metric-sep"></div>
-        <div class="metric"><div class="metric-val" data-count="1" data-suffix=" clic">1 clic</div><div class="metric-label" data-i18n="m6">Installation auto</div></div>
+        <div class="metric"><div class="metric-val">.bat</div><div class="metric-label" data-i18n="m6">Setup automatique</div></div>
       </div>
     </div>
   </div>
@@ -696,6 +707,48 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
               </div>
               <div class="feat-body"><div class="feat-body-inner">
                 <p data-i18n="f1p">Cellule de charge Kistler (ai0) + encodeur linéaire ASM (ctr0), décodage X4. 50 Hz minimum, correction de zéro automatique.</p>
+                <svg viewBox="0 0 520 165" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;border-radius:6px;margin:12px 0;display:block">
+                  <rect width="520" height="165" fill="#0d1826" rx="5"/>
+                  <!-- grid -->
+                  <line x1="50" y1="25" x2="510" y2="25" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+                  <line x1="50" y1="58" x2="510" y2="58" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+                  <line x1="50" y1="91" x2="510" y2="91" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+                  <line x1="50" y1="124" x2="510" y2="124" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+                  <line x1="50" y1="145" x2="510" y2="145" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+                  <line x1="50" y1="15" x2="50" y2="145" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+                  <line x1="165" y1="15" x2="165" y2="145" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                  <line x1="280" y1="15" x2="280" y2="145" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                  <line x1="395" y1="15" x2="395" y2="145" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                  <line x1="510" y1="15" x2="510" y2="145" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                  <!-- axis ticks+labels X -->
+                  <text x="50" y="158" font-size="9" fill="#546a82" font-family="monospace" text-anchor="middle">0 s</text>
+                  <text x="165" y="158" font-size="9" fill="#546a82" font-family="monospace" text-anchor="middle">5 s</text>
+                  <text x="280" y="158" font-size="9" fill="#546a82" font-family="monospace" text-anchor="middle">10 s</text>
+                  <text x="395" y="158" font-size="9" fill="#546a82" font-family="monospace" text-anchor="middle">15 s</text>
+                  <text x="510" y="158" font-size="9" fill="#546a82" font-family="monospace" text-anchor="middle">20 s</text>
+                  <!-- axis ticks+labels Y effort -->
+                  <text x="46" y="148" font-size="9" fill="#f5c518" font-family="monospace" text-anchor="end">0</text>
+                  <text x="46" y="95" font-size="9" fill="#f5c518" font-family="monospace" text-anchor="end">100</text>
+                  <text x="46" y="28" font-size="9" fill="#f5c518" font-family="monospace" text-anchor="end">200</text>
+                  <text x="6" y="85" font-size="9" fill="#f5c518" font-family="monospace" text-anchor="middle" transform="rotate(-90,6,85)">Effort (N)</text>
+                  <!-- axis ticks+labels Y course (right) -->
+                  <text x="514" y="148" font-size="9" fill="#3d7fff" font-family="monospace" text-anchor="start">0</text>
+                  <text x="514" y="95" font-size="9" fill="#3d7fff" font-family="monospace" text-anchor="start">4</text>
+                  <text x="514" y="28" font-size="9" fill="#3d7fff" font-family="monospace" text-anchor="start">8</text>
+                  <text x="519" y="85" font-size="9" fill="#3d7fff" font-family="monospace" text-anchor="middle" transform="rotate(90,519,85)">Course (mm)</text>
+                  <!-- Effort curve: sinusoidal 2 periods (amber) -->
+                  <path d="M 50,85 C 80,55 115,22 165,22 C 215,22 250,135 280,138 C 310,140 345,22 395,22 C 445,22 480,80 510,85" fill="none" stroke="#f5c518" stroke-width="2" stroke-linejoin="round"/>
+                  <!-- Course curve: linear ramp (blue) -->
+                  <path d="M 50,145 L 510,22" fill="none" stroke="#3d7fff" stroke-width="1.5" stroke-dasharray="4,3"/>
+                  <!-- Legend -->
+                  <rect x="340" y="8" width="10" height="3" fill="#f5c518" rx="1"/>
+                  <text x="354" y="13" font-size="9" fill="#d4e0ee" font-family="monospace">ai0 — Effort (N)</text>
+                  <line x1="340" y1="22" x2="350" y2="22" stroke="#3d7fff" stroke-width="1.5" stroke-dasharray="3,2"/>
+                  <text x="354" y="26" font-size="9" fill="#d4e0ee" font-family="monospace">ctr0 — Course (mm)</text>
+                  <!-- dot markers on effort at peaks -->
+                  <circle cx="165" cy="22" r="3" fill="#f5c518"/>
+                  <circle cx="395" cy="22" r="3" fill="#f5c518"/>
+                </svg>
                 <div class="feat-tags"><span class="badge b-blue">ai0 — Effort</span><span class="badge b-grey">ctr0 — Course</span></div>
               </div></div>
             </div>
@@ -707,6 +760,48 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
               </div>
               <div class="feat-body"><div class="feat-body-inner">
                 <p data-i18n="f2p">Courbes Matplotlib avec curseur d'inspection, zoom, superposition multi-essais. Mise à jour à chaque point acquis.</p>
+                <svg viewBox="0 0 520 165" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;border-radius:6px;margin:12px 0;display:block">
+                  <rect width="520" height="165" fill="#0d1826" rx="5"/>
+                  <line x1="50" y1="25" x2="510" y2="25" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+                  <line x1="50" y1="58" x2="510" y2="58" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+                  <line x1="50" y1="91" x2="510" y2="91" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+                  <line x1="50" y1="124" x2="510" y2="124" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+                  <line x1="50" y1="145" x2="510" y2="145" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+                  <line x1="50" y1="15" x2="50" y2="145" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+                  <line x1="165" y1="15" x2="165" y2="145" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                  <line x1="280" y1="15" x2="280" y2="145" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                  <line x1="395" y1="15" x2="395" y2="145" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                  <line x1="510" y1="15" x2="510" y2="145" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
+                  <!-- X axis labels -->
+                  <text x="50" y="158" font-size="9" fill="#546a82" font-family="monospace" text-anchor="middle">0 mm</text>
+                  <text x="165" y="158" font-size="9" fill="#546a82" font-family="monospace" text-anchor="middle">2.5</text>
+                  <text x="280" y="158" font-size="9" fill="#546a82" font-family="monospace" text-anchor="middle">5.0</text>
+                  <text x="395" y="158" font-size="9" fill="#546a82" font-family="monospace" text-anchor="middle">7.5</text>
+                  <text x="510" y="158" font-size="9" fill="#546a82" font-family="monospace" text-anchor="middle">10.0</text>
+                  <!-- Y axis labels -->
+                  <text x="46" y="148" font-size="9" fill="#8aaccc" font-family="monospace" text-anchor="end">0</text>
+                  <text x="46" y="95" font-size="9" fill="#8aaccc" font-family="monospace" text-anchor="end">400</text>
+                  <text x="46" y="28" font-size="9" fill="#8aaccc" font-family="monospace" text-anchor="end">800</text>
+                  <text x="6" y="85" font-size="9" fill="#8aaccc" font-family="monospace" text-anchor="middle" transform="rotate(-90,6,85)">Effort (N)</text>
+                  <!-- Curve Essai_01 amber: compression curve -->
+                  <path d="M 50,145 C 80,138 110,95 140,62 C 170,29 195,22 215,22 C 235,22 255,58 280,95 C 305,128 330,140 370,143 C 400,145 460,145 510,145" fill="none" stroke="#f5c518" stroke-width="2"/>
+                  <!-- Curve Essai_02 blue: slightly higher peak -->
+                  <path d="M 50,145 C 82,136 115,88 148,52 C 181,18 205,16 225,16 C 245,16 265,50 292,90 C 319,125 345,140 385,143 C 415,145 465,145 510,145" fill="none" stroke="#3d7fff" stroke-width="2" opacity="0.85"/>
+                  <!-- Curve Essai_03 green: lower peak -->
+                  <path d="M 50,145 C 78,140 108,105 135,75 C 162,45 185,32 205,32 C 225,32 248,70 272,100 C 296,128 322,140 358,143 C 388,145 450,145 510,145" fill="none" stroke="#16c784" stroke-width="2" opacity="0.75"/>
+                  <!-- Crosshair at peak of essai_01 -->
+                  <line x1="215" y1="15" x2="215" y2="145" stroke="rgba(245,197,24,.3)" stroke-width="1" stroke-dasharray="3,3"/>
+                  <line x1="50" y1="22" x2="510" y2="22" stroke="rgba(245,197,24,.3)" stroke-width="1" stroke-dasharray="3,3"/>
+                  <circle cx="215" cy="22" r="4" fill="none" stroke="#f5c518" stroke-width="1.5"/>
+                  <text x="220" y="20" font-size="9" fill="#f5c518" font-family="monospace">P1 (4.1mm, 861N)</text>
+                  <!-- Legend -->
+                  <rect x="360" y="28" width="10" height="3" fill="#f5c518" rx="1"/>
+                  <text x="374" y="33" font-size="9" fill="#d4e0ee" font-family="monospace">Essai_01</text>
+                  <rect x="360" y="40" width="10" height="3" fill="#3d7fff" rx="1"/>
+                  <text x="374" y="45" font-size="9" fill="#d4e0ee" font-family="monospace">Essai_02</text>
+                  <rect x="360" y="52" width="10" height="3" fill="#16c784" rx="1"/>
+                  <text x="374" y="57" font-size="9" fill="#d4e0ee" font-family="monospace">Essai_03</text>
+                </svg>
                 <div class="feat-tags"><span class="badge b-green">Matplotlib</span><span class="badge b-grey">Multi-courbes</span></div>
               </div></div>
             </div>
@@ -718,6 +813,63 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
               </div>
               <div class="feat-body"><div class="feat-body-inner">
                 <p data-i18n="f3p">Multi-onglets avec graphiques intégrés, Min/Max/Moyenne/Écart-type par courbe, points de référence interpolés.</p>
+                <svg viewBox="0 0 520 165" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;border-radius:6px;margin:12px 0;display:block">
+                  <rect width="520" height="165" fill="#0d1826" rx="5"/>
+                  <!-- Excel tabs -->
+                  <rect x="10" y="142" width="78" height="18" fill="#16c784" rx="3 3 0 0" opacity="0.9"/>
+                  <text x="49" y="155" font-size="8" fill="#0d1826" font-family="monospace" text-anchor="middle" font-weight="bold">Essai_01</text>
+                  <rect x="92" y="145" width="73" height="15" fill="#1e3a50" rx="3 3 0 0"/>
+                  <text x="128" y="156" font-size="8" fill="#8aaccc" font-family="monospace" text-anchor="middle">Essai_02</text>
+                  <rect x="169" y="145" width="73" height="15" fill="#1e3a50" rx="3 3 0 0"/>
+                  <text x="205" y="156" font-size="8" fill="#8aaccc" font-family="monospace" text-anchor="middle">Essai_03</text>
+                  <rect x="246" y="145" width="78" height="15" fill="#1e3a50" rx="3 3 0 0"/>
+                  <text x="285" y="156" font-size="8" fill="#8aaccc" font-family="monospace" text-anchor="middle">Comparatif</text>
+                  <!-- Spreadsheet area -->
+                  <rect x="10" y="12" width="306" height="130" fill="#0f2030" stroke="#1e3a50" stroke-width="1"/>
+                  <rect x="10" y="12" width="306" height="16" fill="#163045"/>
+                  <text x="38" y="23" font-size="8" fill="#f5c518" font-family="monospace" font-weight="bold">Course</text>
+                  <text x="118" y="23" font-size="8" fill="#f5c518" font-family="monospace" font-weight="bold">Effort (N)</text>
+                  <text x="200" y="23" font-size="8" fill="#f5c518" font-family="monospace" font-weight="bold">Lissé</text>
+                  <text x="270" y="23" font-size="8" fill="#f5c518" font-family="monospace" font-weight="bold">Réf</text>
+                  <line x1="110" y1="12" x2="110" y2="142" stroke="#1e3a50" stroke-width="1"/>
+                  <line x1="190" y1="12" x2="190" y2="142" stroke="#1e3a50" stroke-width="1"/>
+                  <line x1="260" y1="12" x2="260" y2="142" stroke="#1e3a50" stroke-width="1"/>
+                  <line x1="10" y1="28" x2="316" y2="28" stroke="#1e3a50" stroke-width="1"/>
+                  <text x="14" y="38" font-size="8" fill="#d4e0ee" font-family="monospace">1.00 mm</text>
+                  <text x="118" y="38" font-size="8" fill="#d4e0ee" font-family="monospace">154.8</text>
+                  <text x="200" y="38" font-size="8" fill="#3d7fff" font-family="monospace">152.1</text>
+                  <line x1="10" y1="40" x2="316" y2="40" stroke="#1e3a50" stroke-width="1"/>
+                  <text x="14" y="50" font-size="8" fill="#d4e0ee" font-family="monospace">3.10 mm</text>
+                  <text x="118" y="50" font-size="8" fill="#f5c518" font-family="monospace" font-weight="bold">861.5</text>
+                  <text x="200" y="50" font-size="8" fill="#f5c518" font-family="monospace">860.2</text>
+                  <text x="264" y="50" font-size="8" fill="#16c784" font-family="monospace">★Max</text>
+                  <line x1="10" y1="52" x2="316" y2="52" stroke="#1e3a50" stroke-width="1"/>
+                  <text x="14" y="62" font-size="8" fill="#d4e0ee" font-family="monospace">9.00 mm</text>
+                  <text x="118" y="62" font-size="8" fill="#d4e0ee" font-family="monospace">0.3</text>
+                  <text x="200" y="62" font-size="8" fill="#3d7fff" font-family="monospace">0.2</text>
+                  <!-- Stats separator -->
+                  <line x1="10" y1="74" x2="316" y2="74" stroke="#f5c518" stroke-width="1" opacity="0.4"/>
+                  <rect x="10" y="74" width="306" height="68" fill="#102236"/>
+                  <text x="14" y="87" font-size="8" fill="#8aaccc" font-family="monospace">Min</text>
+                  <text x="118" y="87" font-size="8" fill="#d4e0ee" font-family="monospace">0.0 N</text>
+                  <text x="14" y="100" font-size="8" fill="#8aaccc" font-family="monospace">Max</text>
+                  <text x="118" y="100" font-size="8" fill="#f5c518" font-family="monospace">861.5 N</text>
+                  <text x="14" y="113" font-size="8" fill="#8aaccc" font-family="monospace">Moyenne</text>
+                  <text x="118" y="113" font-size="8" fill="#d4e0ee" font-family="monospace">482.3 N</text>
+                  <text x="14" y="126" font-size="8" fill="#8aaccc" font-family="monospace">Écart-type</text>
+                  <text x="118" y="126" font-size="8" fill="#d4e0ee" font-family="monospace">281.2 N</text>
+                  <text x="200" y="87" font-size="8" fill="#8aaccc" font-family="monospace">Raideur</text>
+                  <text x="260" y="87" font-size="8" fill="#d4e0ee" font-family="monospace">243 N/mm</text>
+                  <!-- Mini embedded chart -->
+                  <rect x="330" y="12" width="180" height="130" fill="#0f2030" rx="4" stroke="#1e3a50" stroke-width="1"/>
+                  <text x="420" y="24" font-size="8" fill="#8aaccc" font-family="monospace" text-anchor="middle">Graphique Excel intégré</text>
+                  <line x1="345" y1="122" x2="500" y2="122" stroke="#546a82" stroke-width="1"/>
+                  <line x1="345" y1="30" x2="345" y2="122" stroke="#546a82" stroke-width="1"/>
+                  <path d="M 345,122 C 362,119 376,104 392,82 C 408,58 415,32 425,32 C 435,32 444,60 456,90 C 467,113 480,121 500,122" fill="rgba(245,197,24,.08)" stroke="#f5c518" stroke-width="1.5"/>
+                  <circle cx="425" cy="32" r="3" fill="#f5c518"/>
+                  <text x="430" y="29" font-size="8" fill="#f5c518" font-family="monospace">861N</text>
+                  <text x="420" y="132" font-size="7" fill="#546a82" font-family="monospace" text-anchor="middle">Course (mm)</text>
+                </svg>
                 <div class="feat-tags"><span class="badge b-amber">openpyxl</span><span class="badge b-grey">CSV continu</span></div>
               </div></div>
             </div>
@@ -729,6 +881,54 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
               </div>
               <div class="feat-body"><div class="feat-body-inner">
                 <p data-i18n="f4p">Mise en évidence séquentielle des boutons, tooltips sur tous les contrôles. Opérationnel en moins de 2 minutes.</p>
+                <svg viewBox="0 0 520 165" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;border-radius:6px;margin:12px 0;display:block">
+                  <rect width="520" height="165" fill="#0d1826" rx="5"/>
+                  <!-- App window mock -->
+                  <rect x="12" y="12" width="496" height="141" fill="#0f2030" rx="4" stroke="#1e3a50" stroke-width="1"/>
+                  <!-- Title bar -->
+                  <rect x="12" y="12" width="496" height="20" fill="#163045" rx="4 4 0 0"/>
+                  <text x="260" y="25" font-size="9" fill="#8aaccc" font-family="monospace" text-anchor="middle">labCE v5.3 — Guide interactif</text>
+                  <!-- Step indicators at top right -->
+                  <text x="460" y="25" font-size="8" fill="#f5c518" font-family="monospace">Étape 2/6</text>
+                  <!-- Left toolbar buttons column -->
+                  <!-- Step 1 btn (done) -->
+                  <rect x="22" y="40" width="110" height="22" fill="#0f2a1a" rx="3" stroke="#16c784" stroke-width="1" opacity="0.6"/>
+                  <text x="77" y="55" font-size="8.5" fill="#16c784" font-family="monospace" text-anchor="middle">✓ Démarrer</text>
+                  <!-- Step 2 btn (active/highlighted) -->
+                  <rect x="22" y="68" width="110" height="22" fill="#2a1f00" rx="3" stroke="#f5c518" stroke-width="2"/>
+                  <text x="77" y="83" font-size="8.5" fill="#f5c518" font-family="monospace" text-anchor="middle" font-weight="bold">Ajouter courbe</text>
+                  <!-- Tooltip for step 2 -->
+                  <rect x="140" y="56" width="168" height="44" fill="#f5c518" rx="4"/>
+                  <polygon points="136,72 140,66 140,78" fill="#f5c518"/>
+                  <text x="224" y="72" font-size="8.5" fill="#0d1826" font-family="monospace" text-anchor="middle" font-weight="bold">Étape 2 — Import CSV/XLSX</text>
+                  <text x="224" y="85" font-size="8" fill="#1a1000" font-family="monospace" text-anchor="middle">Importez vos données de test</text>
+                  <text x="224" y="96" font-size="8" fill="#1a1000" font-family="monospace" text-anchor="middle">ou utilisez l'acquisition live</text>
+                  <!-- Step 3-5 btns (upcoming) -->
+                  <rect x="22" y="96" width="110" height="22" fill="#0f2030" rx="3" stroke="#1e3a50" stroke-width="1" opacity="0.5"/>
+                  <text x="77" y="111" font-size="8.5" fill="#546a82" font-family="monospace" text-anchor="middle">Lisser courbe</text>
+                  <rect x="22" y="120" width="110" height="22" fill="#0f2030" rx="3" stroke="#1e3a50" stroke-width="1" opacity="0.5"/>
+                  <text x="77" y="135" font-size="8.5" fill="#546a82" font-family="monospace" text-anchor="middle">Exporter</text>
+                  <!-- Right side: progress steps -->
+                  <text x="330" y="46" font-size="8" fill="#8aaccc" font-family="monospace">Progression</text>
+                  <!-- Step nodes -->
+                  <circle cx="330" cy="62" r="7" fill="#16c784"/>
+                  <text x="330" y="65" font-size="8" fill="#0d1826" font-family="monospace" text-anchor="middle" font-weight="bold">1</text>
+                  <text x="345" y="65" font-size="8" fill="#16c784" font-family="monospace">Connexion NI</text>
+                  <line x1="330" y1="69" x2="330" y2="79" stroke="#1e3a50" stroke-width="1.5"/>
+                  <circle cx="330" cy="86" r="7" fill="#f5c518"/>
+                  <text x="330" y="89" font-size="8" fill="#0d1826" font-family="monospace" text-anchor="middle" font-weight="bold">2</text>
+                  <text x="345" y="89" font-size="8" fill="#f5c518" font-family="monospace" font-weight="bold">Import courbe</text>
+                  <line x1="330" y1="93" x2="330" y2="103" stroke="#1e3a50" stroke-width="1.5"/>
+                  <circle cx="330" cy="110" r="7" fill="#1e3a50" stroke="#546a82" stroke-width="1"/>
+                  <text x="330" y="113" font-size="8" fill="#546a82" font-family="monospace" text-anchor="middle">3</text>
+                  <text x="345" y="113" font-size="8" fill="#546a82" font-family="monospace">Analyse</text>
+                  <line x1="330" y1="117" x2="330" y2="127" stroke="#1e3a50" stroke-width="1.5"/>
+                  <circle cx="330" cy="134" r="7" fill="#1e3a50" stroke="#546a82" stroke-width="1"/>
+                  <text x="330" y="137" font-size="8" fill="#546a82" font-family="monospace" text-anchor="middle">4</text>
+                  <text x="345" y="137" font-size="8" fill="#546a82" font-family="monospace">Export</text>
+                  <!-- Pulsing ring around active button (simulated with dashed stroke) -->
+                  <rect x="20" y="66" width="114" height="26" fill="none" rx="4" stroke="#f5c518" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+                </svg>
                 <div class="feat-tags"><span class="badge b-grey">Pas-à-pas</span><span class="badge b-grey">Tooltips</span></div>
               </div></div>
             </div>
@@ -740,6 +940,51 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
               </div>
               <div class="feat-body"><div class="feat-body-inner">
                 <p data-i18n="f5p">Démarre sans carte NI. Import Excel/CSV, analyse complète et export disponibles sans matériel.</p>
+                <svg viewBox="0 0 520 165" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;border-radius:6px;margin:12px 0;display:block">
+                  <rect width="520" height="165" fill="#0d1826" rx="5"/>
+                  <!-- Flow: CSV file → labCE → chart + export -->
+                  <!-- Node 1: CSV file -->
+                  <rect x="18" y="52" width="96" height="62" fill="#0f2030" rx="6" stroke="#3d7fff" stroke-width="1.5"/>
+                  <text x="66" y="73" font-size="9" fill="#3d7fff" font-family="monospace" text-anchor="middle" font-weight="bold">essai.csv</text>
+                  <line x1="30" y1="82" x2="102" y2="82" stroke="#1e3a50" stroke-width="1"/>
+                  <text x="66" y="93" font-size="8" fill="#546a82" font-family="monospace" text-anchor="middle">0.00;0.0</text>
+                  <text x="66" y="103" font-size="8" fill="#546a82" font-family="monospace" text-anchor="middle">3.10;861.5</text>
+                  <text x="66" y="113" font-size="8" fill="#546a82" font-family="monospace" text-anchor="middle">9.00;0.3</text>
+                  <!-- Arrow 1 -->
+                  <line x1="118" y1="83" x2="150" y2="83" stroke="#3d7fff" stroke-width="1.5"/>
+                  <polygon points="150,79 158,83 150,87" fill="#3d7fff"/>
+                  <text x="134" y="78" font-size="7.5" fill="#3d7fff" font-family="monospace" text-anchor="middle">Import</text>
+                  <!-- Node 2: labCE app -->
+                  <rect x="160" y="38" width="100" height="90" fill="#0f2030" rx="6" stroke="#f5c518" stroke-width="2"/>
+                  <rect x="160" y="38" width="100" height="18" fill="#1e3a50" rx="6 6 0 0"/>
+                  <text x="210" y="51" font-size="8.5" fill="#f5c518" font-family="monospace" text-anchor="middle" font-weight="bold">labCE</text>
+                  <text x="210" y="68" font-size="8" fill="#8aaccc" font-family="monospace" text-anchor="middle">mode</text>
+                  <text x="210" y="80" font-size="8" fill="#f5c518" font-family="monospace" text-anchor="middle" font-weight="bold">simulation</text>
+                  <!-- Mini curve inside labCE node -->
+                  <line x1="170" y1="118" x2="250" y2="118" stroke="#546a82" stroke-width="1"/>
+                  <line x1="170" y1="90" x2="170" y2="118" stroke="#546a82" stroke-width="1"/>
+                  <path d="M 170,118 C 178,116 186,108 194,98 C 202,87 206,88 210,88 C 214,88 218,96 226,107 C 234,116 244,118 250,118" fill="none" stroke="#f5c518" stroke-width="1.2"/>
+                  <!-- Arrow 2 -->
+                  <line x1="264" y1="83" x2="296" y2="83" stroke="#f5c518" stroke-width="1.5"/>
+                  <polygon points="296,79 304,83 296,87" fill="#f5c518"/>
+                  <!-- Node 3 top: Analyse -->
+                  <rect x="306" y="38" width="100" height="42" fill="#0f2030" rx="6" stroke="#16c784" stroke-width="1.5"/>
+                  <text x="356" y="55" font-size="8.5" fill="#16c784" font-family="monospace" text-anchor="middle" font-weight="bold">Analyse</text>
+                  <text x="356" y="68" font-size="8" fill="#8aaccc" font-family="monospace" text-anchor="middle">Max 861.5 N</text>
+                  <text x="356" y="77" font-size="8" fill="#8aaccc" font-family="monospace" text-anchor="middle">Raideur 243 N/mm</text>
+                  <!-- Arrow down -->
+                  <line x1="356" y1="82" x2="356" y2="100" stroke="#546a82" stroke-width="1.5"/>
+                  <polygon points="352,100 356,108 360,100" fill="#546a82"/>
+                  <!-- Node 3 bottom: Export -->
+                  <rect x="306" y="110" width="100" height="30" fill="#0f2030" rx="6" stroke="#3d7fff" stroke-width="1.5"/>
+                  <text x="356" y="129" font-size="8.5" fill="#3d7fff" font-family="monospace" text-anchor="middle" font-weight="bold">Export Excel/CSV</text>
+                  <!-- NI crossed-out badge -->
+                  <rect x="422" y="52" width="88" height="62" fill="#0f2030" rx="6" stroke="#546a82" stroke-width="1" stroke-dasharray="4,3"/>
+                  <text x="466" y="76" font-size="9" fill="#546a82" font-family="monospace" text-anchor="middle">NI-DAQmx</text>
+                  <line x1="428" y1="58" x2="503" y2="108" stroke="#e05" stroke-width="2" opacity="0.6"/>
+                  <line x1="503" y1="58" x2="428" y2="108" stroke="#e05" stroke-width="2" opacity="0.6"/>
+                  <text x="466" y="92" font-size="8" fill="#e05" font-family="monospace" text-anchor="middle" opacity="0.8">Non requis</text>
+                </svg>
                 <div class="feat-tags"><span class="badge b-amber">Sans NI</span><span class="badge b-grey">Import CSV/XLSX</span></div>
               </div></div>
             </div>
@@ -751,6 +996,52 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
               </div>
               <div class="feat-body"><div class="feat-body-inner">
                 <p data-i18n="f6p">Un fichier de config par poste. Même exe, paramètres différents (device, canaux, sensibilités).</p>
+                <svg viewBox="0 0 520 165" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;border-radius:6px;margin:12px 0;display:block">
+                  <rect width="520" height="165" fill="#0d1826" rx="5"/>
+                  <!-- Central EXE node -->
+                  <rect x="190" y="55" width="140" height="56" fill="#0f2030" rx="6" stroke="#f5c518" stroke-width="2"/>
+                  <rect x="190" y="55" width="140" height="18" fill="#1e3a50" rx="6 6 0 0"/>
+                  <text x="260" y="68" font-size="9" fill="#f5c518" font-family="monospace" text-anchor="middle" font-weight="bold">labCE_app.exe</text>
+                  <text x="260" y="84" font-size="8" fill="#8aaccc" font-family="monospace" text-anchor="middle">unique binaire</text>
+                  <text x="260" y="96" font-size="8" fill="#8aaccc" font-family="monospace" text-anchor="middle">déploiement réseau</text>
+                  <text x="260" y="106" font-size="8" fill="#16c784" font-family="monospace" text-anchor="middle">v5.3</text>
+                  <!-- PC 1 top-left -->
+                  <rect x="14" y="14" width="130" height="58" fill="#0f2030" rx="5" stroke="#3d7fff" stroke-width="1.2"/>
+                  <text x="79" y="30" font-size="8.5" fill="#3d7fff" font-family="monospace" text-anchor="middle" font-weight="bold">Poste 01</text>
+                  <text x="79" y="43" font-size="7.5" fill="#8aaccc" font-family="monospace" text-anchor="middle">config.ini</text>
+                  <text x="79" y="54" font-size="7" fill="#546a82" font-family="monospace" text-anchor="middle">device=Dev1</text>
+                  <text x="79" y="64" font-size="7" fill="#546a82" font-family="monospace" text-anchor="middle">ai_channel=ai0</text>
+                  <!-- Arrow PC1→exe -->
+                  <line x1="144" y1="43" x2="186" y2="72" stroke="#3d7fff" stroke-width="1.2" stroke-dasharray="5,3"/>
+                  <polygon points="182,69 186,72 181,74" fill="#3d7fff"/>
+                  <!-- PC 2 left -->
+                  <rect x="14" y="94" width="130" height="58" fill="#0f2030" rx="5" stroke="#16c784" stroke-width="1.2"/>
+                  <text x="79" y="110" font-size="8.5" fill="#16c784" font-family="monospace" text-anchor="middle" font-weight="bold">Poste 02</text>
+                  <text x="79" y="123" font-size="7.5" fill="#8aaccc" font-family="monospace" text-anchor="middle">config.ini</text>
+                  <text x="79" y="134" font-size="7" fill="#546a82" font-family="monospace" text-anchor="middle">device=Dev2</text>
+                  <text x="79" y="144" font-size="7" fill="#546a82" font-family="monospace" text-anchor="middle">ctr_channel=ctr0</text>
+                  <!-- Arrow PC2→exe -->
+                  <line x1="144" y1="123" x2="186" y2="95" stroke="#16c784" stroke-width="1.2" stroke-dasharray="5,3"/>
+                  <polygon points="182,93 186,95 183,99" fill="#16c784"/>
+                  <!-- PC 3 top-right -->
+                  <rect x="376" y="14" width="130" height="58" fill="#0f2030" rx="5" stroke="#e08a00" stroke-width="1.2"/>
+                  <text x="441" y="30" font-size="8.5" fill="#e08a00" font-family="monospace" text-anchor="middle" font-weight="bold">Poste 03</text>
+                  <text x="441" y="43" font-size="7.5" fill="#8aaccc" font-family="monospace" text-anchor="middle">config.ini</text>
+                  <text x="441" y="54" font-size="7" fill="#546a82" font-family="monospace" text-anchor="middle">device=Dev3</text>
+                  <text x="441" y="64" font-size="7" fill="#546a82" font-family="monospace" text-anchor="middle">sensitivity=40.1</text>
+                  <!-- Arrow PC3→exe -->
+                  <line x1="376" y1="43" x2="334" y2="72" stroke="#e08a00" stroke-width="1.2" stroke-dasharray="5,3"/>
+                  <polygon points="337,68 334,72 339,73" fill="#e08a00"/>
+                  <!-- PC 4 bottom-right -->
+                  <rect x="376" y="94" width="130" height="58" fill="#0f2030" rx="5" stroke="#b06fff" stroke-width="1.2"/>
+                  <text x="441" y="110" font-size="8.5" fill="#b06fff" font-family="monospace" text-anchor="middle" font-weight="bold">Poste 04</text>
+                  <text x="441" y="123" font-size="7.5" fill="#8aaccc" font-family="monospace" text-anchor="middle">config.ini</text>
+                  <text x="441" y="134" font-size="7" fill="#546a82" font-family="monospace" text-anchor="middle">fs=200</text>
+                  <text x="441" y="144" font-size="7" fill="#546a82" font-family="monospace" text-anchor="middle">lang=EN</text>
+                  <!-- Arrow PC4→exe -->
+                  <line x1="376" y1="123" x2="334" y2="95" stroke="#b06fff" stroke-width="1.2" stroke-dasharray="5,3"/>
+                  <polygon points="337,93 334,95 338,98" fill="#b06fff"/>
+                </svg>
                 <div class="feat-tags"><span class="badge b-grey">config.ini</span><span class="badge b-green">Multi-poste</span></div>
               </div></div>
             </div>
@@ -817,15 +1108,11 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
         </button>
         <button class="sc-tab" onclick="showView(4,this)">
           <span class="sc-tab-num">05</span>
-          <span class="sc-tab-label" data-i18n="sc5">Paramètres</span>
+          <span class="sc-tab-label" data-i18n="sc5">Gestion courbes</span>
         </button>
         <button class="sc-tab" onclick="showView(5,this)">
           <span class="sc-tab-num">06</span>
-          <span class="sc-tab-label" data-i18n="sc6">Analyse</span>
-        </button>
-        <button class="sc-tab" onclick="showView(6,this)">
-          <span class="sc-tab-num">07</span>
-          <span class="sc-tab-label" data-i18n="sc7">Mode mesure</span>
+          <span class="sc-tab-label" data-i18n="sc6">Mode mesure</span>
         </button>
       </div>
 
@@ -843,7 +1130,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
       <!-- Nav mobile (flèches) -->
       <div class="sc-arrows">
         <button class="c-btn" onclick="stepView(-1)">←</button>
-        <span id="sc-counter" style="font-family:var(--font-m);font-size:.75rem;color:var(--t2)">1 / 7</span>
+        <span id="sc-counter" style="font-family:var(--font-m);font-size:.75rem;color:var(--t2)">1 / 6</span>
         <button class="c-btn" onclick="stepView(1)">→</button>
       </div>
     </div>
@@ -859,37 +1146,67 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
           <div class="sec-label"><span data-i18n="dl_label">Téléchargement</span></div>
           <h2 class="h-display h-lg" style="margin-bottom:8px" data-i18n="dl_title">Téléchargement</h2>
           <p style="margin-bottom:28px" data-i18n="dl_sub">Package complet (NI-DAQmx inclus) ou package léger si NI-DAQmx est déjà installé.</p>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <div class="dl-card" id="dl-card-full">
-              <div class="dl-info">
-                <div class="dl-name">Package complet <span class="badge b-amber" style="margin-left:6px">Recommandé</span></div>
-                <div class="dl-desc" id="dl-full-desc">NI-DAQmx 25.8.1 + labCE + INSTALLER.bat — 3,3 GB</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+
+            <!-- ── Package complet ── -->
+            <div class="dl-card dl-card--featured" id="dl-card-full">
+              <div class="dl-pkg-icon" style="background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.22);color:var(--amber)">↓</div>
+              <div class="dl-card-body">
+                <div class="dl-card-header">
+                  <span class="dl-name">Package complet</span>
+                  <span class="badge b-amber" style="font-size:.6rem">Recommandé</span>
+                </div>
+                <div class="dl-desc" id="dl-full-desc">NI-DAQmx 25.8.1 + labCE + INSTALLER.bat</div>
+                <div class="dl-card-meta">
+                  <span class="dl-size">3,3 GB</span>
+                  <span class="badge b-grey" style="font-size:.6rem">NI-DAQmx inclus</span>
+                </div>
               </div>
-              <a class="btn btn-amber" id="dl-btn-full" href="#" onclick="return handleFullPkg(event)">Télécharger</a>
+              <a class="btn btn-amber" id="dl-btn-full" href="#" onclick="return handleFullPkg(event)">↓ Télécharger</a>
             </div>
-            <div class="dl-card" id="dl-full-info" style="background:var(--amb-dim);border-color:var(--border-a);display:none">
-              <div class="dl-info" style="flex:1">
-                <div class="dl-name" style="margin-bottom:6px">Lien non configuré</div>
-                <p style="font-size:.82rem;color:var(--t2);line-height:1.5">Le lien du package complet n'est pas encore configuré. Contactez l'administrateur ou utilisez le <strong>package léger</strong> ci-dessous si NI-DAQmx est déjà installé.</p>
-                <p style="font-size:.78rem;color:var(--t3);margin-top:8px">Pour configurer : ouvrir <code>index.html</code>, trouver <code>const FULL_PKG_URL = ''</code> et coller le lien Google Drive / OneDrive.</p>
+
+            <!-- ── Info panel quand FULL_PKG_URL vide ── -->
+            <div id="dl-full-info" style="display:none;background:var(--amb-dim);border:1px solid var(--border-a);border-radius:var(--r);padding:16px 18px">
+              <div style="font-weight:600;font-size:.9rem;margin-bottom:6px;color:var(--t1)">Package complet — 3,3 GB</div>
+              <p style="font-size:.84rem;color:var(--t2);line-height:1.55;margin-bottom:10px">Ce package inclut NI-DAQmx offline ISO (3,2 GB) et ne peut pas être hébergé sur GitHub (limite 2 GB). Votre responsable logiciel peut fournir le lien Google Drive / OneDrive — ou renseignez <code>FULL_PKG_URL</code> dans <code>index.html</code>.</p>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <a class="btn btn-ghost" href="https://github.com/labce-app/labce-app.github.io/releases/latest" target="_blank" style="font-size:.82rem;padding:8px 14px">Voir les releases GitHub</a>
+                <button class="btn btn-ghost" onclick="document.getElementById('dl-full-info').style.display='none';document.getElementById('dl-btn-full').innerHTML='↓ Télécharger'" style="font-size:.82rem;padding:8px 14px">Fermer</button>
               </div>
             </div>
-            <div class="dl-card">
-              <div class="dl-info">
-                <div class="dl-name">Package léger <span class="badge b-grn" style="margin-left:6px" data-i18n="dl2_rec">NI-DAQmx requis</span></div>
+
+            <!-- ── Package léger ── -->
+            <div class="dl-card dl-card--green">
+              <div class="dl-pkg-icon" style="background:rgba(22,199,132,.1);border:1px solid rgba(22,199,132,.2);color:var(--green)">↓</div>
+              <div class="dl-card-body">
+                <div class="dl-card-header">
+                  <span class="dl-name">Package léger</span>
+                  <span class="badge b-green" style="font-size:.6rem" data-i18n="dl2_rec">NI-DAQmx requis</span>
+                </div>
                 <div class="dl-desc" data-i18n="dl2_desc">labCE + INSTALLER.bat — NI-DAQmx doit être déjà installé</div>
+                <div class="dl-card-meta">
+                  <span class="dl-size">≈ 82 MB</span>
+                </div>
               </div>
-              <span class="dl-size">≈ 82 MB</span>
-              <a class="btn btn-ghost" href="https://github.com/labce-app/labce-app.github.io/releases/download/v5.3/labCE_v5.3_FINAL.zip" data-i18n="dl_btn">Télécharger</a>
+              <a class="btn btn-ghost btn-outline-green" href="https://github.com/labce-app/labce-app.github.io/releases/download/v5.3/labCE_v5.3_FINAL.zip" target="_blank">↓ Télécharger</a>
             </div>
-            <div class="dl-card">
-              <div class="dl-info">
-                <div class="dl-name">Sources Python</div>
+
+            <!-- ── Sources Python ── -->
+            <div class="dl-card dl-card--blue">
+              <div class="dl-pkg-icon" style="background:rgba(61,127,255,.1);border:1px solid rgba(61,127,255,.2);color:var(--blue);font-family:var(--font-m);font-size:.9rem">{}</div>
+              <div class="dl-card-body">
+                <div class="dl-card-header">
+                  <span class="dl-name">Sources Python</span>
+                  <span class="badge b-blue" style="font-size:.6rem">Développeurs</span>
+                </div>
                 <div class="dl-desc" data-i18n="dl3_desc">Code source + requirements.txt + scripts de compilation</div>
+                <div class="dl-card-meta">
+                  <span class="dl-size">≈ 126 KB</span>
+                </div>
               </div>
-              <span class="dl-size">≈ 126 KB</span>
-              <a class="btn btn-ghost" href="https://github.com/labce-app/labce-app.github.io/releases/download/v5.3/labCE_v5.3_sources.zip" data-i18n="dl_btn">Télécharger</a>
+              <a class="btn btn-ghost" href="https://github.com/labce-app/labce-app.github.io/releases/download/v5.3/labCE_v5.3_sources.zip" target="_blank">↓ Télécharger</a>
             </div>
+
           </div>
         </div>
         <!-- MOBILE → PC TRANSFER -->
@@ -934,10 +1251,25 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
 <div id="tab-install" class="tab-pane">
 <div id="page-install">
 <div id="install-prog-wrap"><div id="install-prog-bar"></div></div>
+
+<!-- ── Hero Installation avec canvas terminal animé ── -->
+<div id="install-hero" style="position:relative;overflow:hidden;background:var(--surface);border-bottom:1px solid var(--border);min-height:300px;display:flex;align-items:center">
+  <canvas id="install-canvas" style="position:absolute;inset:0;width:100%;height:100%;opacity:.55"></canvas>
+  <div class="wrap" style="position:relative;z-index:2;padding-top:40px;padding-bottom:40px">
+    <div style="display:inline-block;background:rgba(11,16,24,.75);backdrop-filter:blur(4px);padding:18px 24px 20px;border-radius:8px;border:1px solid rgba(255,255,255,.06)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <span class="badge b-green" style="font-size:.72rem">WINDOWS 10/11</span>
+        <span class="badge b-amber" style="font-size:.72rem">NI-DAQMX 25.8.1</span>
+        <span class="badge b-grey" style="font-size:.72rem">64 BITS</span>
+      </div>
+      <h1 class="h-display h-lg" style="margin-bottom:8px">Installation — labCE v5.3</h1>
+      <p style="color:var(--t2);max-width:520px">Windows 10 / 11 · 64 bits · NI-DAQmx requis pour l'acquisition matérielle</p>
+    </div>
+  </div>
+</div>
+
 <div class="wrap">
-  <div style="margin-bottom:36px;padding-top:8px">
-    <h1 class="h-display h-lg" style="margin-bottom:8px">Installation — labCE v5.3</h1>
-    <p style="color:var(--t2)">Windows 10 / 11 · 64 bits · NI-DAQmx requis pour l'acquisition matérielle</p>
+  <div style="margin-bottom:36px;padding-top:36px">
   </div>
   <div class="install-subnav">
     <button class="inst-tab active" onclick="switchInst('install')">Installation</button>
@@ -956,7 +1288,7 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
       <div class="chk-item" onclick="toggleChk(this,4)"><div class="chk-box" id="cb4"></div><span class="chk-text">5 GB d'espace disque disponible</span></div>
       <div class="chk-item" onclick="toggleChk(this,5)"><div class="chk-box" id="cb5"></div><span class="chk-text">Windows 10 ou 11 (64 bits)</span></div>
     </div>
-    <div class="chk-counter"><span id="chk-text">0 / 6 prérequis validés</span><span id="chk-pct" style="color:var(--t3)">0 %</span></div>
+    <div class="chk-counter"><span id="chk-text" style="color:var(--t3)">Cochez les éléments ci-dessus pour commencer</span><span id="chk-pct" style="color:var(--t3);display:none">0 %</span></div>
     <button class="btn btn-amber btn-lg launch-btn" id="launch-btn" disabled onclick="document.getElementById('step-section').scrollIntoView({behavior:'smooth'})">Tous les prérequis sont validés — suivre les étapes ci-dessous</button>
 
     <div id="step-section">
@@ -1300,8 +1632,12 @@ Lancez l'application depuis le raccourci bureau.</code></div></div>
 </div><!-- /main -->
 
 <footer>
-  <div class="wrap">
-    <p>labCE <span id="footer-ver">v5.3</span> — Acquisition NI-DAQmx · Kistler 9217A · ASM PMIS3-20 · Python + Tkinter + Matplotlib</p>
+  <div class="wrap" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
+    <p style="margin:0">labCE <span id="footer-ver">v5.3</span> — Acquisition NI-DAQmx · Kistler 9217A · ASM PMIS3-20 · Python + Tkinter + Matplotlib</p>
+    <div style="display:flex;gap:16px;align-items:center">
+      <a href="https://github.com/labce-app/labce-app.github.io/releases/latest" target="_blank" style="font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:var(--t3);text-decoration:none;opacity:.7;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.7">GitHub Releases ↗</a>
+      <a href="https://github.com/labce-app/labce-app.github.io/issues" target="_blank" style="font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:var(--t3);text-decoration:none;opacity:.7;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.7">Reporter un bug ↗</a>
+    </div>
   </div>
 </footer>
 
@@ -1319,8 +1655,7 @@ const GH = {
 
 // Lien direct vers le package complet (3,3 GB — NI-DAQmx inclus)
 // Héberger sur Google Drive ou OneDrive, coller le lien ici
-// Pour usage local : lien file:// vers le ZIP stocké dans OneDrive de l'utilisateur
-const FULL_PKG_URL = 'file:///C:/Users/SESA814843/OneDrive%20-%20Schneider%20Electric/Groupes%20Teams/Eng%20Chapter%20Mechanism%20%26%20Mechatronic%20Group%20-%20Alternance%20Ars%C3%A8ne/LabCE/labCE_v5.3_Package%20(1).zip';
+const FULL_PKG_URL = 'https://schneiderelectric.sharepoint.com/:u:/r/sites/EngChapterMechanismMechatronicGroup/Shared%20Documents/General/Alternance%20Ars%C3%A8ne/LabCE/labCE_v5.3_COMPLETE.zip?csf=1&web=1&e=6dqdqO&xsdata=MDV8MDJ8YXJzZW5lLmt1aGxpY2hAZW5zYW0uZXV8OWI2YjQ0MmE0Njg2NDBhZWE1ZmQwOGRlZDc5ZGEzYzd8ZTAzNGI5YjA3NzY4NGI5NjkxYjJkOGYwMzk4MTZhYzF8MHwwfDYzOTE4NTI2OTIxOTk1MTEzM3xVbmtub3dufFRXRnBiR1pzYjNkOGV5SkZiWEIwZVUxaGNHa2lPblJ5ZFdVc0lsWWlPaUl3TGpBdU1EQXdNQ0lzSWxBaU9pSlhhVzR6TWlJc0lrRk9Jam9pVFdGcGJDSXNJbGRVSWpveWZRPT18MHx8fA%3d%3d&sdata=RUZENUZhblg3MzlMa2E2d0FYejFVR0VibHdmWmRFekEySUVyOFpjZWlpZz0%3d';
 
 /* ─── i18n ─── */
 const T = {
@@ -1330,8 +1665,8 @@ const T = {
     hero_sub:'<strong>labCE</strong> — acquisition, visualisation et analyse de données mécaniques en temps réel. Effort, course, capteurs NI-DAQmx, encodeurs linéaires.',
     hero_cta1:'Installer', hero_cta2:'Voir l\'interface',
     hero_img_label:'// Interface principale — cliquer pour agrandir',
-    m1:'Hz échant. min', m2:'Canaux simultanés', m3:'Points en mémoire', m4:'Décodage encodeur', m5:'Export intégré', m6:'Installation auto',
-    feat_label:'Fonctionnalités', feat_title:'Fonctionnalités',
+    m1:'Hz échant. min', m2:'Canaux simultanés', m3:'Points en mémoire', m4:'Décodage encodeur', m5:'Export intégré', m6:'Setup automatique',
+    feat_label:'Fonctionnalités', feat_title:'Ce que labCE<br>fait pour vous',
     f1h:'Acquisition NI-DAQmx temps réel', f1p:'Interface hybride analogique (cellule de charge Kistler ai0) + compteur linéaire (encodeur ASM ctr0) avec décodage X4. Fréquence configurable, correction de zéro automatique.',
     f2h:'Visualisation graphique interactive', f2p:'Courbes Matplotlib temps réel avec curseur d\'inspection, zoom/pan/reset, superposition multi-courbes pour comparer plusieurs essais en direct.',
     f3h:'Export Excel + statistiques', f3p:'Export multi-onglets avec graphiques intégrés, Min/Max/Moyenne/Écart-type par courbe, interpolation de points de référence, comparaison automatique entre essais.',
@@ -1344,13 +1679,13 @@ const T = {
     hw_note_h:'Vérification dans NI MAX', hw_note_p:'Le nom du device (ex. <code>Dev1</code>) doit correspondre à ce qui est affiché dans NI Measurement &amp; Automation Explorer.',
     sc_label:'Captures d\'écran', sc_title:'Interface',
     sc_sub:'Cliquer sur une vue pour l\'agrandir. Chaque écran correspond à une étape clé du workflow.',
-    sc1:'Interface principale — vue complète', sc2:'Graphique Effort / Course temps réel', sc3:'Panneau de contrôle — acquisition', sc4:'Écran de bienvenue — guide démarrage', sc5:'Fenêtre paramètres', sc6:'Analyse et interpolation de points', sc7:'Sélection du mode de mesure',
+    sc1:'Interface principale — vue complète', sc2:'Zoom sur la zone de pic', sc3:'Panneau de contrôle — acquisition', sc4:'Écran de bienvenue — guide démarrage', sc5:'Gestion des courbes', sc6:'Sélection du mode de mesure',
     dl_label:'Téléchargement', dl_title:'Téléchargement', dl_sub:'Trois packages disponibles selon votre configuration.',
     dl_rec:'Recommandé', dl2_rec:'NI-DAQmx requis',
     dl_btn_req:'Obtenir le lien',
     dl1_desc:'Inclut NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat',
     dl1_big_h:'Fichier trop lourd pour GitHub (3,3 GB)',
-    dl1_big_p:'Ce package inclut NI-DAQmx offline. Contactez votre responsable pour obtenir le lien Google Drive. Si NI-DAQmx est déjà installé → utilisez le <strong>Package léger</strong>.',
+    dl1_big_p:'Ce package inclut NI-DAQmx offline. Contactez votre responsable pour obtenir le lien OneDrive. Si NI-DAQmx est déjà installé → utilisez le <strong>Package léger</strong>.',
     dl2_desc:'NI-DAQmx déjà installé requis — labCE + INSTALLER.bat uniquement', dl3_desc:'Code source complet + requirements.txt + build scripts',
     dl_btn:'↓ Télécharger',
     mt_label:'Sur téléphone ?', mt_title:'Envoyez le lien<br>sur votre PC', mt_sub:'Vous consultez depuis un téléphone ? Partagez le lien du site directement vers votre ordinateur Windows pour lancer le téléchargement.',
@@ -1431,13 +1766,13 @@ const T = {
     hw_note_h:'Check in NI MAX', hw_note_p:'The device name (e.g. <code>Dev1</code>) must match what is shown in NI Measurement &amp; Automation Explorer.',
     sc_label:'Screenshots', sc_title:'The interface<br>in detail',
     sc_sub:'Click any view to zoom in. Each screen shows a key step in the acquisition workflow.',
-    sc1:'Main interface — full view', sc2:'Force / Displacement real-time graph', sc3:'Control panel — acquisition', sc4:'Welcome screen — startup guide', sc5:'Settings window', sc6:'Analysis and point interpolation', sc7:'Measurement mode selection',
+    sc1:'Main interface — full view', sc2:'Peak zone zoom', sc3:'Control panel — acquisition', sc4:'Welcome screen — startup guide', sc5:'Curve management', sc6:'Measurement mode selection',
     dl_label:'Download', dl_title:'Choose<br>your package', dl_sub:'Three packages available depending on your setup.',
     dl_rec:'Recommended', dl2_rec:'NI-DAQmx required',
     dl_btn_req:'Get the link',
     dl1_desc:'Includes NI-DAQmx 25.8.1 offline + labCE + INSTALLER.bat',
     dl1_big_h:'File too large for GitHub (3.3 GB)',
-    dl1_big_p:'This package includes NI-DAQmx offline. Contact your admin for the Google Drive link. If NI-DAQmx is already installed → use the <strong>Lightweight package</strong>.',
+    dl1_big_p:'This package includes NI-DAQmx offline. Contact your admin for the OneDrive link. If NI-DAQmx is already installed → use the <strong>Lightweight package</strong>.',
     dl2_desc:'NI-DAQmx already required — labCE + INSTALLER.bat only', dl3_desc:'Full source code + requirements.txt + build scripts',
     dl_btn:'↓ Download',
     mt_label:'On your phone?', mt_title:'Send the link<br>to your PC', mt_sub:'Browsing from a phone? Share the site link directly to your Windows computer to start the download.',
@@ -1605,8 +1940,13 @@ function updateChkCounter(){
   const txt=document.getElementById('chk-text');
   const pctEl=document.getElementById('chk-pct');
   const btn=document.getElementById('launch-btn');
-  if(txt) txt.textContent=(lang==='fr'?`${done} / ${total} prérequis validés`:`${done} / ${total} prerequisites validated`);
-  if(pctEl) pctEl.textContent=pct+'%';
+  if(done===0){
+    if(txt){txt.textContent=(lang==='fr'?'Cochez les éléments ci-dessus pour commencer':'Check the items above to get started');txt.style.color='var(--t3)';}
+    if(pctEl) pctEl.style.display='none';
+  } else {
+    if(txt){txt.textContent=(lang==='fr'?`${done} / ${total} prérequis validés`:`${done} / ${total} prerequisites validated`);txt.style.color='';}
+    if(pctEl){pctEl.style.display='';pctEl.textContent=pct+'%';}
+  }
   if(btn) btn.disabled=done<total;
 }
 
@@ -1677,11 +2017,11 @@ const SC_VIEWS = [
   },
   {
     img:'ss_graph.png',
-    title:{fr:'Graphique Effort / Course',en:'Force / Displacement chart'},
-    desc:{fr:'Courbes superposées de plusieurs essais, inspection au curseur avec valeurs instantanées, zoom infini.',en:'Overlaid curves from multiple tests, cursor inspection with live values, unlimited zoom.'},
+    title:{fr:'Zoom sur la zone de pic',en:'Peak zone zoom'},
+    desc:{fr:'Zoom rectangle sur la région d\'intérêt pour inspecter le pic d\'effort et lire les valeurs précises au curseur.',en:'Rectangle zoom on the region of interest to inspect the force peak and read precise cursor values.'},
     feats:[
-      {icon:'🔍',fr:{h:'Curseur d\'inspection',p:'Cliquer sur le graphe pour lire les valeurs exactes à n\'importe quel instant.'},en:{h:'Inspection cursor',p:'Click on the chart to read exact values at any point in time.'}},
-      {icon:'📈',fr:{h:'Multi-courbes',p:'Superposer jusqu\'à N essais pour comparer les comportements.'},en:{h:'Multi-curve',p:'Overlay multiple tests to compare behaviors.'}},
+      {icon:'🔍',fr:{h:'Zoom infini',p:'Dessiner un rectangle sur n\'importe quelle zone pour agrandir sans limite de résolution.'},en:{h:'Unlimited zoom',p:'Draw a rectangle on any zone to zoom in without resolution limit.'}},
+      {icon:'📈',fr:{h:'Pic détecté à 861.5 N',p:'Les coordonnées du pic sont lisibles directement dans la barre d\'état sous le graphique.'},en:{h:'Peak detected at 861.5 N',p:'Peak coordinates are readable directly in the status bar below the chart.'}},
       {icon:'⚡',fr:{h:'50 Hz minimum',p:'Fréquence d\'acquisition configurable pour capturer les dynamiques rapides.'},en:{h:'50 Hz minimum',p:'Configurable acquisition frequency to capture fast dynamics.'}}
     ]
   },
@@ -1706,23 +2046,13 @@ const SC_VIEWS = [
     ]
   },
   {
-    img:'ss_parametres_win.png',
-    title:{fr:'Fenêtre paramètres',en:'Settings window'},
-    desc:{fr:'Configuration avancée : device NI, fréquence d\'acquisition, canaux, sensibilités, options d\'affichage.',en:'Advanced configuration: NI device, acquisition frequency, channels, sensitivities, display options.'},
-    feats:[
-      {icon:'🖥️',fr:{h:'Device NI configurable',p:'Saisir le nom du device tel qu\'affiché dans NI MAX (ex. Dev1).'},en:{h:'Configurable NI device',p:'Enter the device name as shown in NI MAX (e.g. Dev1).'}},
-      {icon:'📡',fr:{h:'Canaux librement assignables',p:'ai0, ctr0 et pins PFI configurables selon le câblage du banc.'},en:{h:'Freely assignable channels',p:'ai0, ctr0 and PFI pins configurable according to bench wiring.'}},
-      {icon:'🔁',fr:{h:'Multi-PC via config.ini',p:'Un fichier par machine pour s\'adapter à chaque poste du parc.'},en:{h:'Multi-PC via config.ini',p:'One file per machine to adapt to each workstation.'}}
-    ]
-  },
-  {
     img:'ss_analyse_points.png',
-    title:{fr:'Analyse et interpolation',en:'Analysis and interpolation'},
-    desc:{fr:'Sélection de points de référence sur le graphe, calcul automatique des statistiques, interpolation entre points.',en:'Reference point selection on the chart, automatic statistics, interpolation between points.'},
+    title:{fr:'Gestion des courbes',en:'Curve management'},
+    desc:{fr:'Gérer toutes les courbes importées et archivées, recolo­rer ou supprimer des essais individuellement sans toucher aux autres.',en:'Manage all imported and archived curves, recolor or delete individual tests without affecting others.'},
     feats:[
-      {icon:'📐',fr:{h:'Interpolation linéaire',p:'Calculer une valeur intermédiaire entre deux points mesurés.'},en:{h:'Linear interpolation',p:'Calculate an intermediate value between two measured points.'}},
-      {icon:'📊',fr:{h:'Statistiques auto',p:'Min, Max, Moyenne, Écart-type calculés par courbe dans l\'export Excel.'},en:{h:'Auto statistics',p:'Min, Max, Mean, Std Dev computed per curve in the Excel export.'}},
-      {icon:'🎯',fr:{h:'Points de référence',p:'Marquer des positions clés sur la courbe pour comparaison entre essais.'},en:{h:'Reference points',p:'Mark key positions on the curve for comparison between tests.'}}
+      {icon:'🗂️',fr:{h:'Courbes archivées',p:'Conserver plusieurs essais simultanément sur le même graphique avec des couleurs distinctes.'},en:{h:'Archived curves',p:'Keep multiple tests simultaneously on the same chart with distinct colors.'}},
+      {icon:'🎨',fr:{h:'Recoloration à la volée',p:'Changer la couleur d\'une courbe en un clic sans relancer l\'acquisition.'},en:{h:'On-the-fly recoloring',p:'Change a curve color in one click without restarting acquisition.'}},
+      {icon:'🗑️',fr:{h:'Suppression sélective',p:'Effacer un essai ou toutes les courbes et points d\'un seul bouton.'},en:{h:'Selective deletion',p:'Delete one test or all curves and points with a single button.'}}
     ]
   },
   {
@@ -2125,14 +2455,18 @@ function initGSAP(){
     document.getElementById('nav')?.classList.toggle('scrolled',window.scrollY>60);
   },{passive:true});
 
-  // ── Sticky download CTA ──
+  // ── Sticky download CTA — visible uniquement sur l'onglet présentation après le hero ──
   const stickyBtn=document.getElementById('sticky-dl');
   const heroEl=document.getElementById('hero');
   if(stickyBtn&&heroEl){
-    window.addEventListener('scroll',()=>{
+    function updateSticky(){
+      const onPres=document.getElementById('tab-pres')?.classList.contains('active');
+      if(!onPres){stickyBtn.classList.remove('show');return;}
       const heroBottom=heroEl.getBoundingClientRect().bottom;
       stickyBtn.classList.toggle('show',heroBottom<window.innerHeight*0.4);
-    },{passive:true});
+    }
+    window.addEventListener('scroll',updateSticky,{passive:true});
+    document.querySelectorAll('[onclick*="switchTab"]').forEach(b=>b.addEventListener('click',()=>setTimeout(updateSticky,50)));
     stickyBtn.addEventListener('click',e=>{
       e.preventDefault();
       const dlSec=document.querySelector('.dl-card')?.closest('section')||document.querySelector('#screenshots');
@@ -2360,9 +2694,9 @@ function handleFullPkg(e){
     const info=document.getElementById('dl-full-info');
     const btn=document.getElementById('dl-btn-full');
     if(!info||!btn) return;
-    const open=info.style.display==='flex';
-    info.style.display=open?'none':'flex';
-    btn.textContent=open?'Télécharger':'✖ Fermer';
+    const open=info.style.display!=='none';
+    info.style.display=open?'none':'block';
+    btn.innerHTML=open?'↓ Télécharger':'✖ Fermer';
   }
   return false;
 }
@@ -2370,14 +2704,13 @@ function handleFullPkg(e){
 (function(){
   const btn=document.getElementById('dl-btn-full');
   const desc=document.getElementById('dl-full-desc');
-  if(btn){
-    if(FULL_PKG_URL){
-      setFullPkgUrl(FULL_PKG_URL);
-      if(desc) desc.textContent='NI-DAQmx 25.8.1 + labCE + INSTALLER.bat — 3,3 GB — local';
-    } else {
-      btn.textContent='Obtenir le lien';
-    }
+  if(btn&&FULL_PKG_URL){
+    btn.href=FULL_PKG_URL;
+    btn.setAttribute('target','_blank');
+    btn.innerHTML='↓ Télécharger';
+    if(desc) desc.textContent='NI-DAQmx 25.8.1 + labCE + INSTALLER.bat — 3,3 GB — OneDrive';
   }
+  // Pas de lien : le bouton affiche "↓ Télécharger" par défaut (HTML), le clic ouvre le panel info
 })();
 
 /* ═══════════════════════════════════════════════════
@@ -2524,6 +2857,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   // Animations par onglet
   updateInstallProgress();   // barre progression install
   animateChangelog();        // stagger changelog (update tab visible au 1er switch)
+  initInstallCanvas();       // terminal animé dans le hero install
 
   // Typo + tilt
   setTimeout(initTilt, 600);
@@ -2533,6 +2867,155 @@ document.addEventListener('DOMContentLoaded',()=>{
     setTimeout(initTerminalTypewriter, 500);
   }
 });
+
+/* ═══════════════════════════════════════════════════
+   INSTALL HERO CANVAS — terminal animé
+═══════════════════════════════════════════════════ */
+function initInstallCanvas(){
+  const canvas = document.getElementById('install-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  function resize(){
+    const hero = document.getElementById('install-hero');
+    canvas.width = hero.offsetWidth;
+    canvas.height = hero.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Lines to "type" in the terminal
+  const lines = [
+    {text:'================================================', color:'#2a4a6a', delay:0},
+    {text:'  labCE v5.3  —  Installation automatique', color:'#f5c518', delay:200},
+    {text:'================================================', color:'#2a4a6a', delay:400},
+    {text:'', color:'#444', delay:550},
+    {text:'[1/4] Recherche de NI Package Manager...', color:'#8aaccc', delay:700},
+    {text:'      [OK] nipkg.exe trouvé', color:'#16c784', delay:1100},
+    {text:'', color:'#444', delay:1200},
+    {text:'[2/4] Montage image NI-DAQmx offline...', color:'#8aaccc', delay:1400},
+    {text:'      Installation NI-DAQmx (5 à 20 min)', color:'#8aaccc', delay:1800},
+    {text:'      [OK] NI-DAQmx installé avec succès.', color:'#16c784', delay:2400},
+    {text:'', color:'#444', delay:2500},
+    {text:'[3/4] Installation de labCE...', color:'#8aaccc', delay:2700},
+    {text:'      [OK] Installé dans %LOCALAPPDATA%\\labCE', color:'#16c784', delay:3100},
+    {text:'', color:'#444', delay:3250},
+    {text:'[4/4] Raccourci bureau créé.', color:'#8aaccc', delay:3400},
+    {text:'      [OK] Installation terminée !', color:'#f5c518', delay:3800},
+  ];
+
+  const FONT_SIZE = 11;
+  const FONT = `${FONT_SIZE}px "JetBrains Mono", monospace`;
+  const LINE_H = 16;
+  const PAD_X = 24;
+  const PAD_Y = 20;
+
+  let startTime = null;
+  let cursorBlink = 0;
+  let rafId = null;
+  let loopTimeout = null;
+  let active = false;
+
+  function startAnimation(){
+    if(rafId) cancelAnimationFrame(rafId);
+    if(loopTimeout) clearTimeout(loopTimeout);
+    // Resize au moment où l'onglet est visible (offsetWidth > 0)
+    const hero = document.getElementById('install-hero');
+    const w = hero.offsetWidth || window.innerWidth;
+    const h = hero.offsetHeight || 280;
+    canvas.width = w;
+    canvas.height = h;
+    startTime = performance.now();
+    cursorBlink = 0;
+    active = true;
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function tick(ts){
+    if(!active) return;
+    const elapsed = ts - startTime;
+    const w = canvas.width;
+    const h = canvas.height;
+
+    ctx.clearRect(0,0,w,h);
+
+    // subtle grid background
+    ctx.strokeStyle = 'rgba(30,58,80,.15)';
+    ctx.lineWidth = 1;
+    for(let x=0;x<w;x+=32){ ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke(); }
+    for(let y=0;y<h;y+=32){ ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke(); }
+
+    // terminal — adapte selon la largeur
+    if(w >= 380){
+      const tw = Math.min(460, w >= 700 ? w * 0.52 : w - 40);
+      const tx = w - tw - 20;
+      const ty = 14;
+      const th = h - 28;
+
+      // terminal bg
+      ctx.fillStyle = 'rgba(8,18,30,.85)';
+      ctx.beginPath(); ctx.roundRect(tx,ty,tw,th,6); ctx.fill();
+      ctx.strokeStyle = 'rgba(30,90,140,.5)'; ctx.lineWidth=1; ctx.stroke();
+
+      // title bar
+      ctx.fillStyle = 'rgba(15,32,48,.95)';
+      ctx.beginPath(); ctx.roundRect(tx,ty,tw,22,[6,6,0,0]); ctx.fill();
+      [[tx+10,'#ff5f57'],[tx+22,'#ffbd2e'],[tx+34,'#28c840']].forEach(([dx,col])=>{
+        ctx.fillStyle=col; ctx.beginPath(); ctx.arc(dx,ty+11,4,0,Math.PI*2); ctx.fill();
+      });
+      ctx.fillStyle='rgba(140,170,200,.55)';
+      ctx.font='10px "JetBrains Mono",monospace';
+      ctx.fillText('Console — INSTALLER.bat', tx+50, ty+14);
+
+      // lines
+      const lx = tx + PAD_X;
+      const ly = ty + 22 + PAD_Y;
+      const shown = lines.filter(l => elapsed >= l.delay);
+      cursorBlink++;
+
+      shown.forEach((line, i) => {
+        const charsToShow = line.text === '' ? 0 : Math.min(line.text.length, Math.floor((elapsed - line.delay) / 16));
+        const text = line.text.substring(0, charsToShow);
+        const isLast = i === shown.length - 1;
+        ctx.fillStyle = line.color;
+        ctx.font = FONT;
+        ctx.fillText(text, lx, ly + i * LINE_H);
+        if(isLast && text.length < line.text.length){
+          if(Math.floor(cursorBlink / 20) % 2 === 0){
+            const cw = ctx.measureText(text).width;
+            ctx.fillStyle = '#f5c518';
+            ctx.fillRect(lx + cw + 1, ly + i * LINE_H - FONT_SIZE, 6, FONT_SIZE + 2);
+          }
+        }
+      });
+    }
+
+    // check if all lines fully typed
+    const last = lines[lines.length-1];
+    const allDone = elapsed - last.delay > last.text.length * 16 + 1000;
+    if(allDone){
+      active = false;
+      loopTimeout = setTimeout(startAnimation, 1400);
+      return;
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  // Start when canvas enters viewport
+  const observer = new IntersectionObserver(entries => {
+    if(entries[0].isIntersecting && !active) startAnimation();
+  }, {threshold: 0.1});
+  observer.observe(canvas);
+
+  // Re-trigger quand l'utilisateur clique sur l'onglet Installation
+  document.querySelectorAll('[onclick*="install"]').forEach(btn => {
+    if(btn.getAttribute('onclick')?.includes("switchTab('install')"))
+      btn.addEventListener('click', () => setTimeout(startAnimation, 120));
+  });
+  window.addEventListener('resize', () => {
+    if(active){ const h=document.getElementById('install-hero'); canvas.width=h.offsetWidth||window.innerWidth; canvas.height=h.offsetHeight||280; }
+  });
+}
 </script>
 </body>
 </html>
