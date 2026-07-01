@@ -37,6 +37,7 @@ En résumé :
 3. Settings → Pages → Source : `main` / `/ (root)` → Save
 4. Dans `index.html`, configurer `const GH = { owner: 'votre-username', repo: 'labce' }`
 5. Créer une Release GitHub avec `labCE_app.exe` en pièce jointe
+   - Optionnel : ajouter aussi le ZIP complet `labCE_v5.3_Package.zip` ou `labCE_v5.3_FINAL.zip` comme asset de release. Si le nom contient `package`, `final` ou `full`, le site proposera automatiquement le lien vers ce package complet.
 
 ---
 

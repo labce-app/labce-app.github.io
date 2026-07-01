@@ -103,6 +103,7 @@ const GH = { owner: 'jean-dupont', repo: 'labce' };
    - **Release title** : `labCE v5.3`
    - **Description** : écrire les notes de version en Markdown structuré (voir format ci-dessous)
 4. Dans la section **Assets**, cliquer **Attach binaries** et déposer `labCE_app.exe`
+   - Optionnel : déposer aussi le ZIP complet (`labCE_v5.3_Package.zip`, `labCE_v5.3_FINAL.zip`, etc.). Le fichier doit contenir `package`, `final` ou `full` dans son nom pour activer automatiquement le bouton de téléchargement du package complet.
 5. Cliquer **Publish release**
 
 → GitHub Actions se déclenche automatiquement (vérifiable dans l'onglet **Actions** du repo).  

@@ -29,6 +29,13 @@ size_mb = round(size_bytes / 1024 / 1024) if size_bytes else 0
 # ─── URL de téléchargement direct de l'exe ───
 exe_url = f"https://github.com/{repo}/releases/latest/download/labCE_app.exe"
 
+# ─── URL de téléchargement direct du package complet (ZIP) ───
+package_asset_name = os.environ.get("GH_PACKAGE_ASSET", "").strip()
+package_url = (
+    f"https://github.com/{repo}/releases/latest/download/{package_asset_name}"
+    if package_asset_name else ''
+)
+
 # ─── Parsing du changelog markdown ───
 TYPE_MAP = {
     "nouveau":      "new",
@@ -77,7 +84,7 @@ data = {
     "date":         raw_date,
     "exe_filename": "labCE_app.exe",
     "exe_url":      exe_url,
-    "package_url":  exe_url,
+    "package_url":  package_url,
     "size_mb":      size_mb,
     "changelog":    changelog,
     "gh_release":   f"https://github.com/{repo}/releases/latest",

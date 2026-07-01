@@ -1844,6 +1844,9 @@ function applyVersionData(d){
   const dlBtn=document.getElementById('ver-dl-btn');
   if(dlBtn&&d.exe_url){dlBtn.href=d.exe_url;dlBtn.removeAttribute('download');}
   else if(dlBtn&&d.exe_filename){dlBtn.href=d.exe_filename;dlBtn.download=d.exe_filename;}
+  if(!FULL_PKG_URL && d.package_url && d.package_url !== d.exe_url && d.package_url.toLowerCase().endsWith('.zip')){
+    setFullPkgUrl(d.package_url);
+  }
   // changelog
   const list=document.getElementById('changelog-list');
   if(list&&d.changelog&&d.changelog.length){
@@ -1866,10 +1869,17 @@ async function fetchVersion(){
       const version=rel.tag_name.replace(/^v/,'');
       const date=rel.published_at?rel.published_at.slice(0,10):'';
       const exeAsset=rel.assets?.find(a=>a.name==='labCE_app.exe');
+      const packageAsset=rel.assets?.find(a=>{
+        const name=a.name.toLowerCase();
+        return name.endsWith('.zip') && (name.includes('package') || name.includes('final') || name.includes('full'));
+      });
       const size_mb=exeAsset?Math.round(exeAsset.size/1024/1024):0;
       const exe_url=`https://github.com/${GH.owner}/${GH.repo}/releases/latest/download/labCE_app.exe`;
+      const package_url=packageAsset
+        ? `https://github.com/${GH.owner}/${GH.repo}/releases/latest/download/${packageAsset.name}`
+        : '';
       const changelog=parseMarkdownChangelog(rel.body||'');
-      applyVersionData({version,date,size_mb,exe_url,changelog});
+      applyVersionData({version,date,size_mb,exe_url,package_url,changelog});
       return;
     }catch(e){console.warn('GitHub Releases API inaccessible, repli sur version.json',e);}
   }
@@ -2312,10 +2322,38 @@ document.addEventListener('DOMContentLoaded',()=>{
 /* ═══════════════════════════════════════════════════
    PACKAGE COMPLET — gestion lien externe
 ═══════════════════════════════════════════════════ */
+function getFullPkgUrl(){
+  const btn = document.getElementById('dl-btn-full');
+  if(FULL_PKG_URL) return FULL_PKG_URL;
+  if(btn && btn.dataset.fullPkgUrl) return btn.dataset.fullPkgUrl;
+  return '';
+}
+
+function setFullPkgUrl(url){
+  const btn=document.getElementById('dl-btn-full');
+  const desc=document.getElementById('dl-full-desc');
+  const info=document.getElementById('dl-full-info');
+  if(!btn) return;
+  if(url){
+    btn.dataset.fullPkgUrl = url;
+    btn.href = url;
+    btn.setAttribute('target','_blank');
+    btn.textContent = 'Télécharger';
+    if(desc) desc.textContent='NI-DAQmx 25.8.1 + labCE + INSTALLER.bat — 3,3 GB';
+    if(info) info.style.display='none';
+  } else {
+    btn.dataset.fullPkgUrl = '';
+    btn.href = '#';
+    btn.textContent='Obtenir le lien';
+    if(info) info.style.display='none';
+  }
+}
+
 function handleFullPkg(e){
   e.preventDefault();
-  if(FULL_PKG_URL){
-    window.open(FULL_PKG_URL,'_blank');
+  const fullUrl = getFullPkgUrl();
+  if(fullUrl){
+    window.open(fullUrl,'_blank');
   } else {
     const info=document.getElementById('dl-full-info');
     const btn=document.getElementById('dl-btn-full');
@@ -2331,8 +2369,7 @@ function handleFullPkg(e){
   const btn=document.getElementById('dl-btn-full');
   const desc=document.getElementById('dl-full-desc');
   if(btn&&FULL_PKG_URL){
-    btn.href=FULL_PKG_URL;
-    btn.setAttribute('target','_blank');
+    setFullPkgUrl(FULL_PKG_URL);
     if(desc) desc.textContent='NI-DAQmx 25.8.1 + labCE + INSTALLER.bat — 3,3 GB — Google Drive';
   } else if(btn){
     btn.textContent='Obtenir le lien';

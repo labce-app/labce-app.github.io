@@ -32,7 +32,12 @@ jobs:
               release_id: context.payload.release.id,
             });
             const exe = assets.find(a => a.name === 'labCE_app.exe');
+            const packageAsset = assets.find(a => {
+              const name = a.name.toLowerCase();
+              return name.endsWith('.zip') && (name.includes('package') || name.includes('final') || name.includes('full'));
+            });
             core.setOutput('exe_size', exe ? String(exe.size) : '0');
+            core.setOutput('package_asset', packageAsset ? packageAsset.name : '');
 
       # 3. Générer version.json depuis les informations de release
       - name: Générer version.json
@@ -42,6 +47,7 @@ jobs:
           GH_BODY:    ${{ github.event.release.body }}
           GH_REPO:    ${{ github.repository }}
           GH_SIZE:    ${{ steps.assets.outputs.exe_size }}
+          GH_PACKAGE_ASSET: ${{ steps.assets.outputs.package_asset }}
         run: python3 .github/scripts/gen_version.py
 
       # 4. Committer et pousser version.json sur main
