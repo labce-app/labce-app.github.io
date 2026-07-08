@@ -15,6 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 <style>
@@ -1211,9 +1212,18 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
         </div>
         <!-- MOBILE → PC TRANSFER -->
         <div>
-          <div class="sec-label"><span data-i18n="mt_label">Depuis un téléphone</span></div>
-          <h2 class="h-display h-md" style="margin-bottom:8px" data-i18n="mt_title">Envoyer le lien<br>sur votre PC</h2>
-          <p style="margin-bottom:20px" data-i18n="mt_sub">Partagez le lien de cette page vers votre PC Windows pour lancer le téléchargement.</p>
+          <div class="sec-label"><span data-i18n="mt_label">QR Code</span></div>
+          <h2 class="h-display h-md" style="margin-bottom:8px" data-i18n="mt_title">Scanner pour<br>accéder à labCE</h2>
+          <p style="margin-bottom:20px" data-i18n="mt_sub">Pointez l'appareil photo de votre téléphone pour ouvrir le site et télécharger labCE.</p>
+
+          <!-- QR Code -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:20px">
+            <div style="padding:14px;background:#fff;border-radius:12px;display:inline-block;box-shadow:0 0 0 1px rgba(255,255,255,.08)">
+              <canvas id="qr-canvas"></canvas>
+            </div>
+            <code style="font-size:.78rem;color:var(--t2);letter-spacing:.02em">labce-app.github.io</code>
+          </div>
+
           <div class="mt-panel">
             <div class="mt-methods">
               <button class="mt-method" onclick="sharePageLink()" id="btn-mt-share">
@@ -1236,7 +1246,6 @@ footer p{font-family:var(--font-m);font-size:.72rem;letter-spacing:.06em;color:v
               <input class="mt-input" id="mt-link" readonly>
               <button class="btn btn-ghost" id="btn-mt-copy" onclick="copyMtLink()" data-i18n="mt_copy">Copier</button>
             </div>
-            <p style="font-size:.76rem;color:var(--t3);margin-top:10px;line-height:1.5" data-i18n="mt_hint">Collez ce lien dans le navigateur de votre PC pour accéder au téléchargement.</p>
           </div>
         </div>
       </div>
@@ -1655,7 +1664,7 @@ const GH = {
 
 // Lien direct vers le package complet (3,3 GB — NI-DAQmx inclus)
 // Héberger sur Google Drive ou OneDrive, coller le lien ici
-const FULL_PKG_URL = 'https://schneiderelectric.sharepoint.com/:u:/r/sites/EngChapterMechanismMechatronicGroup/Shared%20Documents/General/Alternance%20Ars%C3%A8ne/LabCE/labCE_v5.3_COMPLETE.zip?csf=1&web=1&e=6dqdqO&xsdata=MDV8MDJ8YXJzZW5lLmt1aGxpY2hAZW5zYW0uZXV8OWI2YjQ0MmE0Njg2NDBhZWE1ZmQwOGRlZDc5ZGEzYzd8ZTAzNGI5YjA3NzY4NGI5NjkxYjJkOGYwMzk4MTZhYzF8MHwwfDYzOTE4NTI2OTIxOTk1MTEzM3xVbmtub3dufFRXRnBiR1pzYjNkOGV5SkZiWEIwZVUxaGNHa2lPblJ5ZFdVc0lsWWlPaUl3TGpBdU1EQXdNQ0lzSWxBaU9pSlhhVzR6TWlJc0lrRk9Jam9pVFdGcGJDSXNJbGRVSWpveWZRPT18MHx8fA%3d%3d&sdata=RUZENUZhblg3MzlMa2E2d0FYejFVR0VibHdmWmRFekEySUVyOFpjZWlpZz0%3d';
+const FULL_PKG_URL = 'https://schneiderelectric.sharepoint.com/:u:/s/FDEng.ExecutionMachineGroup/IQA4L1tqgB9oT4nsBaaIuADfAQw84Z3wnFhTxugbsf7PqHc?e=ohdrlD&xsdata=MDV8MDJ8YXJzZW5lLmt1aGxpY2hAZW5zYW0uZXV8NTMzZjI1OTczYjY3NDBlNDU4YzAwOGRlZGNmNGExMDl8ZTAzNGI5YjA3NzY4NGI5NjkxYjJkOGYwMzk4MTZhYzF8MHwwfDYzOTE5MTE0MDQyNDM2OTQyOXxVbmtub3dufFRXRnBiR1pzYjNkOGV5SkZiWEIwZVUxaGNHa2lPblJ5ZFdVc0lsWWlPaUl3TGpBdU1EQXdNQ0lzSWxBaU9pSlhhVzR6TWlJc0lrRk9Jam9pVFdGcGJDSXNJbGRVSWpveWZRPT18MHx8fA%3d%3d&sdata=bVhhaGlIVzZNck10ZWtaRUMvYUkrakZucnNjTFp0dlFHM1hlQjhWMDBXUT0%3d';
 
 /* ─── i18n ─── */
 const T = {
@@ -2843,6 +2852,16 @@ document.addEventListener('DOMContentLoaded',()=>{
   checkGHConfig();
   const mtInp=document.getElementById('mt-link');
   if(mtInp) mtInp.value=getMtUrl();
+  // QR code
+  (function initQR(){
+    const canvas=document.getElementById('qr-canvas');
+    if(!canvas||typeof QRCode==='undefined') return;
+    QRCode.toCanvas(canvas,'https://labce-app.github.io',{
+      width:180,
+      margin:0,
+      color:{dark:'#1a1a1a',light:'#ffffff'}
+    });
+  })();
   fetchVersion().then(()=>triggerVersionMorph());
   showView(0,null);
   document.getElementById('page-install')?.setAttribute('data-date',new Date().toLocaleDateString('fr-FR'));
